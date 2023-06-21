@@ -28,68 +28,49 @@ const questions = [
 
 const Question = () => {
   const [timer, setTimer] = useState(600); // 10 minutes in seconds
-  const [responses, setResponses] = useState<Array<{ responseTime: number; answer: string }>>([]);
+  const [responses, setResponses] = useState<
+    Array<{ responseTime: number; answer: string }>
+  >([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  
-  const currentQuestion = questions[currentQuestionIndex];
-  
-  const {state} = useLocation()
+  const [currentQuestion, setCurrentQuestion]: any = useState({});
+
+  const { state } = useLocation();
   const navigate = useNavigate();
-  
-  useEffect(()=>{ 
-    if(currentQuestionIndex===questions.length-1){
-      navigate("/end",{state:{...state,...responses}})
 
+  useEffect(() => {
+    if (currentQuestionIndex === questions.length) {
+      navigate('/end', { state: { ...state, responses:responses } });
+    } else {
+      setCurrentQuestion(questions[currentQuestionIndex]);
     }
-
-    console.log(state)
-  },[currentQuestionIndex])
+  }, [currentQuestionIndex]);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setTimer((prevTimer) => prevTimer - 1);
     }, 1000);
-
     return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
     if (timer === 0) {
-      navigate("/end",{state:{...state,...responses}})
+      navigate('/end', { state: { ...state, ...responses } });
     }
   }, [timer]);
 
 
-  const handleLike = () => {
-    const currentTime = 600 - timer;
-    const response = {
-      responseTime: currentTime,
-      answer: 'Like',
-      imageName: questions[currentQuestionIndex].image
-    };
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+  const handleLikeDislike = (action:any) => {
+    if (currentQuestionIndex <= questions.length - 1) {
+      const currentTime = (600 - timer)*1000;
+      const response = {
+        responseTime: currentTime,
+        answer: action,
+        imageName: questions[currentQuestionIndex].image,
+      };
+      //add image name, user's age, nationality,
+      setResponses((prevResponses) => [...prevResponses, response]);
     }
-
-    setResponses((prevResponses) => [...prevResponses, response]);
-    console.log(responses);
-
-  };
-
-  const handleDislike = () => {
-    const currentTime = 600 - timer;
-    const response = {
-      responseTime: currentTime,
-      answer: 'Dislike',
-      imageName: questions[currentQuestionIndex].image
-    };
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
-    }
-    //add image name, user's age, nationality,
-    setResponses((prevResponses) => [...prevResponses, response]);
-
-    console.log(responses);
+    setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
   };
 
   const formatTime = (time: number) => {
@@ -105,18 +86,40 @@ const Question = () => {
   };
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 4 }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        mt: 4,
+      }}
+    >
       <Typography variant="h4" component="h2" gutterBottom>
         Question
       </Typography>
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-        <img src={currentQuestion.image} alt={`Question ${currentQuestion.id}`} style={{ height: 400 }} />
+        <img
+          src={currentQuestion.image}
+          alt={`Question ${currentQuestion.id}`}
+          style={{ height: 400 }}
+        />
       </Box>
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-        <Button variant="contained" color="success" size="large" onClick={handleLike}>
+        <Button
+          variant="contained"
+          color="success"
+          size="large"
+          onClick={()=>handleLikeDislike("Like")}
+        >
           Like 👍
         </Button>
-        <Button variant="contained" color="error" size="large" onClick={handleDislike} sx={{ ml: 2 }}>
+        <Button
+          variant="contained"
+          color="error"
+          size="large"
+          onClick={()=>handleLikeDislike("Dislike")}
+          sx={{ ml: 2 }}
+        >
           Dislike 👎
         </Button>
       </Box>
@@ -130,7 +133,7 @@ const Question = () => {
           right: 100,
           p: 1,
           zIndex: 1,
-          backgroundColor:'lightgray',
+          backgroundColor: 'lightgray',
           borderRadius: 4,
         }}
       >
@@ -144,64 +147,68 @@ const Question = () => {
           {formatTime(timer)}
         </Typography>
       </Box> */}
-      <LinearProgress variant="determinate" value={calculateProgress()} sx={{ mt: 4, width: '50%' }} />
+      <LinearProgress
+        variant="determinate"
+        value={calculateProgress()}
+        sx={{ mt: 4, width: '50%' }}
+      />
     </Box>
-  //   <Box
-  //   sx={{
-  //     display: "flex",
-  //     flexDirection: "column",
-  //     alignItems: "center",
-  //     mt: 4,
-  //   }}
-  // >
-  //   <Typography variant="h4" component="h2" gutterBottom>
-  //     Question
-  //   </Typography>
-  //   <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
-  //     <img
-  //       src={currentQuestion.image}
-  //       alt={`Question ${currentQuestion.id}`}
-  //       style={{ height: 400 }}
-  //     />
-  //   </Box>
-  //   <Box sx={{ display: "flex", justifyContent: "center", mt: 4,  }}>
-  //     {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
-  //       <Button
-  //         variant="contained"
-  //         color="secondary"
-  //         size="large"
-  //         onClick={() => handleRatingChange(value)}
-  //         sx={{margin:'.3rem'}}
-  //       >
-  //         {value}
-  //       </Button>
-  //     ))}
-  //   </Box>
-  //   <Box  
-  //     sx={{
-  //       display: "flex",
-  //       justifyContent: "flex-end",
-  //       alignItems: "center",
-  //       position: "fixed",
-  //       top: 20,
-  //       right: 100,
-  //       p: 1,
-  //       zIndex: 1,
-  //       backgroundColor: "lightgray",
-  //       borderRadius: 4,
-  //     }}
-  //   >
-  //     <Typography variant="body1" sx={{ fontSize: 26 }}>
-  //       {formatTime(timer)}
-  //     </Typography>
-  //   </Box>
+    //   <Box
+    //   sx={{
+    //     display: "flex",
+    //     flexDirection: "column",
+    //     alignItems: "center",
+    //     mt: 4,
+    //   }}
+    // >
+    //   <Typography variant="h4" component="h2" gutterBottom>
+    //     Question
+    //   </Typography>
+    //   <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+    //     <img
+    //       src={currentQuestion.image}
+    //       alt={`Question ${currentQuestion.id}`}
+    //       style={{ height: 400 }}
+    //     />
+    //   </Box>
+    //   <Box sx={{ display: "flex", justifyContent: "center", mt: 4,  }}>
+    //     {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
+    //       <Button
+    //         variant="contained"
+    //         color="secondary"
+    //         size="large"
+    //         onClick={() => handleRatingChange(value)}
+    //         sx={{margin:'.3rem'}}
+    //       >
+    //         {value}
+    //       </Button>
+    //     ))}
+    //   </Box>
+    //   <Box
+    //     sx={{
+    //       display: "flex",
+    //       justifyContent: "flex-end",
+    //       alignItems: "center",
+    //       position: "fixed",
+    //       top: 20,
+    //       right: 100,
+    //       p: 1,
+    //       zIndex: 1,
+    //       backgroundColor: "lightgray",
+    //       borderRadius: 4,
+    //     }}
+    //   >
+    //     <Typography variant="body1" sx={{ fontSize: 26 }}>
+    //       {formatTime(timer)}
+    //     </Typography>
+    //   </Box>
 
-  //   <LinearProgress
-  //     variant="determinate"
-  //     value={calculateProgress()}
-  //     sx={{ mt: 4, width: "50%" }}
-  //   />
-  // </Box>
+    //   <LinearProgress
+    //     variant="determinate"
+    //     value={calculateProgress()}
+    //     sx={{ mt: 4, width: "50%" }}
+    //   />
+    // </Box>
   );
 };
 
