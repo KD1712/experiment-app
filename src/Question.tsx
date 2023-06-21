@@ -43,6 +43,7 @@ const Question = () => {
     } else {
       setCurrentQuestion(questions[currentQuestionIndex]);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentQuestionIndex]);
 
   useEffect(() => {
@@ -56,6 +57,7 @@ const Question = () => {
     if (timer === 0) {
       navigate('/end', { state: { ...state, ...responses } });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timer]);
 
 
