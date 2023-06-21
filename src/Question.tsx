@@ -5,6 +5,7 @@ import question1 from '../src/assets/image1.png';
 import question2 from '../src/assets/image2.png';
 import question3 from '../src/assets/image3.png';
 import question4 from '../src/assets/image4.png';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const questions = [
   {
@@ -27,11 +28,22 @@ const questions = [
 
 const Question = () => {
   const [timer, setTimer] = useState(600); // 10 minutes in seconds
-  const [responseTime, setResponseTime] = useState(0);
-  const [answer, setAnswer] = useState('');
+  const [responses, setResponses] = useState<Array<{ responseTime: number; answer: string }>>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-
+  
   const currentQuestion = questions[currentQuestionIndex];
+  
+  const {state} = useLocation()
+  const navigate = useNavigate();
+  
+  useEffect(()=>{ 
+    if(currentQuestionIndex===questions.length-1){
+      navigate("/end",{state:{...state,...responses}})
+
+    }
+
+    console.log(state)
+  },[currentQuestionIndex])
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -43,36 +55,41 @@ const Question = () => {
 
   useEffect(() => {
     if (timer === 0) {
-      window.location.href = '/end';
+      navigate("/end",{state:{...state,...responses}})
     }
   }, [timer]);
 
+
   const handleLike = () => {
     const currentTime = 600 - timer;
-    setResponseTime(currentTime);
-    setAnswer('Like');
-    // You can store the response in a JSON object or send it to an API endpoint
-    console.log({ responseTime, answer });
-
+    const response = {
+      responseTime: currentTime,
+      answer: 'Like',
+      imageName: questions[currentQuestionIndex].image
+    };
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
-    } else {
-      window.location.href = '/end';
     }
+
+    setResponses((prevResponses) => [...prevResponses, response]);
+    console.log(responses);
+
   };
 
   const handleDislike = () => {
     const currentTime = 600 - timer;
-    setResponseTime(currentTime);
-    setAnswer('Dislike');
-    // You can store the response in a JSON object or send it to an API endpoint
-    console.log({ responseTime, answer });
-
+    const response = {
+      responseTime: currentTime,
+      answer: 'Dislike',
+      imageName: questions[currentQuestionIndex].image
+    };
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
-    } else {
-      window.location.href = '/end';
     }
+    //add image name, user's age, nationality,
+    setResponses((prevResponses) => [...prevResponses, response]);
+
+    console.log(responses);
   };
 
   const formatTime = (time: number) => {
@@ -129,6 +146,62 @@ const Question = () => {
       </Box> */}
       <LinearProgress variant="determinate" value={calculateProgress()} sx={{ mt: 4, width: '50%' }} />
     </Box>
+  //   <Box
+  //   sx={{
+  //     display: "flex",
+  //     flexDirection: "column",
+  //     alignItems: "center",
+  //     mt: 4,
+  //   }}
+  // >
+  //   <Typography variant="h4" component="h2" gutterBottom>
+  //     Question
+  //   </Typography>
+  //   <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+  //     <img
+  //       src={currentQuestion.image}
+  //       alt={`Question ${currentQuestion.id}`}
+  //       style={{ height: 400 }}
+  //     />
+  //   </Box>
+  //   <Box sx={{ display: "flex", justifyContent: "center", mt: 4,  }}>
+  //     {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
+  //       <Button
+  //         variant="contained"
+  //         color="secondary"
+  //         size="large"
+  //         onClick={() => handleRatingChange(value)}
+  //         sx={{margin:'.3rem'}}
+  //       >
+  //         {value}
+  //       </Button>
+  //     ))}
+  //   </Box>
+  //   <Box  
+  //     sx={{
+  //       display: "flex",
+  //       justifyContent: "flex-end",
+  //       alignItems: "center",
+  //       position: "fixed",
+  //       top: 20,
+  //       right: 100,
+  //       p: 1,
+  //       zIndex: 1,
+  //       backgroundColor: "lightgray",
+  //       borderRadius: 4,
+  //     }}
+  //   >
+  //     <Typography variant="body1" sx={{ fontSize: 26 }}>
+  //       {formatTime(timer)}
+  //     </Typography>
+  //   </Box>
+
+  //   <LinearProgress
+  //     variant="determinate"
+  //     value={calculateProgress()}
+  //     sx={{ mt: 4, width: "50%" }}
+  //   />
+  // </Box>
   );
 };
 
