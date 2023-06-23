@@ -72,14 +72,21 @@ const Forms = () => {
           fullWidth
           margin="normal"
         /> 
-        <Button sx={{mt:2}} variant="contained" component={Link} to="/question" state={{ 
+        { 
+        (age)&&(gender)&&(education)&&(nationality)? 
+
+       ( <Button sx={{mt:2}} variant="contained" component={Link} to="/question" state={{ 
             age: age,
             gender: gender,
             education: education,
             nationality: nationality,
             timestamp: new Date().toUTCString(), }} color="primary" type="submit" fullWidth >
           Start
-        </Button>
+        </Button>)
+        :
+        (<Button variant='contained' fullWidth disabled>Start</Button>)
+        
+        }
       </form>
     </Box>
   );

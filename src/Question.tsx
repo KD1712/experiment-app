@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Box, Button, LinearProgress, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 import question1 from '../src/assets/image1.png';
 import question2 from '../src/assets/image2.png';
 import question3 from '../src/assets/image3.png';
 import question4 from '../src/assets/image4.png';
 import { useLocation, useNavigate } from 'react-router-dom';
-
 const questions = [
   {
     id: 1,
@@ -27,6 +27,7 @@ const questions = [
 ];
 
 const Question = () => {
+  const theme = useTheme();
   const [timer, setTimer] = useState(600); // 10 minutes in seconds
   const [responses, setResponses] = useState<
     Array<{ responseTime: number; answer: string }>
@@ -94,6 +95,7 @@ const Question = () => {
         flexDirection: 'column',
         alignItems: 'center',
         mt: 4,
+
       }}
     >
       <Typography variant="h4" component="h2" gutterBottom>
@@ -132,12 +134,14 @@ const Question = () => {
           alignItems: 'center',
           position: 'fixed',
           top: 20,
-          right: 100,
+          right:theme.breakpoints.down('md') ? 25 : 100,
           p: 1,
           zIndex: 1,
           backgroundColor: 'lightgray',
           borderRadius: 4,
+          
         }}
+        
       >
         <Typography variant="body1" sx={{ fontSize: 26 }}>
           {formatTime(timer)}
