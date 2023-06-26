@@ -33,7 +33,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 const questions : any = [];
 
 const questionArrayCreation = () => {
-  let N = 64;
+  let N = 10;
   let numbers = [];
   for(let i = 1; i <= N; i++) {
       numbers.push(i);
@@ -44,7 +44,7 @@ const questionArrayCreation = () => {
       numbers[i] = numbers[j];
       numbers[j] = temp;
   }
-  for (let i = 0; i < 64; i++) {
+  for (let i = 0; i < N; i++) {
     const question = {
       id: i+1,
       image : `/assets/${numbers[i]}.jpg`
@@ -149,7 +149,7 @@ const Question = () => {
         <img
           src={currentQuestion.image}
           alt={`Question ${currentQuestion.id}`}
-          style={{ height: 400 }}
+          style={{ height: 400,width:theme.breakpoints.down('md') ? '60%' : '100%', }}
         />
       </Box>
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
