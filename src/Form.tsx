@@ -1,12 +1,25 @@
-import React, { useState } from 'react';
-import { Box, Button, FormControl, FormControlLabel, FormLabel, MenuItem, Radio, RadioGroup, Select, TextField, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { Link } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
 const Forms = () => {
-  const [age, setAge] = useState('');
-  const [gender, setGender] = useState('');
-  const [education, setEducation] = useState('');
-  const [nationality, setNationality] = useState('');
+  const [age, setAge] = useState("");
+  const [gender, setGender] = useState("");
+  const [education, setEducation] = useState("");
+  const [nationality, setNationality] = useState("");
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -17,16 +30,29 @@ const Forms = () => {
       education,
       nationality,
       timestamp: new Date().toUTCString(),
+      sessionId: uuidv4(),
     };
     console.log(formData);
   };
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 15 }}>
-      <Typography variant="h4" component="h2" gutterBottom>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        mt: 15,
+      }}
+    >
+      <Typography
+        variant="h4"
+        component="h2"
+        gutterBottom
+        sx={{ textAlign: "center" }}
+      >
         Tell us a bit about yourself
       </Typography>
-      <form onSubmit={handleSubmit} style={{ width: '300px', marginTop:4 }}>
+      <form onSubmit={handleSubmit} style={{ width: "300px", marginTop: 4 }}>
         <TextField
           label="Age"
           variant="outlined"
@@ -46,12 +72,18 @@ const Forms = () => {
             row
           >
             <FormControlLabel value="male" control={<Radio />} label="Male" />
-            <FormControlLabel value="female" control={<Radio />} label="Female" />
+            <FormControlLabel
+              value="female"
+              control={<Radio />}
+              label="Female"
+            />
             <FormControlLabel value="other" control={<Radio />} label="Other" />
           </RadioGroup>
         </FormControl>
         <FormControl variant="outlined" margin="normal" fullWidth required>
-          <FormLabel component="legend">Highest Education Qualification</FormLabel>
+          <FormLabel component="legend">
+            Highest Education Qualification
+          </FormLabel>
           <Select
             value={education}
             onChange={(event) => setEducation(event.target.value as string)}
@@ -72,19 +104,25 @@ const Forms = () => {
           fullWidth
           margin="normal"
         />
-        {
-          (age)&&(gender)&&(education)&&(nationality) ?
-          <Button sx={{mt:2}} variant="contained" component={Link} to="/question" state={{ 
+        <Button
+          sx={{ mt: 2 }}
+          variant="contained"
+          component={Link}
+          to="/question"
+          state={{
             age: age,
             gender: gender,
             education: education,
             nationality: nationality,
-            timestamp: new Date().toUTCString(), }} color="primary" type="submit" fullWidth >
+            timestamp: new Date().toUTCString(),
+            sessionId: uuidv4(),
+          }}
+          color="primary"
+          type="submit"
+          fullWidth
+        >
           Start
         </Button>
-        :
-        <Button sx={{mt:2}} variant="contained" color="primary" type="submit" fullWidth disabled>Start</Button>
-      } 
       </form>
     </Box>
   );
