@@ -2,41 +2,85 @@ import { useEffect, useState } from 'react';
 import { Box, Button, LinearProgress, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-import question1 from '../src/assets/image1.png';
-import question2 from '../src/assets/image2.png';
-import question3 from '../src/assets/image3.png';
-import question4 from '../src/assets/image4.png';
+// import question1 from '/assets/image1.png';
+// import question2 from '/assets/image2.png';
+// import question3 from '/assets/image3.png';
+// import question4 from '/assets/image4.png';
+// import question5 from '../src/assets/AI Images/download(1).jpg';
+//...
 import { useLocation, useNavigate } from 'react-router-dom';
-const questions = [
-  {
-    id: 1,
-    image: question1,
-  },
-  {
-    id: 2,
-    image: question2,
-  },
-  {
-    id: 3,
-    image: question3,
-  },
-  {
-    id: 4,
-    image: question4,
-  },
-];
+
+//ES6 shuffling or js shuffle
+// const questions = [
+//   {
+//     id: 1,
+//     image: '/assets/1.jpg',
+//   },
+//   {
+//     id: 2,
+//     image: '/assets/2.jpg',
+//   },
+//   {
+//     id: 3,
+//     image: '/assets/3.jpg',
+//   },
+//   {
+//     id: 4,
+//     image: '/assets/4.jpg',
+//   },
+// ];
+
+const questions : any = [];
+
+const questionArrayCreation = () => {
+  let N = 64;
+  let numbers = [];
+  for(let i = 1; i <= N; i++) {
+      numbers.push(i);
+  }
+  for(let i = N - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      let temp : any = numbers[i];
+      numbers[i] = numbers[j];
+      numbers[j] = temp;
+  }
+  for (let i = 0; i < 64; i++) {
+    const question = {
+      id: i+1,
+      image : `/assets/${numbers[i]}.jpg`
+    };
+    questions.push(question);
+  }
+}
+
+//random no. without permutation
+
+//array - []
+//shuffle = random permutation
+
+//1 2 3 4 5 6 7 8
+//8*7*6*5*4*3*2*1
+//1-60
+//3-60
 
 const Question = () => {
-  const theme = useTheme();
+
+  const theme = useTheme()
+
   const [timer, setTimer] = useState(600); // 10 minutes in seconds
   const [responses, setResponses] = useState<
-    Array<{ responseTime: number; answer: string }>
+    Array<{ responseTime: number; answer: string; imageName: any }>
   >([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [currentQuestion, setCurrentQuestion]: any = useState({});
 
   const { state } = useLocation();
   const navigate = useNavigate();
+
+  useEffect(()=>{
+    questionArrayCreation();
+    // console.log("question array created");
+  },[])
 
   useEffect(() => {
     if (currentQuestionIndex === questions.length) {
@@ -134,7 +178,7 @@ const Question = () => {
           alignItems: 'center',
           position: 'fixed',
           top: 20,
-          right:theme.breakpoints.down('md') ? 25 : 100,
+          right: theme.breakpoints.down('md') ? 25 : 100,
           p: 1,
           zIndex: 1,
           backgroundColor: 'lightgray',
@@ -159,62 +203,6 @@ const Question = () => {
         sx={{ mt: 4, width: '50%' }}
       />
     </Box>
-    //   <Box
-    //   sx={{
-    //     display: "flex",
-    //     flexDirection: "column",
-    //     alignItems: "center",
-    //     mt: 4,
-    //   }}
-    // >
-    //   <Typography variant="h4" component="h2" gutterBottom>
-    //     Question
-    //   </Typography>
-    //   <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
-    //     <img
-    //       src={currentQuestion.image}
-    //       alt={`Question ${currentQuestion.id}`}
-    //       style={{ height: 400 }}
-    //     />
-    //   </Box>
-    //   <Box sx={{ display: "flex", justifyContent: "center", mt: 4,  }}>
-    //     {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
-    //       <Button
-    //         variant="contained"
-    //         color="secondary"
-    //         size="large"
-    //         onClick={() => handleRatingChange(value)}
-    //         sx={{margin:'.3rem'}}
-    //       >
-    //         {value}
-    //       </Button>
-    //     ))}
-    //   </Box>
-    //   <Box
-    //     sx={{
-    //       display: "flex",
-    //       justifyContent: "flex-end",
-    //       alignItems: "center",
-    //       position: "fixed",
-    //       top: 20,
-    //       right: 100,
-    //       p: 1,
-    //       zIndex: 1,
-    //       backgroundColor: "lightgray",
-    //       borderRadius: 4,
-    //     }}
-    //   >
-    //     <Typography variant="body1" sx={{ fontSize: 26 }}>
-    //       {formatTime(timer)}
-    //     </Typography>
-    //   </Box>
-
-    //   <LinearProgress
-    //     variant="determinate"
-    //     value={calculateProgress()}
-    //     sx={{ mt: 4, width: "50%" }}
-    //   />
-    // </Box>
   );
 };
 
