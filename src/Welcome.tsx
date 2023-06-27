@@ -12,7 +12,7 @@ const Welcome = () => {
       <Typography variant="body1" gutterBottom>
         You are invited to participate in a study titled "Generative AI and Tangible Products: Human-AI Design of 3D-printed lamps".
       </Typography>
-      <Button variant="contained" sx={{mt:3}} color="success" size="large" onClick={() => window.location.href = '/form'}>
+      <Button variant="contained" sx={{mt:3,fontWeight:700,}} color="success" size="large" onClick={() => window.location.href = '/form'}>
         Agree and Begin
       </Button>
     </Box>

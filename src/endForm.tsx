@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
-import { Box, Button, Typography, Rating, TextField } from '@mui/material';
+import React, { useState } from "react";
+import { Box, Button, Typography, Rating, TextField } from "@mui/material";
 
-import { useLocation,Link } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
 const EndForm = () => {
-    const [rating, setRating] = useState(0);
-    const [feedback, setFeedback] = useState('');
-    const { state } = useLocation();
+  const [rating, setRating] = useState(0);
+  const [feedback, setFeedback] = useState("");
+  const { state } = useLocation();
 
-  const handleRatingChange = (event: React.ChangeEvent<{}>, value: number | null) => {
+  const handleRatingChange = (
+    event: React.ChangeEvent<{}>,
+    value: number | null
+  ) => {
     if (value !== null) {
       setRating(value);
     }
@@ -19,11 +22,27 @@ const EndForm = () => {
   };
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 10 }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        mt: 10,
+        textAlign: "center",
+      }}
+    >
       <Typography variant="h3" component="h2" gutterBottom>
         Share your Feedback
       </Typography>
-      <Box sx={{ display: 'flex', alignItems: 'center', mt: 4 , width: '35%'}}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          mt: 4,
+          // width: "35%"
+          width: "300px",
+        }}
+      >
         <Typography variant="h5">Rate Your Experience:</Typography>
         <Rating
           name="survey-rating"
@@ -33,7 +52,14 @@ const EndForm = () => {
           size="large"
         />
       </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4, width: '35%' }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          mt: 4,
+          width: "300px",
+        }}
+      >
         <TextField
           label="Feedback"
           multiline
@@ -42,21 +68,23 @@ const EndForm = () => {
           onChange={handleFeedbackChange}
           variant="outlined"
           fullWidth
-          sx={{ width: '100%' }}
+          sx={{ width: "100%" }}
         />
       </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 , }}>
-      <Button
-          sx={{ mt: 2 , fontWeight: 'bold',}}
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+        <Button
+          sx={{ mt: 2, fontWeight: "bold" }}
           variant="contained"
           component={Link}
           to="/end"
           state={{
-            ...state, starFeedback: rating, qualitativeFeedback:feedback
+            ...state,
+            starFeedback: rating,
+            qualitativeFeedback: feedback,
           }}
           color="secondary"
           type="submit"
-          size='medium'
+          size="medium"
           fullWidth
         >
           Submit

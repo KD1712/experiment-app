@@ -195,24 +195,25 @@ const Question = () => {
         <Box
           sx={{
             display: "flex",
-            // justifyContent: "space-between",
+            width:'100%',
             flexWrap: theme.breakpoints.only("sm") ? "wrap" : "none",
             alignItems: "center",
             justifyContent: "center",
             // mt: 2,
-            p:2
+            p:1
+            
           }}
         >
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
             <Button
               key={value}
               variant="contained"
-              size="medium"
+              size="small"
               // color={ratingMethod === "star" ? "secondary" : "primary"}
               onClick={() => handleRatingChange(value)}
               sx={{
                 marginTop: ".3rem",
-                marginLeft: ".4rem",
+                marginLeft: ".3rem",
                 backgroundColor: "white",
                 color: "black",
                 fontSize: "20px",

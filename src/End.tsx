@@ -18,7 +18,7 @@ const End = () => {
       </Typography>
       <Button
         variant="contained"
-        sx={{ mt: 3 }}
+        sx={{ mt: 3, fontWeight:700 }}
         color="primary"
         size="large"
         onClick={() => (window.location.href = "/")}
