@@ -79,14 +79,14 @@ const Question = () => {
 
   useEffect(() => {
     questionArrayCreation();
-    setRatingCondition(Math.random() < 0.5 ? "likeDislike" : "numberButtons");
+    setRatingCondition(state.condition);
 
-    // console.log("question array created");
-  }, []);
+    // console.log(state.condition,"question array created");
+  }, [state.condition]);
 
   useEffect(() => {
     if (currentQuestionIndex === questions.length) {
-      navigate("/end", { state: { ...state, responses: responses } });
+      navigate("/endForm", { state: { ...state, responses: responses } });
     } else {
       setCurrentQuestion(questions[currentQuestionIndex]);
     }
@@ -102,7 +102,7 @@ const Question = () => {
 
   useEffect(() => {
     if (timer === 0) {
-      navigate("/end", { state: { ...state, ...responses } });
+      navigate("/endForm", { state: { ...state, ...responses } });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timer]);

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+
 import {
   Box,
   Button,
@@ -15,25 +16,71 @@ import {
 import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
+interface Country {
+  text: string;
+  value: string;
+}
+
 const Forms = () => {
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
   const [education, setEducation] = useState("");
   const [nationality, setNationality] = useState("");
+  // const [myData, setMyData] = React.useState([{}]);
+  const [countries, setCountries] = useState<Country[]>([]);
+  // const [selectedCountry, setSelectedCountry] = useState("");
+  const [ratingcondition, setRatingCondition]: any = useState("");
+  const [timestamp, setTimestamp] = useState("");
+  
+  useEffect(() => {
+    setRatingCondition(Math.random() < 0.5 ? "likeDislike" : "ratings");
+    // setTimestamp(new Date().toLocaleString())
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric", 
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+      timeZoneName: "short"
+    } as Intl.DateTimeFormatOptions;
+
+    const formattedTime = new Date().toLocaleString([], options);
+    setTimestamp(formattedTime);
+  }, [])
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const formData = {
-      age,
-      gender,
-      education,
-      nationality,
-      timestamp: new Date().toUTCString(),
-      sessionId: uuidv4(),
-    };
-    console.log(formData);
+    // const formData = {
+    //   age,
+    //   gender,
+    //   education,
+    //   nationality,
+    //   ratingcondition,
+    //   timestamp: new Date().toUTCString(),
+    //   sessionId: uuidv4(),
+    // };
+    // console.log(formData);
   };
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        "https://trial.mobiscroll.com/content/countries.json"
+      );
+      const data = await response.json();
+      setCountries(data as Country[]);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+  const handleSelectChange = (event: any) => {
+    setNationality(event.target.value);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <Box
@@ -95,7 +142,7 @@ const Forms = () => {
             <MenuItem value="master">Master or Higher</MenuItem>
           </Select>
         </FormControl>
-        <TextField
+        {/* <TextField
           label="Nationality"
           variant="outlined"
           value={nationality}
@@ -103,8 +150,21 @@ const Forms = () => {
           required
           fullWidth
           margin="normal"
-        />
-        <Button
+        /> */}
+        <FormControl variant="outlined" margin="normal" fullWidth required>
+          <FormLabel component="legend">Nationality</FormLabel>
+
+          <Select value={nationality} onChange={handleSelectChange}>
+            {countries.map((country, index) => (
+              <MenuItem key={index} value={country.text}>
+                {country.text}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        {
+          (age)&&(gender)&&(nationality)&&(education) ? 
+          <Button
           sx={{ mt: 2 }}
           variant="contained"
           component={Link}
@@ -114,15 +174,19 @@ const Forms = () => {
             gender: gender,
             education: education,
             nationality: nationality,
-            timestamp: new Date().toUTCString(),
+            condition: ratingcondition,
+            timestamp: timestamp,
             sessionId: uuidv4(),
           }}
           color="primary"
           type="submit"
           fullWidth
-        >
+          >
           Start
         </Button>
+        :
+        (<Button variant='contained' fullWidth disabled>Start</Button>)
+        }
       </form>
     </Box>
   );

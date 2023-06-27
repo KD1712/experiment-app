@@ -9,7 +9,7 @@ const End = () => {
   }, [state]);
 
   return (
-    <Box sx={{ textAlign: "center", mt: 40 }}>
+    <Box sx={{ textAlign: "center", mt: 30 }}>
       <Typography variant="h2" component="h1" gutterBottom>
         Thank You!
       </Typography>
