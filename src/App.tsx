@@ -7,6 +7,10 @@ import End from './align-End';
 import EndForm from './align-endForm';
 import Welcome2 from './aesth-Welcome';
 import Forms2 from './aesth-startForm';
+import Question2 from './aesth-Question';
+import End2 from './aesth-End';
+import EndForm2 from './aesth-endForm';
+
 
 const theme = createTheme();
 
@@ -24,9 +28,9 @@ const App = () => {
             <Route path="/alignment/end" element={<End/>} />
             <Route path="/aesthetic/" element={<Welcome2/>} />
             <Route path="/aesthetic/form" element={<Forms2/>} />
-            <Route path="/aesthetic/question" element={<Question/>} />
-            <Route path="/aesthetic/endForm" element={<EndForm/>} />
-            <Route path="/aesthetic/end" element={<End/>} />
+            <Route path="/aesthetic/question" element={<Question2/>} />
+            <Route path="/aesthetic/endForm" element={<EndForm2/>} />
+            <Route path="/aesthetic/end" element={<End2/>} />
           </Routes>
         </Router>
       </div>

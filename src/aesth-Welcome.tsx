@@ -2,9 +2,14 @@ import { Box, Button, Typography } from "@mui/material";
 
 const Welcome2 = () => {
   return (
-    <Box sx={{ textAlign: "center", mt: 20 ,pr:35, pl:35}}>
-      <Typography variant="h4" sx={{mb:3, fontWeight:'800'}} component="h1" gutterBottom>
-        Ethics statement and task description - Alignment survey
+    <Box sx={{ textAlign: "center", mt: 20, pr: 35, pl: 35 }}>
+      <Typography
+        variant="h4"
+        sx={{ mb: 3, fontWeight: "800" }}
+        component="h1"
+        gutterBottom
+      >
+        Ethics statement and task description - Aesthetic survey
       </Typography>
       <Typography variant="body1" gutterBottom>
         You are being invited to participate in a research study titled
@@ -12,10 +17,8 @@ const Welcome2 = () => {
       </Typography>
       <Typography variant="body1" gutterBottom>
         <b>
-          Your task is to look at the image or read the story, and read the
-          description text given below it. Then, your task is to provide a
-          rating about how well the image/story corresponds or aligns to that
-          description text.
+          Your task is to look at each image carefully, and rate its aesthetic
+          value.
         </b>
       </Typography>
       <Typography variant="body1" gutterBottom>
@@ -36,8 +39,10 @@ const Welcome2 = () => {
         omit any questions. Responsible researcher: James Lomas,
         j.d.lomas@tudelft.nl
       </Typography>
-      <Typography variant="body1" sx={{mt:4}} gutterBottom>By clicking through this anonymous survey, you provide your informed
-        consent to this statement.</Typography>
+      <Typography variant="body1" sx={{ mt: 4 }} gutterBottom>
+        By clicking through this anonymous survey, you provide your informed
+        consent to this statement.
+      </Typography>
       <Button
         variant="contained"
         sx={{ mt: 3, fontWeight: 700 }}
