@@ -184,13 +184,14 @@ const Question2 = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [currentQuestion, setCurrentQuestion]: any = useState({});
   const [ratingcondition, setRatingCondition]: any = useState("");
+  const [stepNo, setStepNo]: any = useState(0);
 
   const { state } = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
     questionArrayCreation();
-    setRatingCondition(state.condition);
+    setRatingCondition("ratings");
 
     // console.log(state.condition,"question array created");
   }, [state.condition]);
@@ -203,8 +204,22 @@ const Question2 = () => {
     } else {
       setCurrentQuestion(questions[currentQuestionIndex]);
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentQuestionIndex]);
+  useEffect(() => {
+    const handleKeyPress = (event: any) => {
+      if (event.key === "Enter") {
+        const newStep = stepNo + 1;
+        setStepNo(newStep);
+      }
+    };
+    window.addEventListener("keydown", handleKeyPress);
+    console.log("ji");
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [stepNo]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -260,134 +275,95 @@ const Question2 = () => {
     setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
   };
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        mt: 5,
-      }}
-    >
-      {/* <Typography variant="h4" component="h2" gutterBottom sx={{mt:4}}>
-        Question
-      </Typography> */}
-      <LinearProgress
-        variant="determinate"
-        value={calculateProgress()}
-        sx={{ mt: 2, width: "50%", height: ".5rem" }}
-      />
-
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          mt: 4,
-        }}
-      >
-        <img
-          src={`/assets/DALLE3_emotion_images/${currentQuestion.image}`}
-          alt={`Question ${currentQuestion.id}`}
-          style={{
-            height: 500,
-            width: theme.breakpoints.only("md") ? "80%" : "100%",
-            border: "1.5px solid black",
-          }}
-        />
-      </Box>
-      {ratingcondition === "likeDislike" ? (
-        <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
-          <Button
-            variant="contained"
-            color="success"
-            size="large"
-            sx={{ fontWeight: 700 }}
-            onClick={() => handleLikeDislike("Like")}
-          >
-            Like 👍
-          </Button>
-          <Button
-            variant="contained"
-            color="error"
-            size="large"
-            onClick={() => handleLikeDislike("Dislike")}
-            sx={{ ml: 2, fontWeight: 700 }}
-          >
-            Dislike 👎
-          </Button>
+    <Box>
+      {stepNo === 0 ? (
+        <Box>
+          <Typography variant="h4">You will now be given a few training trials.Please enter to proceed.</Typography>
         </Box>
+      ) : stepNo === 1 ? (
+        <Box>Trial Images</Box>
+      ) : stepNo === 2 ? (
+        <Box>Now Main Experiment</Box>
       ) : (
         <Box
           sx={{
             display: "flex",
-            width: "100%",
-            flexWrap: theme.breakpoints.only("sm") ? "wrap" : "none",
+            flexDirection: "column",
             alignItems: "center",
-            justifyContent: "center",
-            // mt: 2,
-            p: 1,
+            mt: 5,
           }}
         >
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
-            <Button
-              key={value}
-              variant="contained"
-              size="small"
-              // color={ratingMethod === "star" ? "secondary" : "primary"}
-              onClick={() => handleRatingChange(value)}
-              sx={{
-                marginTop: ".3rem",
-                marginLeft: ".3rem",
-                backgroundColor: "white",
-                color: "black",
-                fontSize: "20px",
-                fontWeight: "700",
-                border: "1px solid black",
-                "&:hover": {
-                  backgroundColor: "lightblue",
-                  boxShadow: "none",
-                },
+          <LinearProgress
+            variant="determinate"
+            value={calculateProgress()}
+            sx={{ mt: 2, width: "50%", height: ".5rem" }}
+          />
+
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              mt: 4,
+            }}
+          >
+            <img
+              src={`/assets/DALLE3_emotion_images/${currentQuestion.image}`}
+              alt={`Question ${currentQuestion.id}`}
+              style={{
+                height: 500,
+                width: theme.breakpoints.only("md") ? "80%" : "100%",
+                border: "1.5px solid black",
               }}
-            >
-              {value}
-            </Button>
-          ))}
+            />
+          </Box>
+
+          <Box
+            sx={{
+              display: "flex",
+              width: "100%",
+              flexWrap: theme.breakpoints.only("sm") ? "wrap" : "none",
+              alignItems: "center",
+              justifyContent: "center",
+              // mt: 2,
+              p: 1,
+            }}
+          >
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
+              <Button
+                key={value}
+                variant="contained"
+                size="small"
+                // color={ratingMethod === "star" ? "secondary" : "primary"}
+                onClick={() => handleRatingChange(value)}
+                sx={{
+                  marginTop: ".3rem",
+                  marginLeft: ".3rem",
+                  backgroundColor: "white",
+                  color: "black",
+                  fontSize: "20px",
+                  fontWeight: "700",
+                  border: "1px solid black",
+                  "&:hover": {
+                    backgroundColor: "lightblue",
+                    boxShadow: "none",
+                  },
+                }}
+              >
+                {value}
+              </Button>
+            ))}
+          </Box>
+          <Typography variant="h6">
+            {" "}
+            How much do you like this image on scale from 1 to 10 ?
+          </Typography>
+          {/* <Typography variant="h6"><b>expressing the emotion {extractEmotionName(currentQuestion.image)}</b></Typography> */}
+          <Typography variant="h6">
+            (where 1 means "very bad" and 10 means "very good")
+          </Typography>
         </Box>
       )}
-
-      {/* <Box
-        sx={{
-          display: "flex",
-          justifyContent: "flex-end",
-          alignItems: "center",
-          position: "fixed",
-          top: 20,
-          right: theme.breakpoints.down("md") ? 25 : 100,
-          p: 1,
-          backgroundColor: "lightgray",
-          borderRadius: 4,
-        }}
-      >
-        <Typography variant="body1" sx={{ fontSize: 26 }}>
-          {formatTime(timer)}
-        </Typography>
-      </Box> */}
-
-      {/* <Box sx={{ display: 'flex', alignItems: 'center', mt: 4, width: '80%' }}>
-        <CircularProgress variant="determinate" value={timer / 60} size={96} thickness={4} />
-        <Typography variant="body1" component="span" sx={{ ml: 2, fontSize: 20 }}>
-        {formatTime(timer)}
-        </Typography>
-      </Box> */}
-
-      <Typography variant="h6">
-        {" "}
-        How much do you like this image on scale from 1 to 10 ?
-      </Typography>
-      {/* <Typography variant="h6"><b>expressing the emotion {extractEmotionName(currentQuestion.image)}</b></Typography> */}
-      <Typography variant="h6">
-        (where 1 means "very bad" and 10 means "very good")
-      </Typography>
     </Box>
   );
 };
