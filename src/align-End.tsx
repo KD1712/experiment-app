@@ -17,9 +17,9 @@ const End = () => {
         You have completed the task. Thanks for participating.
       </Typography>
       <Typography variant="h5" sx={{mt:3}}>
-        <b>IMPORTANT:</b>
+        <b>IMPORTANT: </b>
         <Link
-          href="https://www.google.com/"
+          href="https://prolific.co"
           color="primary"
           underline="none"
           sx={{ cursor: "pointer" }}

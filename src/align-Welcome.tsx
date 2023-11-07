@@ -13,6 +13,10 @@ const Welcome = () => {
   // const id1 = queryParams.get('id1');
   // const id2 = queryParams.get('id2');
   // const id3 = queryParams.get('id3');
+  
+  // setProlific_Pid("123");
+  // setStudy_Id("1234");
+  // setSession_Id("1212");
 
   return (
     <Box sx={{ textAlign: "center", mt: 20, pr: 35, pl: 35 }}>

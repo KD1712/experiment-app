@@ -131,15 +131,6 @@ function shuffleArray<T>(array: T[]): T[] {
   return array;
 }
 
-// Function to extract emotion name from the image file name
-// function extractEmotionName(imageName: string): string {
-//   const match = imageName.match(/the emotion (.+?)-\d+\.png/i);
-//   if (match && match[1]) {
-//     return match[1].trim();
-//   }
-//   return 'Unknown'; // Handle cases where the format doesn't match
-// }
-
 const questions = questionArrayCreation();
 // const questions: any = [];
 
@@ -209,7 +200,7 @@ const Question2 = () => {
 
   useEffect(() => {
     if (currentQuestionIndex === questions.length) {
-      navigate("/aesthetic/endForm", {
+      navigate("/aesthetic/end", {
         state: { ...state, responses: responses },
       });
     } else {
@@ -226,7 +217,6 @@ const Question2 = () => {
       }
     };
     window.addEventListener("keydown", handleKeyPress);
-    console.log("ji");
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
@@ -255,8 +245,8 @@ const Question2 = () => {
 
 
   const calculateProgress = () => {
-    const answeredQuestions = currentQuestionIndex + 1;
-    const totalQuestions = questions.length;
+    const answeredQuestions = currentQuestionIndex - 3;
+    const totalQuestions = questions.length - 3;
     return (answeredQuestions / totalQuestions) * 100;
   };
 
@@ -342,7 +332,7 @@ const Question2 = () => {
           <Box
             sx={{
               display: "flex",
-              flexDirection: "column",
+              flexDirection: "row",
               justifyContent: "center",
               mt: 4,
             }}
@@ -431,7 +421,7 @@ const Question2 = () => {
           <Box
             sx={{
               display: "flex",
-              flexDirection: "column",
+              flexDirection: "row",
               justifyContent: "center",
               mt: 4,
             }}
