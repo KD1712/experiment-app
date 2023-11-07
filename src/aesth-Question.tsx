@@ -183,7 +183,7 @@ const Question2 = () => {
   >([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [currentQuestion, setCurrentQuestion]: any = useState({});
-  const [ratingcondition, setRatingCondition]: any = useState("");
+  // const [ratingcondition, setRatingCondition]: any = useState("");
   const [stepNo, setStepNo]: any = useState(0);
 
   const { state } = useLocation();
@@ -191,7 +191,7 @@ const Question2 = () => {
 
   useEffect(() => {
     questionArrayCreation();
-    setRatingCondition("ratings");
+    // setRatingCondition("ratings");
 
     // console.log(state.condition,"question array created");
   }, [state.condition]);
@@ -234,20 +234,6 @@ const Question2 = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timer]);
-
-  const handleLikeDislike = (action: any) => {
-    if (currentQuestionIndex <= questions.length - 1) {
-      const currentTime = (600 - timer) * 1000;
-      const response = {
-        responseTime: currentTime,
-        answer: action,
-        imageName: questions[currentQuestionIndex].image,
-      };
-      //add image name, user's age, nationality,
-      setResponses((prevResponses) => [...prevResponses, response]);
-    }
-    setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
-  };
 
   // const formatTime = (time: number) => {
   //   const minutes = Math.floor(time / 60);

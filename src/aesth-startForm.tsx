@@ -29,12 +29,12 @@ const Forms2 = () => {
   // const [myData, setMyData] = React.useState([{}]);
   const [countries, setCountries] = useState<Country[]>([]);
   // const [selectedCountry, setSelectedCountry] = useState("");
-  const [ratingcondition, setRatingCondition]: any = useState("");
+  // const [ratingcondition, setRatingCondition]: any = useState("");
   const [timestamp, setTimestamp] = useState("");
   
   useEffect(() => {
     // setRatingCondition(Math.random() < 0.5 ? "likeDislike" : "ratings");
-    setRatingCondition("ratings");
+    // setRatingCondition("ratings");
     // setTimestamp(new Date().toLocaleString())
     const options = {
       year: "numeric",
@@ -175,7 +175,7 @@ const Forms2 = () => {
             gender: gender,
             education: education,
             nationality: nationality,
-            condition: ratingcondition,
+            // condition: ratingcondition,
             timestamp: timestamp,
             sessionId: uuidv4(),
           }}
