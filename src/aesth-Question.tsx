@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Box, Button, LinearProgress, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
@@ -185,6 +185,8 @@ const Question2 = () => {
   const [currentQuestion, setCurrentQuestion]: any = useState({});
   // const [ratingcondition, setRatingCondition]: any = useState("");
   const [stepNo, setStepNo]: any = useState(0);
+  const imageRef = useRef<HTMLImageElement | null>(null);
+  const timerRef = useRef<number>(1);
 
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -249,6 +251,24 @@ const Question2 = () => {
 
   const handleRatingChange = (value: any) => {
     if (currentQuestionIndex <= questions.length - 1) {
+      const currentTime = timer * 1000;
+      const response = {
+        responseTime: currentTime,
+        answer: value,
+        imageName: questions[currentQuestionIndex].image,
+      };
+      //add image name, user's age, nationality,
+      console.log(response);
+      setResponses((prevResponses) => [...prevResponses, response]);
+    }
+    if (timerRef.current !== -1) {
+      clearInterval(timerRef.current);
+    }
+    // clearInterval(timerRef.current);
+    setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+  };
+  const handleTrialRatingChange = (value: any) => {
+    if (currentQuestionIndex < 3) {
       const currentTime = (600 - timer) * 1000;
       const response = {
         responseTime: currentTime,
@@ -258,25 +278,118 @@ const Question2 = () => {
       //add image name, user's age, nationality,
       setResponses((prevResponses) => [...prevResponses, response]);
     }
+
     setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+
+    if (currentQuestionIndex >= 3) {
+      setStepNo(2);
+    }
   };
   return (
     <Box>
       {stepNo === 0 ? (
-        <Box>
-          <Typography variant="h4">You will now be given a few training trials.Please enter to proceed.</Typography>
+        <Box
+          sx={{
+            display: "flex",
+            height: "700px",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Typography variant="h4">
+            You will now be given a few training trials.Please enter to proceed.
+          </Typography>
         </Box>
       ) : stepNo === 1 ? (
-        <Box>Trial Images</Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            mt: 1,
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              mt: 4,
+            }}
+          >
+            <img
+              src={`/assets/DALLE3_emotion_images/${currentQuestion.image}`}
+              alt={`Question ${currentQuestion.id}`}
+              style={{
+                height: 500,
+                width: theme.breakpoints.only("md") ? "80%" : "100%",
+                border: "1.5px solid black",
+              }}
+            />
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              width: "100%",
+              flexWrap: theme.breakpoints.only("sm") ? "wrap" : "none",
+              alignItems: "center",
+              justifyContent: "center",
+              // mt: 2,
+              p: 1,
+            }}
+          >
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
+              <Button
+                key={value}
+                variant="contained"
+                size="small"
+                // color={ratingMethod === "star" ? "secondary" : "primary"}
+                onClick={() => handleTrialRatingChange(value)}
+                sx={{
+                  marginTop: ".3rem",
+                  marginLeft: ".3rem",
+                  backgroundColor: "white",
+                  color: "black",
+                  fontSize: "20px",
+                  fontWeight: "700",
+                  border: "1px solid black",
+                  "&:hover": {
+                    backgroundColor: "lightblue",
+                    boxShadow: "none",
+                  },
+                }}
+              >
+                {value}
+              </Button>
+            ))}
+          </Box>
+          <Typography variant="h6">
+            How much do you like this image on scale from 1 to 10 ?
+          </Typography>
+          <Typography variant="h6">
+            (where 1 means "very bad" and 10 means "very good")
+          </Typography>
+        </Box>
       ) : stepNo === 2 ? (
-        <Box>Now Main Experiment</Box>
+        <Box
+          sx={{
+            display: "flex",
+            height: "700px",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Typography variant="h4">
+            You will now begin the main experiment. Press enter to proceed.{" "}
+          </Typography>
+        </Box>
       ) : (
         <Box
           sx={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            mt: 5,
+            mt: 1,
           }}
         >
           <LinearProgress
@@ -294,6 +407,7 @@ const Question2 = () => {
             }}
           >
             <img
+              ref={imageRef}
               src={`/assets/DALLE3_emotion_images/${currentQuestion.image}`}
               alt={`Question ${currentQuestion.id}`}
               style={{
