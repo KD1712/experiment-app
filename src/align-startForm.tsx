@@ -13,8 +13,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
+import { Link, useLocation } from "react-router-dom";
+// import { v4 as uuidv4 } from "uuid";
 
 interface Country {
   text: string;
@@ -31,6 +31,7 @@ const Forms = () => {
   // const [selectedCountry, setSelectedCountry] = useState("");
   // const [ratingcondition, setRatingCondition]: any = useState("");
   const [timestamp, setTimestamp] = useState("");
+  const {state} = useLocation();
   
   useEffect(() => {
     // setRatingCondition(Math.random() < 0.5 ? "likeDislike" : "ratings");
@@ -171,13 +172,15 @@ const Forms = () => {
           component={Link}
           to="/alignment/question"
           state={{
+            ...state,
             age: age,
             gender: gender,
             education: education,
             nationality: nationality,
             // condition: ratingcondition,
             timestamp: timestamp,
-            sessionId: uuidv4(),
+            // sessionId: uuidv4(),
+            
           }}
           color="primary"
           type="submit"

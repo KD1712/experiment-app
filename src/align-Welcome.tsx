@@ -1,9 +1,27 @@
 import { Box, Button, Typography } from "@mui/material";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+// import { useLocation, useNavigate } from 'react-router-dom';
+
 
 const Welcome = () => {
+  const [prolific_pid, setProlific_Pid]: any = useState("");
+  const [study_id, setStudy_Id]: any = useState("");
+  const [session_id, setSession_Id]: any = useState("");
+  // const location = useLocation();
+  // const queryParams = new URLSearchParams(location.search);
+  // const id1 = queryParams.get('id1');
+  // const id2 = queryParams.get('id2');
+  // const id3 = queryParams.get('id3');
+
   return (
-    <Box sx={{ textAlign: "center", mt: 20 ,pr:35, pl:35}}>
-      <Typography variant="h4" sx={{mb:3, fontWeight:'800'}} component="h1" gutterBottom>
+    <Box sx={{ textAlign: "center", mt: 20, pr: 35, pl: 35 }}>
+      <Typography
+        variant="h4"
+        sx={{ mb: 3, fontWeight: "800" }}
+        component="h1"
+        gutterBottom
+      >
         Ethics statement and task description - Alignment survey
       </Typography>
       <Typography variant="body1" gutterBottom>
@@ -36,14 +54,23 @@ const Welcome = () => {
         omit any questions. Responsible researcher: James Lomas,
         j.d.lomas@tudelft.nl
       </Typography>
-      <Typography variant="body1" sx={{mt:4}} gutterBottom>By clicking through this anonymous survey, you provide your informed
-        consent to this statement.</Typography>
+      <Typography variant="body1" sx={{ mt: 4 }} gutterBottom>
+        By clicking through this anonymous survey, you provide your informed
+        consent to this statement.
+      </Typography>
       <Button
         variant="contained"
         sx={{ mt: 3, fontWeight: 700 }}
         color="success"
         size="large"
-        onClick={() => (window.location.href = "/alignment/form")}
+        // onClick={() => (window.location.href = "/alignment/form")}
+        to="/alignment/form"
+        component={Link}
+        state={{
+          PROLIFIC_PID: prolific_pid,
+          STUDY_ID: study_id,
+          SESSION_ID: session_id,
+        }}
       >
         Agree and Begin
       </Button>

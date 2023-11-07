@@ -177,16 +177,25 @@ const questions = questionArrayCreation();
 const Question2 = () => {
   const theme = useTheme();
 
-  const [timer, setTimer] = useState(600); // 10 minutes in seconds
+  // const [timer, setTimer] = useState(600); // 10 minutes in seconds
+  // const [responses, setResponses] = useState<
+  //   Array<{ responseTime: number; answer: string | number; imageName: any }>
+  // >([]);
   const [responses, setResponses] = useState<
-    Array<{ responseTime: number; answer: string; imageName: any }>
+    Array<{
+      answer: number | string;
+      imageName: string;
+    }>
   >([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [currentQuestion, setCurrentQuestion]: any = useState({});
   // const [ratingcondition, setRatingCondition]: any = useState("");
   const [stepNo, setStepNo]: any = useState(0);
+  // const [imageLoadTime, setImageLoadTime] = useState<number | null>(null);
+  const [imageLoadStartTime, setImageLoadStartTime] = useState(0);
+
   const imageRef = useRef<HTMLImageElement | null>(null);
-  const timerRef = useRef<number>(1);
+  // const timerRef = useRef<number>(1);
 
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -200,7 +209,7 @@ const Question2 = () => {
 
   useEffect(() => {
     if (currentQuestionIndex === questions.length) {
-      navigate("/alignment/endForm", {
+      navigate("/aesthetic/endForm", {
         state: { ...state, responses: responses },
       });
     } else {
@@ -223,25 +232,27 @@ const Question2 = () => {
     };
   }, [stepNo]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTimer((prevTimer) => prevTimer - 1);
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setTimer((prevTimer) => prevTimer - 1);
+  //   }, 1000);
+  //   return () => clearInterval(interval);
+  // }, []);
 
+  // useEffect(() => {
+  //   if (timer === 0) {
+  //     navigate("/aesthetic/endForm", { state: { ...state, ...responses } });
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [timer]);
   useEffect(() => {
-    if (timer === 0) {
-      navigate("/aesthetic/endForm", { state: { ...state, ...responses } });
+    if (imageRef.current && !imageLoadStartTime) {
+      const startImageLoadTime = Date.now();
+      setImageLoadStartTime(startImageLoadTime);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timer]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentQuestion]);
 
-  // const formatTime = (time: number) => {
-  //   const minutes = Math.floor(time / 60);
-  //   const seconds = time % 60;
-  //   return `${minutes}:${seconds.toString().padStart(2, "0")}`;
-  // };
 
   const calculateProgress = () => {
     const answeredQuestions = currentQuestionIndex + 1;
@@ -249,35 +260,54 @@ const Question2 = () => {
     return (answeredQuestions / totalQuestions) * 100;
   };
 
-  const handleRatingChange = (value: any) => {
-    if (currentQuestionIndex <= questions.length - 1) {
-      const currentTime = timer * 1000;
+  // const handleRatingChange = (value: any) => {
+  //   if (currentQuestionIndex <= questions.length - 1) {
+  //     const currentTime = timer * 1000;
+  //     const response = {
+  //       responseTime: currentTime,
+  //       answer: value,
+  //       imageName: questions[currentQuestionIndex].image,
+  //     };
+  //     //add image name, user's age, nationality,
+  //     console.log(response);
+  //     setResponses((prevResponses) => [...prevResponses, response]);
+  //   }
+  //   if (timerRef.current !== -1) {
+  //     clearInterval(timerRef.current);
+  //   }
+  //   // clearInterval(timerRef.current);
+  //   setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+  // };
+  const handleImageLoad = () => {
+    const startImageLoadTime = Date.now();
+    setImageLoadStartTime(startImageLoadTime);
+  };
+  const handleRatingChange = (value: number) => {
+    if (currentQuestionIndex < questions.length) {
+      const currentTime = Date.now();
       const response = {
-        responseTime: currentTime,
+        // startTime: imageLoadStartTime,
+        // stopTime: currentTime,
+        responseTime: currentTime - imageLoadStartTime,
         answer: value,
         imageName: questions[currentQuestionIndex].image,
       };
-      //add image name, user's age, nationality,
       console.log(response);
       setResponses((prevResponses) => [...prevResponses, response]);
     }
-    if (timerRef.current !== -1) {
-      clearInterval(timerRef.current);
-    }
-    // clearInterval(timerRef.current);
     setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
   };
   const handleTrialRatingChange = (value: any) => {
-    if (currentQuestionIndex < 3) {
-      const currentTime = (600 - timer) * 1000;
-      const response = {
-        responseTime: currentTime,
-        answer: value,
-        imageName: questions[currentQuestionIndex].image,
-      };
-      //add image name, user's age, nationality,
-      setResponses((prevResponses) => [...prevResponses, response]);
-    }
+    // if (currentQuestionIndex < 3) {
+    //   const currentTime = (600 - timer) * 1000;
+    //   const response = {
+    //     responseTime: currentTime,
+    //     answer: value,
+    //     imageName: questions[currentQuestionIndex].image,
+    //   };
+    //   //add image name, user's age, nationality,
+    //   setResponses((prevResponses) => [...prevResponses, response]);
+    // }
 
     setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
 
@@ -408,6 +438,7 @@ const Question2 = () => {
           >
             <img
               ref={imageRef}
+              onLoad={handleImageLoad}
               src={`/assets/DALLE3_emotion_images/${currentQuestion.image}`}
               alt={`Question ${currentQuestion.id}`}
               style={{

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Box, Button, LinearProgress, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
@@ -354,13 +354,19 @@ const questions = questionArrayCreation();
 const Question = () => {
   const theme = useTheme();
 
-  const [timer, setTimer] = useState(600); // 10 minutes in seconds
+  // const [timer, setTimer] = useState(600); // 10 minutes in seconds
   const [responses, setResponses] = useState<
-    Array<{ responseTime: number; answer: string; imageName: any }>
+    Array<{
+      answer: number | string;
+      imageName: string;
+    }>
   >([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [currentQuestion, setCurrentQuestion]: any = useState({});
   const [stepNo, setStepNo]: any = useState(0);
+  const [imageLoadStartTime, setImageLoadStartTime] = useState(0);
+
+  const imageRef = useRef<HTMLImageElement | null>(null);
   // const [ratingcondition, setRatingCondition]: any = useState("");
 
   const { state } = useLocation();
@@ -374,29 +380,22 @@ const Question = () => {
   }, []);
 
   useEffect(() => {
-    if (currentQuestionIndex === questions.length) {
-      navigate("/alignment/endForm", {
+    if (currentQuestionIndex === 10) {
+      navigate("/alignment/end", {
         state: { ...state, responses: responses },
-      });
+      }); 
     } else {
       setCurrentQuestion(questions[currentQuestionIndex]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentQuestionIndex]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTimer((prevTimer) => prevTimer - 1);
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    if (timer === 0) {
-      navigate("/alignment/endForm", { state: { ...state, ...responses } });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timer]);
+  // useEffect(() => {
+  //   if (timer === 0) {
+  //     navigate("/alignment/endForm", { state: { ...state, ...responses } });
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [timer]);
   useEffect(() => {
     const handleKeyPress = (event: any) => {
       if (event.key === "Enter") {
@@ -405,46 +404,55 @@ const Question = () => {
       }
     };
     window.addEventListener("keydown", handleKeyPress);
+    console.log("ji");
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
   }, [stepNo]);
-  // const formatTime = (time: number) => {
-  //   const minutes = Math.floor(time / 60);
-  //   const seconds = time % 60;
-  //   return `${minutes}:${seconds.toString().padStart(2, "0")}`;
-  // };
+  useEffect(() => {
+    if (imageRef.current && !imageLoadStartTime) {
+      const startImageLoadTime = Date.now();
+      setImageLoadStartTime(startImageLoadTime);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentQuestion]);
 
   const calculateProgress = () => {
     const answeredQuestions = currentQuestionIndex + 1;
     const totalQuestions = questions.length;
     return (answeredQuestions / totalQuestions) * 100;
   };
-
-  const handleRatingChange = (value: any) => {
-    if (currentQuestionIndex <= questions.length - 1) {
-      const currentTime = (600 - timer) * 1000;
+  const handleImageLoad = () => {
+    const startImageLoadTime = Date.now();
+    setImageLoadStartTime(startImageLoadTime);
+  };
+  const handleRatingChange = (value: number) => {
+    if (currentQuestionIndex < questions.length) {
+      const currentTime = Date.now();
       const response = {
-        responseTime: currentTime,
+        // startTime: imageLoadStartTime,
+        // stopTime: currentTime,
+        responseTime: currentTime - imageLoadStartTime,
         answer: value,
         imageName: questions[currentQuestionIndex].image,
       };
-      //add image name, user's age, nationality,
+      console.log(response);
       setResponses((prevResponses) => [...prevResponses, response]);
     }
     setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
   };
+
   const handleTrialRatingChange = (value: any) => {
-    if (currentQuestionIndex < 3) {
-      const currentTime = (600 - timer) * 1000;
-      const response = {
-        responseTime: currentTime,
-        answer: value,
-        imageName: questions[currentQuestionIndex].image,
-      };
-      //add image name, user's age, nationality,
-      setResponses((prevResponses) => [...prevResponses, response]);
-    }
+    // if (currentQuestionIndex < 3) {
+    //   const currentTime = (600 - timer) * 1000;
+    //   const response = {
+    //     responseTime: currentTime,
+    //     answer: value,
+    //     imageName: questions[currentQuestionIndex].image,
+    //   };
+    //   //add image name, user's age, nationality,
+    //   setResponses((prevResponses) => [...prevResponses, response]);
+    // }
 
     setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
 
@@ -585,6 +593,8 @@ const Question = () => {
             }}
           >
             <img
+              ref={imageRef}
+              onLoad={handleImageLoad}
               src={`/assets/DALLE3_emotion_images/${currentQuestion.image}`}
               alt={`Question ${currentQuestion.id}`}
               style={{
