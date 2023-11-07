@@ -254,7 +254,7 @@ const Question = () => {
         answer: value,
         imageName: questions[currentQuestionIndex].image,
       };
-      // console.log(response);
+      console.log(response);
       setResponses((prevResponses) => [...prevResponses, response]);
     }
     setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
