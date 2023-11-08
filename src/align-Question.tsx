@@ -196,7 +196,6 @@ const Question = () => {
   const [imageLoadStartTime, setImageLoadStartTime] = useState(0);
 
   const imageRef = useRef<HTMLImageElement | null>(null);
-  const [showLoader, setShowLoader] = useState(true);
   // const [ratingcondition, setRatingCondition]: any = useState("");
 
   const { state } = useLocation();
@@ -246,17 +245,6 @@ const Question = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentQuestion]);
 
-  useEffect(() => {
-    // Hide the loader after 3 seconds
-    const timer = setTimeout(() => {
-      setShowLoader(false);
-    }, 1500);
-
-    return () => {
-      // Clear the timer if the component unmounts before the timer completes
-      clearTimeout(timer);
-    };
-  }, []);
 
   const calculateProgress = () => {
     const answeredQuestions = currentQuestionIndex - 3;
@@ -269,9 +257,6 @@ const Question = () => {
   };
   const handleRatingChange = (value: number) => {
     if (currentQuestionIndex < questions.length) {
-      if (currentQuestionIndex === 0) {
-        setShowLoader(true);
-      }
       const currentTime = Date.now();
       const response = {
         // startTime: imageLoadStartTime,
@@ -344,7 +329,6 @@ const Question = () => {
             value={calculateProgress()}
             sx={{ mt: 2, width: "50%", height: ".5rem" }}
           /> */}
-          {showLoader && <div style={loaderStyles}>Loading...</div>}
 
           <Box
             sx={{
