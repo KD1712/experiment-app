@@ -10,13 +10,13 @@ const End2 = () => {
 
   return (
     <Box sx={{ textAlign: "center", mt: 30 }}>
-      <Typography variant="h5" >
+      <Typography variant="h5">
         You have completed the task. Thanks for participating.
       </Typography>
-      <Typography variant="h5" sx={{mt:3}}>
+      <Typography variant="h5" sx={{ mt: 3 }}>
         <b>IMPORTANT: </b>
         <Link
-          href="https://prolific.co"
+          href="https://app.prolific.com/submissions/complete?cc=CSA9PSQU"
           color="primary"
           underline="none"
           sx={{ cursor: "pointer" }}

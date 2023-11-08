@@ -24,6 +24,9 @@ const Welcome2 = () => {
         component="h1"
         gutterBottom
       >
+        Instructions - Please read carefully
+      </Typography>
+      <Typography variant="body1">
         Ethics statement and task description - Aesthetic survey
       </Typography>
       <Typography variant="body1" gutterBottom>

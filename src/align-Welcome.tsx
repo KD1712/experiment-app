@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 // import { useLocation, useNavigate } from 'react-router-dom';
 
-
 const Welcome = () => {
   const [prolific_pid, setProlific_Pid]: any = useState("");
   const [study_id, setStudy_Id]: any = useState("");
@@ -13,7 +12,7 @@ const Welcome = () => {
   // const id1 = queryParams.get('id1');
   // const id2 = queryParams.get('id2');
   // const id3 = queryParams.get('id3');
-  
+
   // setProlific_Pid("123");
   // setStudy_Id("1234");
   // setSession_Id("1212");
@@ -26,7 +25,10 @@ const Welcome = () => {
         component="h1"
         gutterBottom
       >
-        Ethics statement and task description - Alignment survey
+        Instructions - Please read carefully
+      </Typography>
+      <Typography variant="body1">
+        Ethics statement and task description - Alignment survey.
       </Typography>
       <Typography variant="body1" gutterBottom>
         You are being invited to participate in a research study titled

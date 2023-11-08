@@ -19,7 +19,7 @@ const End = () => {
       <Typography variant="h5" sx={{mt:3}}>
         <b>IMPORTANT: </b>
         <Link
-          href="https://prolific.co"
+          href="https://app.prolific.com/submissions/complete?cc=C77UBIPG"
           color="primary"
           underline="none"
           sx={{ cursor: "pointer" }}

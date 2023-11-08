@@ -30,86 +30,86 @@ import { useLocation, useNavigate } from "react-router-dom";
 //   },
 // ];
 const imageNames: string[] = [
-  "dalle3-a person expressing the emotion affection-1.png",
-  "dalle3-a person expressing the emotion affection-2.png",
-  "dalle3-a person expressing the emotion affection-3.png",
-  "dalle3-a person expressing the emotion affection-4.png",
-  "dalle3-a person expressing the emotion amusement-1.png",
-  "dalle3-a person expressing the emotion amusement-2.png",
-  "dalle3-a person expressing the emotion amusement-3.png",
-  "dalle3-a person expressing the emotion amusement-4.png",
-  "dalle3-a person expressing the emotion annoyance-1.png",
-  "dalle3-a person expressing the emotion annoyance-2.png",
-  "dalle3-a person expressing the emotion annoyance-3.png",
-  "dalle3-a person expressing the emotion annoyance-4.png",
-  "dalle3-a person expressing the emotion dissatisfaction-1.png",
-  "dalle3-a person expressing the emotion dissatisfaction-2.png",
-  "dalle3-a person expressing the emotion dissatisfaction-3.png",
-  "dalle3-a person expressing the emotion dissatisfaction-4.png",
-  "dalle3-a person expressing the emotion gratitude-1.png",
-  "dalle3-a person expressing the emotion gratitude-2.png",
-  "dalle3-a person expressing the emotion gratitude-3.png",
-  "dalle3-a person expressing the emotion gratitude-4.png",
-  "dalle3-a person expressing the emotion hate-1.png",
-  "dalle3-a person expressing the emotion hate-2.png",
-  "dalle3-a person expressing the emotion hate-3.png",
-  "dalle3-a person expressing the emotion hate-4.png",
-  "dalle3-a person expressing the emotion positive surprise-1.png",
-  "dalle3-a person expressing the emotion positive surprise-2.png",
-  "dalle3-a person expressing the emotion positive surprise-3.png",
-  "dalle3-a person expressing the emotion positive surprise-4.png",
-  "dalle3-a person expressing the emotion resentment-1.png",
-  "dalle3-a person expressing the emotion resentment-2.png",
-  "dalle3-a person expressing the emotion resentment-3.png",
-  "dalle3-a person expressing the emotion resentment-4.png",
-  "dalle3-a person expressing the emotion satisfaction-1.png",
-  "dalle3-a person expressing the emotion satisfaction-2.png",
-  "dalle3-a person expressing the emotion satisfaction-3.png",
-  "dalle3-a person expressing the emotion satisfaction-4.png",
-  "dalle3-a person expressing the emotion shock-1.png",
-  "dalle3-a person expressing the emotion shock-2.png",
-  "dalle3-a person expressing the emotion shock-3.png",
-  "dalle3-a person expressing the emotion shock-4.png",
-  "dalle3-a robot expressing the emotion affecion-1.png",
-  "dalle3-a robot expressing the emotion affecion-2.png",
-  "dalle3-a robot expressing the emotion affecion-3.png",
-  "dalle3-a robot expressing the emotion affecion-4.png",
-  "dalle3-a robot expressing the emotion amusement-1.png",
-  "dalle3-a robot expressing the emotion amusement-2.png",
-  "dalle3-a robot expressing the emotion amusement-3.png",
-  "dalle3-a robot expressing the emotion amusement-4.png",
-  "dalle3-a robot expressing the emotion annoyance-1.png",
-  "dalle3-a robot expressing the emotion annoyance-2.png",
-  "dalle3-a robot expressing the emotion annoyance-3.png",
-  "dalle3-a robot expressing the emotion annoyance-4.png",
-  "dalle3-a robot expressing the emotion dissatisfaction-1.png",
-  "dalle3-a robot expressing the emotion dissatisfaction-2.png",
-  "dalle3-a robot expressing the emotion dissatisfaction-3.png",
-  "dalle3-a robot expressing the emotion dissatisfaction-4.png",
-  "dalle3-a robot expressing the emotion gratitude-1.png",
-  "dalle3-a robot expressing the emotion gratitude-2.png",
-  "dalle3-a robot expressing the emotion gratitude-3.png",
-  "dalle3-a robot expressing the emotion gratitude-4.png",
-  "dalle3-a robot expressing the emotion hate-1.png",
-  "dalle3-a robot expressing the emotion hate-2.png",
-  "dalle3-a robot expressing the emotion hate-3.png",
-  "dalle3-a robot expressing the emotion hate-4.png",
-  "dalle3-a robot expressing the emotion positive surprise-1.png",
-  "dalle3-a robot expressing the emotion positive surprise-2.png",
-  "dalle3-a robot expressing the emotion positive surprise-3.png",
-  "dalle3-a robot expressing the emotion positive surprise-4.png",
-  "dalle3-a robot expressing the emotion resentment-1.png",
-  "dalle3-a robot expressing the emotion resentment-2.png",
-  "dalle3-a robot expressing the emotion resentment-3.png",
-  "dalle3-a robot expressing the emotion resentment-4.png",
-  "dalle3-a robot expressing the emotion satisfaction-1.png",
-  "dalle3-a robot expressing the emotion satisfaction-2.png",
-  "dalle3-a robot expressing the emotion satisfaction-3.png",
-  "dalle3-a robot expressing the emotion satisfaction-4.png",
-  "dalle3-a robot expressing the emotion shock-1.png",
-  "dalle3-a robot expressing the emotion shock-2.png",
-  "dalle3-a robot expressing the emotion shock-3.png",
-  "dalle3-a robot expressing the emotion shock-4.png",
+  "dalle3-a+person+expressing+the+emotion+affection-1.webp",
+  "dalle3-a+person+expressing+the+emotion+affection-2.webp",
+  "dalle3-a+person+expressing+the+emotion+affection-3.webp",
+  "dalle3-a+person+expressing+the+emotion+affection-4.webp",
+  "dalle3-a+person+expressing+the+emotion+amusement-1.webp",
+  "dalle3-a+person+expressing+the+emotion+amusement-2.webp",
+  "dalle3-a+person+expressing+the+emotion+amusement-3.webp",
+  "dalle3-a+person+expressing+the+emotion+amusement-4.webp",
+  "dalle3-a+person+expressing+the+emotion+annoyance-1.webp",
+  "dalle3-a+person+expressing+the+emotion+annoyance-2.webp",
+  "dalle3-a+person+expressing+the+emotion+annoyance-3.webp",
+  "dalle3-a+person+expressing+the+emotion+annoyance-4.webp",
+  "dalle3-a+person+expressing+the+emotion+dissatisfaction-1.webp",
+  "dalle3-a+person+expressing+the+emotion+dissatisfaction-2.webp",
+  "dalle3-a+person+expressing+the+emotion+dissatisfaction-3.webp",
+  "dalle3-a+person+expressing+the+emotion+dissatisfaction-4.webp",
+  "dalle3-a+person+expressing+the+emotion+gratitude-1.webp",
+  "dalle3-a+person+expressing+the+emotion+gratitude-2.webp",
+  "dalle3-a+person+expressing+the+emotion+gratitude-3.webp",
+  "dalle3-a+person+expressing+the+emotion+gratitude-4.webp",
+  "dalle3-a+person+expressing+the+emotion+hate-1.webp",
+  "dalle3-a+person+expressing+the+emotion+hate-2.webp",
+  "dalle3-a+person+expressing+the+emotion+hate-3.webp",
+  "dalle3-a+person+expressing+the+emotion+hate-4.webp",
+  "dalle3-a+person+expressing+the+emotion+positive+surprise-1.webp",
+  "dalle3-a+person+expressing+the+emotion+positive+surprise-2.webp",
+  "dalle3-a+person+expressing+the+emotion+positive+surprise-3.webp",
+  "dalle3-a+person+expressing+the+emotion+positive+surprise-4.webp",
+  "dalle3-a+person+expressing+the+emotion+resentment-1.webp",
+  "dalle3-a+person+expressing+the+emotion+resentment-2.webp",
+  "dalle3-a+person+expressing+the+emotion+resentment-3.webp",
+  "dalle3-a+person+expressing+the+emotion+resentment-4.webp",
+  "dalle3-a+person+expressing+the+emotion+satisfaction-1.webp",
+  "dalle3-a+person+expressing+the+emotion+satisfaction-2.webp",
+  "dalle3-a+person+expressing+the+emotion+satisfaction-3.webp",
+  "dalle3-a+person+expressing+the+emotion+satisfaction-4.webp",
+  "dalle3-a+person+expressing+the+emotion+shock-1.webp",
+  "dalle3-a+person+expressing+the+emotion+shock-2.webp",
+  "dalle3-a+person+expressing+the+emotion+shock-3.webp",
+  "dalle3-a+person+expressing+the+emotion+shock-4.webp",
+  "dalle3-a+robot+expressing+the+emotion+affection-1.webp",
+  "dalle3-a+robot+expressing+the+emotion+affection-2.webp",
+  "dalle3-a+robot+expressing+the+emotion+affection-3.webp",
+  "dalle3-a+robot+expressing+the+emotion+affection-4.webp",
+  "dalle3-a+robot+expressing+the+emotion+amusement-1.webp",
+  "dalle3-a+robot+expressing+the+emotion+amusement-2.webp",
+  "dalle3-a+robot+expressing+the+emotion+amusement-3.webp",
+  "dalle3-a+robot+expressing+the+emotion+amusement-4.webp",
+  "dalle3-a+robot+expressing+the+emotion+annoyance-1.webp",
+  "dalle3-a+robot+expressing+the+emotion+annoyance-2.webp",
+  "dalle3-a+robot+expressing+the+emotion+annoyance-3.webp",
+  "dalle3-a+robot+expressing+the+emotion+annoyance-4.webp",
+  "dalle3-a+robot+expressing+the+emotion+dissatisfaction-1.webp",
+  "dalle3-a+robot+expressing+the+emotion+dissatisfaction-2.webp",
+  "dalle3-a+robot+expressing+the+emotion+dissatisfaction-3.webp",
+  "dalle3-a+robot+expressing+the+emotion+dissatisfaction-4.webp",
+  "dalle3-a+robot+expressing+the+emotion+gratitude-1.webp",
+  "dalle3-a+robot+expressing+the+emotion+gratitude-2.webp",
+  "dalle3-a+robot+expressing+the+emotion+gratitude-3.webp",
+  "dalle3-a+robot+expressing+the+emotion+gratitude-4.webp",
+  "dalle3-a+robot+expressing+the+emotion+hate-1.webp",
+  "dalle3-a+robot+expressing+the+emotion+hate-2.webp",
+  "dalle3-a+robot+expressing+the+emotion+hate-3.webp",
+  "dalle3-a+robot+expressing+the+emotion+hate-4.webp",
+  "dalle3-a+robot+expressing+the+emotion+positive+surprise-1.webp",
+  "dalle3-a+robot+expressing+the+emotion+positive+surprise-2.webp",
+  "dalle3-a+robot+expressing+the+emotion+positive+surprise-3.webp",
+  "dalle3-a+robot+expressing+the+emotion+positive+surprise-4.webp",
+  "dalle3-a+robot+expressing+the+emotion+resentment-1.webp",
+  "dalle3-a+robot+expressing+the+emotion+resentment-2.webp",
+  "dalle3-a+robot+expressing+the+emotion+resentment-3.webp",
+  "dalle3-a+robot+expressing+the+emotion+resentment-4.webp",
+  "dalle3-a+robot+expressing+the+emotion+satisfaction-1.webp",
+  "dalle3-a+robot+expressing+the+emotion+satisfaction-2.webp",
+  "dalle3-a+robot+expressing+the+emotion+satisfaction-3.webp",
+  "dalle3-a+robot+expressing+the+emotion+satisfaction-4.webp",
+  "dalle3-a+robot+expressing+the+emotion+shock-1.webp",
+  "dalle3-a+robot+expressing+the+emotion+shock-2.webp",
+  "dalle3-a+robot+expressing+the+emotion+shock-3.webp",
+  "dalle3-a+robot+expressing+the+emotion+shock-4.webp",
 ];
 
 function questionArrayCreation(): { id: number; image: string }[] {
@@ -205,6 +205,7 @@ const Question2 = () => {
       });
     } else {
       setCurrentQuestion(questions[currentQuestionIndex]);
+      // console.log(currentQuestion)
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -240,9 +241,8 @@ const Question2 = () => {
       const startImageLoadTime = Date.now();
       setImageLoadStartTime(startImageLoadTime);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentQuestion]);
-
 
   const calculateProgress = () => {
     const answeredQuestions = currentQuestionIndex - 3;
@@ -250,24 +250,6 @@ const Question2 = () => {
     return (answeredQuestions / totalQuestions) * 100;
   };
 
-  // const handleRatingChange = (value: any) => {
-  //   if (currentQuestionIndex <= questions.length - 1) {
-  //     const currentTime = timer * 1000;
-  //     const response = {
-  //       responseTime: currentTime,
-  //       answer: value,
-  //       imageName: questions[currentQuestionIndex].image,
-  //     };
-  //     //add image name, user's age, nationality,
-  //     console.log(response);
-  //     setResponses((prevResponses) => [...prevResponses, response]);
-  //   }
-  //   if (timerRef.current !== -1) {
-  //     clearInterval(timerRef.current);
-  //   }
-  //   // clearInterval(timerRef.current);
-  //   setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
-  // };
   const handleImageLoad = () => {
     const startImageLoadTime = Date.now();
     setImageLoadStartTime(startImageLoadTime);
@@ -282,7 +264,7 @@ const Question2 = () => {
         answer: value,
         imageName: questions[currentQuestionIndex].image,
       };
-      console.log(response);
+      // console.log(response);
       setResponses((prevResponses) => [...prevResponses, response]);
     }
     setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
@@ -317,7 +299,7 @@ const Question2 = () => {
           }}
         >
           <Typography variant="h4">
-            You will now be given a few training trials.Please enter to proceed.
+            You will now be given a few training trials.Please ENTER to proceed.
           </Typography>
         </Box>
       ) : stepNo === 1 ? (
@@ -338,7 +320,7 @@ const Question2 = () => {
             }}
           >
             <img
-              src={`/assets/DALLE3_emotion_images/${currentQuestion.image}`}
+              src={`https://open-crops-smartpaper.s3.ap-south-1.amazonaws.com/${currentQuestion.image}`}
               alt={`Question ${currentQuestion.id}`}
               style={{
                 height: 500,
@@ -400,7 +382,7 @@ const Question2 = () => {
           }}
         >
           <Typography variant="h4">
-            You will now begin the main experiment. Press enter to proceed.{" "}
+            You will now begin the main experiment. Press ENTER to proceed.{" "}
           </Typography>
         </Box>
       ) : (
@@ -429,8 +411,10 @@ const Question2 = () => {
             <img
               ref={imageRef}
               onLoad={handleImageLoad}
-              src={`/assets/DALLE3_emotion_images/${currentQuestion.image}`}
+              // src={`/assets/DALLE3_emotion_images/${currentQuestion.image}`}
+              // src={`https://open-crops-smartpaper.s3.ap-south-1.amazonaws.com/dalle3-a+robot+expressing+the+emotion+hate-2.webp`}
               alt={`Question ${currentQuestion.id}`}
+              src={`https://open-crops-smartpaper.s3.ap-south-1.amazonaws.com/${currentQuestion.image}`}
               style={{
                 height: 500,
                 width: theme.breakpoints.only("md") ? "80%" : "100%",
