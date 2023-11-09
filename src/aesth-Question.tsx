@@ -475,7 +475,7 @@ const Question2 = () => {
           }}
         >
           <Typography variant="h4">
-            You will now be given a few training trials.Please ENTER to proceed.
+            You will now be given a few training trials.Please press ENTER to proceed.
           </Typography>
         </Box>
       ) : stepNo === 1 ? (
