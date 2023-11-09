@@ -14,7 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
-// import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 interface Country {
   text: string;
@@ -31,8 +31,8 @@ const Forms2 = () => {
   // const [selectedCountry, setSelectedCountry] = useState("");
   // const [ratingcondition, setRatingCondition]: any = useState("");
   const [timestamp, setTimestamp] = useState("");
-  
-  const {state} = useLocation();
+
+  const { state } = useLocation();
 
   useEffect(() => {
     // setRatingCondition(Math.random() < 0.5 ? "likeDislike" : "ratings");
@@ -41,16 +41,18 @@ const Forms2 = () => {
     const options = {
       year: "numeric",
       month: "long",
-      day: "numeric", 
+      day: "numeric",
       hour: "numeric",
       minute: "numeric",
       second: "numeric",
-      timeZoneName: "short"
+      timeZoneName: "short",
     } as Intl.DateTimeFormatOptions;
 
     const formattedTime = new Date().toLocaleString([], options);
     setTimestamp(formattedTime);
-  }, [])
+    console.log(state);
+
+  }, []);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -165,32 +167,34 @@ const Forms2 = () => {
             ))}
           </Select>
         </FormControl>
-        {
-          (age)&&(gender)&&(nationality)&&(education) ? 
+        {age && gender && nationality && education ? (
           <Button
-          sx={{ mt: 2 }}
-          variant="contained"
-          component={Link}
-          to="/aesthetic/question"
-          state={{
-            ...state,
-            age: age,
-            gender: gender,
-            education: education,
-            nationality: nationality,
-            // condition: ratingcondition,
-            timestamp: timestamp,
-            // sessionId: uuidv4(),
-          }}
-          color="primary"
-          type="submit"
-          fullWidth
+            sx={{ mt: 2 }}
+            variant="contained"
+            component={Link}
+            to="/aesthetic/question"
+            state={{
+              ...state,
+              age: age,
+              gender: gender,
+              education: education,
+              nationality: nationality,
+              // condition: ratingcondition,
+              // timestamp: timestamp,
+              survey_start_form: new Date().toLocaleTimeString(),
+              sessionId: uuidv4(),
+            }}
+            color="primary"
+            type="submit"
+            fullWidth
           >
-          Start
-        </Button>
-        :
-        (<Button variant='contained' fullWidth disabled>Start</Button>)
-        }
+            Start
+          </Button>
+        ) : (
+          <Button variant="contained" fullWidth disabled>
+            Start
+          </Button>
+        )}
       </form>
     </Box>
   );

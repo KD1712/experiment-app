@@ -4,8 +4,15 @@ import { useLocation } from "react-router-dom";
 
 const End2 = () => {
   const { state } = useLocation();
+  const Data = [
+    {
+      ...state,
+      survey_end_time: new Date().toLocaleTimeString(),
+    },
+  ];
   useEffect(() => {
-    console.log(state);
+    console.log(Data);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
   return (

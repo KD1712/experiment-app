@@ -73,9 +73,12 @@ const Welcome = () => {
         to="/alignment/form"
         component={Link}
         state={{
-          PROLIFIC_PID: prolific_pid,
-          STUDY_ID: study_id,
-          SESSION_ID: session_id,
+          prolific_pid: prolific_pid,
+          study_id: study_id,
+          prolific_session_id: session_id,
+          app_Load_Time: new Date().toLocaleTimeString(),
+          ui_type: "rating_0_10",
+          experiment_condition: "alignment",
         }}
       >
         Agree and Begin

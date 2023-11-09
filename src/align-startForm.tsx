@@ -14,7 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
-// import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 interface Country {
   text: string;
@@ -30,26 +30,27 @@ const Forms = () => {
   const [countries, setCountries] = useState<Country[]>([]);
   // const [selectedCountry, setSelectedCountry] = useState("");
   // const [ratingcondition, setRatingCondition]: any = useState("");
-  const [timestamp, setTimestamp] = useState("");
-  const {state} = useLocation();
-  
+  // const [timestamp, setTimestamp] = useState("");
+  const { state } = useLocation();
+
   useEffect(() => {
     // setRatingCondition(Math.random() < 0.5 ? "likeDislike" : "ratings");
     // setRatingCondition("ratings");
     // setTimestamp(new Date().toLocaleString())
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const options = {
       year: "numeric",
       month: "long",
-      day: "numeric", 
+      day: "numeric",
       hour: "numeric",
       minute: "numeric",
       second: "numeric",
-      timeZoneName: "short"
+      timeZoneName: "short",
     } as Intl.DateTimeFormatOptions;
 
-    const formattedTime = new Date().toLocaleString([], options);
-    setTimestamp(formattedTime);
-  }, [])
+    // const formattedTime = new Date().toLocaleString([], options);
+    // setTimestamp(formattedTime);
+  }, []);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -82,6 +83,8 @@ const Forms = () => {
 
   useEffect(() => {
     fetchData();
+    console.log(state);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -164,33 +167,34 @@ const Forms = () => {
             ))}
           </Select>
         </FormControl>
-        {
-          (age)&&(gender)&&(nationality)&&(education) ? 
+        {age && gender && nationality && education ? (
           <Button
-          sx={{ mt: 2 }}
-          variant="contained"
-          component={Link}
-          to="/alignment/question"
-          state={{
-            ...state,
-            age: age,
-            gender: gender,
-            education: education,
-            nationality: nationality,
-            // condition: ratingcondition,
-            timestamp: timestamp,
-            // sessionId: uuidv4(),
-            
-          }}
-          color="primary"
-          type="submit"
-          fullWidth
+            sx={{ mt: 2 }}
+            variant="contained"
+            component={Link}
+            to="/alignment/question"
+            state={{
+              ...state,
+              age: age,
+              gender: gender,
+              education: education,
+              nationality: nationality,
+              // condition: ratingcondition,
+              // timestamp: timestamp,
+              survey_start_form: new Date().toLocaleTimeString(),
+              sessionId: uuidv4(),
+            }}
+            color="primary"
+            type="submit"
+            fullWidth
           >
-          Start
-        </Button>
-        :
-        (<Button variant='contained' fullWidth disabled>Start</Button>)
-        }
+            Start
+          </Button>
+        ) : (
+          <Button variant="contained" fullWidth disabled>
+            Start
+          </Button>
+        )}
       </form>
     </Box>
   );
