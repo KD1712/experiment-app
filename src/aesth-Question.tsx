@@ -244,6 +244,15 @@ const Question2 = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentQuestion]);
 
+  const preloadImages = (imageUrls: any) => {
+    imageUrls.forEach((imageUrl: any) => {
+      const img = new Image();
+      img.src = `https://open-crops-smartpaper.s3.ap-south-1.amazonaws.com/${imageUrl}`;
+    });
+  };
+  useEffect(() => {
+    preloadImages(imageNames);
+  }, []);
   const calculateProgress = () => {
     const answeredQuestions = currentQuestionIndex - 3;
     const totalQuestions = questions.length - 3;
@@ -254,6 +263,15 @@ const Question2 = () => {
     const startImageLoadTime = Date.now();
     setImageLoadStartTime(startImageLoadTime);
   };
+  function extractEmotionName(imageName: string): string {
+    if (imageName) {
+      // const match = imageName.match(/the\+emotion\+(.+?)-\d+\.webp/i);
+      const emotionName = imageName.replace(/\+/g, " ").trim();
+      // Replace "+" with a space
+      return emotionName;
+    }
+    return "Unknown";
+  }
   const handleRatingChange = (value: number) => {
     if (currentQuestionIndex < questions.length) {
       const currentTime = Date.now();
@@ -262,9 +280,10 @@ const Question2 = () => {
         // stopTime: currentTime,
         responseTime: currentTime - imageLoadStartTime,
         answer: value,
-        imageName: questions[currentQuestionIndex].image,
+        // imageName: questions[currentQuestionIndex].image,
+        imageName: extractEmotionName(questions[currentQuestionIndex].image),
       };
-      // console.log(response);
+      console.log(response);
       setResponses((prevResponses) => [...prevResponses, response]);
     }
     setCurrentQuestionIndex((prevIndex) => prevIndex + 1);

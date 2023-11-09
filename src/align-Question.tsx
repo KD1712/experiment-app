@@ -245,12 +245,21 @@ const Question = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentQuestion]);
 
-
-  const calculateProgress = () => {
+  const preloadImages = (imageUrls: any) => {
+    imageUrls.forEach((imageUrl: any) => {
+      const img = new Image();
+      img.src = `https://open-crops-smartpaper.s3.ap-south-1.amazonaws.com/${imageUrl}`;
+    });
+  };
+  useEffect(() => {
+    preloadImages(imageNames);
+  }, []);
+  
+  function calculateProgress() {
     const answeredQuestions = currentQuestionIndex - 3;
     const totalQuestions = questions.length - 4;
     return (answeredQuestions / totalQuestions) * 100;
-  };
+  }
   const handleImageLoad = () => {
     const startImageLoadTime = Date.now();
     setImageLoadStartTime(startImageLoadTime);
@@ -289,17 +298,7 @@ const Question = () => {
       setStepNo(2);
     }
   };
-  const loaderStyles: React.CSSProperties = {
-    border: "16px solid #f3f3f3",
-    borderTop: "16px solid #3498db",
-    borderRadius: "50%",
-    width: "120px",
-    height: "120px",
-    animation: "spin 2s linear infinite",
-    margin: "100px auto",
-    textAlign: "center",
-    fontWeight: "bold",
-  };
+
   return (
     <Box>
       {stepNo === 0 ? (
