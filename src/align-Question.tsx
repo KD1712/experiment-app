@@ -703,7 +703,7 @@ const Question = () => {
               }}
             >
               <Typography variant="h4">
-                You will now begin the main experiment. Press ENTER to proceed.{" "}
+                You will now begin the main experiment. Please press ENTER to proceed.{" "}
               </Typography>
             </Box>
           ) : (
