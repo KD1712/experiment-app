@@ -7,7 +7,7 @@ const End2 = () => {
   const Data = [
     {
       ...state,
-      survey_end_time: new Date().toLocaleTimeString(),
+      survey_end_time: new Date().toISOString(),
     },
   ];
   useEffect(() => {

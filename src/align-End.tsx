@@ -9,7 +9,7 @@ const End = () => {
   const Data = [
     {
       ...state,
-      survey_end_time: new Date().toLocaleTimeString(),
+      survey_end_timestamp: new Date().toISOString(),
     },
   ];
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

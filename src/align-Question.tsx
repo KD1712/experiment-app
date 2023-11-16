@@ -4,7 +4,7 @@ import { useTheme } from "@mui/material/styles";
 
 import { useLocation, useNavigate } from "react-router-dom";
 import LinearProgress, {
-  LinearProgressProps,
+  
 } from "@mui/material/LinearProgress";
 
 //ES6 shuffling or js shuffle
@@ -392,8 +392,14 @@ const Question = () => {
   // const [timer, setTimer] = useState(600); // 10 minutes in seconds
   const [responses, setResponses] = useState<
     Array<{
-      answer: number | string;
-      imageName: string;
+      // answer: number | string;
+      // imageName: string;
+      sessionid: string;
+      itemtype: string;
+      itemnumber: number;
+      reaction_time: number;
+      rating_value: number;
+      image_filename: string;
     }>
   >([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -402,6 +408,7 @@ const Question = () => {
   const [imageLoadStartTime, setImageLoadStartTime] = useState(0);
   const [preloadingComplete, setPreloadingComplete] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [imagePreloadTime, setImagePreloadTime] = useState("");
 
   const imageRef = useRef<HTMLImageElement | null>(null);
   // const [ratingcondition, setRatingCondition]: any = useState("");
@@ -414,18 +421,8 @@ const Question = () => {
     // setRatingCondition(state.condition);
 
     console.log(state);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    if (currentQuestionIndex === questions.length) {
-      navigate("/alignment/end", {
-        state: { ...state, responses: responses },
-      });
-    } else {
-      setCurrentQuestion(questions[currentQuestionIndex]);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentQuestionIndex]);
 
   // useEffect(() => {
   //   if (timer === 0) {
@@ -452,16 +449,17 @@ const Question = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentQuestion]);
-  const startTime = performance.now();
   const preloadImages = (imageUrls: any) => {
+    const startTime = new Date().toISOString();
+    setImagePreloadTime(startTime);
     let loadedCount = 0;
 
     const checkAllImagesLoaded = () => {
       loadedCount++;
 
       if (loadedCount === imageUrls.length) {
-        const endTime = performance.now();
-        const totalTime = endTime - startTime;
+        // const endTime = performance.now();
+        // const totalTime = endTime - startTime;
         // console.log(`Preloading took ${totalTime} milliseconds`);
 
         // Set preloadingComplete to true and progress to 100 when loading is complete
@@ -486,6 +484,22 @@ const Question = () => {
     preloadImages(imageNames);
   }, []);
 
+  useEffect(() => {
+    if (currentQuestionIndex === 10) {
+      navigate("/alignment/end", {
+        state: {
+          ...state,
+          eventtype:"survey_end",
+          responses: responses,
+          survey_image_preload_timestamp: imagePreloadTime,
+        },
+      });
+    } else {
+      setCurrentQuestion(questions[currentQuestionIndex]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentQuestionIndex]);
+
   function calculateProgress() {
     const answeredQuestions = currentQuestionIndex - 3;
     const totalQuestions = questions.length - 4;
@@ -501,10 +515,12 @@ const Question = () => {
       const response = {
         // startTime: imageLoadStartTime,
         // stopTime: currentTime,
-        itemNumber: responses.length + 1,
-        responseTime: currentTime - imageLoadStartTime,
-        answer: value,
-        imageName: questions[currentQuestionIndex].image,
+        sessionid: state.sessionid,
+        itemtype: "experimental",
+        itemnumber: responses.length + 1,
+        reaction_time: currentTime - imageLoadStartTime,
+        image_filename: questions[currentQuestionIndex].image,
+        rating_value: value,
       };
       console.log(response);
       setResponses((prevResponses) => [...prevResponses, response]);
@@ -514,19 +530,22 @@ const Question = () => {
   };
 
   const handleTrialRatingChange = (value: any) => {
-    // if (currentQuestionIndex < 3) {
-    //   const currentTime = (600 - timer) * 1000;
-    //   const response = {
-    //     responseTime: currentTime,
-    //     answer: value,
-    //     imageName: questions[currentQuestionIndex].image,
-    //   };
-    //   //add image name, user's age, nationality,
-    //   setResponses((prevResponses) => [...prevResponses, response]);
-    // }
-
-    setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
-
+    if (currentQuestionIndex <= 3) {
+      const currentTime = Date.now();
+      const response = {
+        // startTime: imageLoadStartTime,
+        // stopTime: currentTime,
+        sessionid: state.sessionid,
+        itemtype: "trial",
+        itemnumber: responses.length + 1,
+        reaction_time: currentTime - imageLoadStartTime,
+        image_filename: questions[currentQuestionIndex].image,
+        rating_value: value,
+      };
+      console.log(response);
+      setResponses((prevResponses) => [...prevResponses, response]);
+      setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+    }
     if (currentQuestionIndex >= 3) {
       setStepNo(2);
     }

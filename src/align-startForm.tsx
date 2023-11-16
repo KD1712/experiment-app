@@ -14,7 +14,6 @@ import {
   Typography,
 } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
 
 interface Country {
   text: string;
@@ -83,7 +82,7 @@ const Forms = () => {
 
   useEffect(() => {
     fetchData();
-    console.log(state);
+    // console.log(state);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -181,8 +180,7 @@ const Forms = () => {
               nationality: nationality,
               // condition: ratingcondition,
               // timestamp: timestamp,
-              survey_start_form: new Date().toLocaleTimeString(),
-              sessionId: uuidv4(),
+              survey_start_timestamp: new Date().toISOString(),
             }}
             color="primary"
             type="submit"

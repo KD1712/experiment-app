@@ -50,7 +50,7 @@ const Forms2 = () => {
 
     const formattedTime = new Date().toLocaleString([], options);
     setTimestamp(formattedTime);
-    console.log(state);
+    // console.log(state);
 
   }, []);
 
@@ -181,8 +181,7 @@ const Forms2 = () => {
               nationality: nationality,
               // condition: ratingcondition,
               // timestamp: timestamp,
-              survey_start_form: new Date().toLocaleTimeString(),
-              sessionId: uuidv4(),
+              survey_start_timestamp: new Date().toISOString(),
             }}
             color="primary"
             type="submit"

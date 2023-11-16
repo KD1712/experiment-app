@@ -1,6 +1,8 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
+
 // import { useLocation, useNavigate } from 'react-router-dom';
 
 const Welcome = () => {
@@ -73,10 +75,12 @@ const Welcome = () => {
         to="/alignment/form"
         component={Link}
         state={{
+          eventtype:"survey_start",
+          sessionid: uuidv4(),
           prolific_pid: prolific_pid,
-          study_id: study_id,
+          prolific_study_id: study_id,
           prolific_session_id: session_id,
-          app_Load_Time: new Date().toLocaleTimeString(),
+          app_load_timestamp: new Date().toISOString(),
           ui_type: "rating_0_10",
           experiment_condition: "alignment",
         }}
