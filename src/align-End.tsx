@@ -6,12 +6,12 @@ import { useLocation } from "react-router-dom";
 const End = () => {
   const { state } = useLocation();
 
-  const Data = [
+  const Data = 
     {
       ...state,
       survey_end_timestamp: new Date().toISOString(),
-    },
-  ];
+    }
+  ;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const convertResponsesToObject = (dataArray:any) => {
     const newArray = dataArray.map((item:any) => {

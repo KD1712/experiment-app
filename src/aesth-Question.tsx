@@ -365,7 +365,7 @@ const Question2 = () => {
     // setRatingCondition("ratins");
 
     console.log(state);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.condition]);
 
   useEffect(() => {
@@ -373,8 +373,8 @@ const Question2 = () => {
       navigate("/aesthetic/end", {
         state: {
           ...state,
-          eventtype:"survey_end",
-          responses: responses,
+          eventtype: "survey_end",
+          // responses: responses,
           survey_image_preload_timestamp: imagePreloadTime,
         },
       });
@@ -470,7 +470,7 @@ const Question2 = () => {
     setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
     // console.log(currentQuestion.image);
   };
-  const handleTrialRatingChange = (value: any) => {
+  const handleTrialRatingChange = (value: number) => {
     if (currentQuestionIndex <= 3) {
       const currentTime = Date.now();
       const response = {
@@ -563,6 +563,8 @@ const Question2 = () => {
                 }}
               >
                 <img
+                  ref={imageRef}
+                  onLoad={handleImageLoad}
                   src={`https://open-crops-smartpaper.s3.ap-south-1.amazonaws.com/${currentQuestion.image}`}
                   alt={`Question ${currentQuestion.id}`}
                   style={{

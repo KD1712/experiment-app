@@ -490,7 +490,7 @@ const Question = () => {
         state: {
           ...state,
           eventtype:"survey_end",
-          responses: responses,
+          // responses: responses,
           survey_image_preload_timestamp: imagePreloadTime,
         },
       });
@@ -629,6 +629,8 @@ const Question = () => {
               >
                 <img
                   // src={`/assets/DALLE3_emotion_images/${currentQuestion.image}`}
+                  ref={imageRef}
+                  onLoad={handleImageLoad}
                   src={`https://open-crops-smartpaper.s3.ap-south-1.amazonaws.com/${currentQuestion.image}`}
                   alt={`Question ${currentQuestion.id}`}
                   style={{

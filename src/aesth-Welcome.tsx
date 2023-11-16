@@ -1,22 +1,24 @@
 import { Box, Button, Typography } from "@mui/material";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-
 
 const Welcome2 = () => {
   const [prolific_pid, setProlific_Pid]: any = useState("");
   const [study_id, setStudy_Id]: any = useState("");
   const [session_id, setSession_Id]: any = useState("");
-  // const location = useLocation();
-  // const queryParams = new URLSearchParams(location.search);
-  // const id1 = queryParams.get('id1');
-  // const id2 = queryParams.get('id2');
-  // const id3 = queryParams.get('id3');
 
-  // setProlific_Pid("123");
-  // setStudy_Id("1234");
-  // setSession_Id("1212");
+  const location = useLocation();
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const id1 = queryParams.get("prolific_pid");
+    const id2 = queryParams.get("prolific_session_id");
+    const id3 = queryParams.get("prolific_study_id");
+
+    setProlific_Pid(id1);
+    setStudy_Id(id2);
+    setSession_Id(id3);
+  }, []);
 
   return (
     <Box sx={{ textAlign: "center", mt: 20, pr: 35, pl: 35 }}>
@@ -72,7 +74,7 @@ const Welcome2 = () => {
         to="/aesthetic/form"
         component={Link}
         state={{
-          eventtype:"survey_start",
+          eventtype: "survey_start",
           sessionid: uuidv4(),
           prolific_pid: prolific_pid,
           prolific_study_id: study_id,
