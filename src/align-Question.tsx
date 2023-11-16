@@ -1,8 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { Box, Button, LinearProgress, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 import { useLocation, useNavigate } from "react-router-dom";
+import LinearProgress, {
+  LinearProgressProps,
+} from "@mui/material/LinearProgress";
 
 //ES6 shuffling or js shuffle
 // const questions = [
@@ -397,6 +400,8 @@ const Question = () => {
   const [currentQuestion, setCurrentQuestion]: any = useState({});
   const [stepNo, setStepNo]: any = useState(0);
   const [imageLoadStartTime, setImageLoadStartTime] = useState(0);
+  const [preloadingComplete, setPreloadingComplete] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   const imageRef = useRef<HTMLImageElement | null>(null);
   // const [ratingcondition, setRatingCondition]: any = useState("");
@@ -408,7 +413,7 @@ const Question = () => {
     questionArrayCreation();
     // setRatingCondition(state.condition);
 
-    // console.log(state.condition,"question array created");
+    console.log(state);
   }, []);
 
   useEffect(() => {
@@ -447,11 +452,34 @@ const Question = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentQuestion]);
-
+  const startTime = performance.now();
   const preloadImages = (imageUrls: any) => {
+    let loadedCount = 0;
+
+    const checkAllImagesLoaded = () => {
+      loadedCount++;
+
+      if (loadedCount === imageUrls.length) {
+        const endTime = performance.now();
+        const totalTime = endTime - startTime;
+        // console.log(`Preloading took ${totalTime} milliseconds`);
+
+        // Set preloadingComplete to true and progress to 100 when loading is complete
+        setPreloadingComplete(true);
+        // setProgress(100);
+        setProgress((loadedCount / imageUrls.length) * 100);
+      } else {
+        // Update progress based on the number of loaded images
+        const newProgress = (loadedCount / imageUrls.length) * 100;
+        setProgress(newProgress);
+      }
+    };
+
     imageUrls.forEach((imageUrl: any) => {
       const img = new Image();
       img.src = `https://open-crops-smartpaper.s3.ap-south-1.amazonaws.com/${imageUrl}`;
+      img.onload = checkAllImagesLoaded;
+      img.onerror = checkAllImagesLoaded;
     });
   };
   useEffect(() => {
@@ -505,204 +533,245 @@ const Question = () => {
   };
 
   return (
-    <Box>
-      {stepNo === 0 ? (
-        <Box
-          sx={{
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100vh",
+        textAlign: "center",
+      }}
+    >
+      {!preloadingComplete && (
+        <p>
+          Please wait while the experiment loads. This may take a few moments.
+        </p>
+      )}
+      {!preloadingComplete && (
+        <div
+          style={{
             display: "flex",
-            height: "700px",
-            alignItems: "center",
-            justifyContent: "center",
+            width: "50%",
+            margin: "10px",
+            border: "1px solid #ccc",
           }}
         >
-          <Typography variant="h4">
-            You will now be given a few training trials. Please press ENTER to
-            proceed.
-          </Typography>
-        </Box>
-      ) : stepNo === 1 ? (
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            mt: 1,
-          }}
-        >
-          {/* <LinearProgress
+          <div
+            style={{
+              alignItems: "center",
+              justifyContent: "center",
+              width: `${progress}% `,
+              height: "20px",
+              backgroundColor: "#2196F3",
+              transition: "width 0.5s ease-in-out",
+            }}
+          ></div>
+        </div>
+      )}
+      {preloadingComplete && (
+        <Box>
+          {stepNo === 0 ? (
+            <Box
+              sx={{
+                display: "flex",
+                height: "700px",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Typography variant="h4">
+                You will now be given a few training trials. Please press ENTER
+                to proceed.
+              </Typography>
+            </Box>
+          ) : stepNo === 1 ? (
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                mt: 1,
+              }}
+            >
+              {/* <LinearProgress
             variant="determinate"
             value={calculateProgress()}
             sx={{ mt: 2, width: "50%", height: ".5rem" }}
           /> */}
 
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-              mt: 4,
-            }}
-          >
-            <img
-              // src={`/assets/DALLE3_emotion_images/${currentQuestion.image}`}
-              src={`https://open-crops-smartpaper.s3.ap-south-1.amazonaws.com/${currentQuestion.image}`}
-              alt={`Question ${currentQuestion.id}`}
-              style={{
-                height: 500,
-                width: theme.breakpoints.only("md") ? "80%" : "100%",
-                border: "1.5px solid black",
-              }}
-            />
-          </Box>
-
-          <Box
-            sx={{
-              display: "flex",
-              width: "100%",
-              flexWrap: theme.breakpoints.only("sm") ? "wrap" : "none",
-              alignItems: "center",
-              justifyContent: "center",
-              // mt: 2,
-              p: 1,
-            }}
-          >
-            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
-              <Button
-                key={value}
-                variant="contained"
-                size="small"
-                // color={ratingMethod === "star" ? "secondary" : "primary"}
-                onClick={() => handleTrialRatingChange(value)}
+              <Box
                 sx={{
-                  marginTop: ".3rem",
-                  marginLeft: ".3rem",
-                  backgroundColor: "white",
-                  color: "black",
-                  fontSize: "20px",
-                  fontWeight: "700",
-                  border: "1px solid black",
-                  "&:hover": {
-                    backgroundColor: "lightblue",
-                    boxShadow: "none",
-                  },
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  mt: 4,
                 }}
               >
-                {value}
-              </Button>
-            ))}
-          </Box>
+                <img
+                  // src={`/assets/DALLE3_emotion_images/${currentQuestion.image}`}
+                  src={`https://open-crops-smartpaper.s3.ap-south-1.amazonaws.com/${currentQuestion.image}`}
+                  alt={`Question ${currentQuestion.id}`}
+                  style={{
+                    height: 500,
+                    width: theme.breakpoints.only("md") ? "80%" : "100%",
+                    border: "1.5px solid black",
+                  }}
+                />
+              </Box>
 
-          <Typography variant="h6">
-            Rate the alignment of the image to the text
-          </Typography>
-          <Typography variant="h6">
-            <b>
-              expressing the emotion {extractEmotionName(currentQuestion.image)}
-            </b>
-          </Typography>
-          <Typography variant="h6">
-            {" "}
-            where <b>0</b> is "no alignment" and <b>10</b> is "excellent
-            alignment."
-          </Typography>
-        </Box>
-      ) : stepNo === 2 ? (
-        <Box
-          sx={{
-            display: "flex",
-            height: "700px",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Typography variant="h4">
-            You will now begin the main experiment. Press ENTER to proceed.{" "}
-          </Typography>
-        </Box>
-      ) : (
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            mt: 1,
-          }}
-        >
-          <LinearProgress
-            variant="determinate"
-            value={calculateProgress()}
-            sx={{ mt: 2, width: "50%", height: ".5rem" }}
-          />
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-              mt: 4,
-            }}
-          >
-            <img
-              ref={imageRef}
-              onLoad={handleImageLoad}
-              // src={`/assets/DALLE3_emotion_images/${currentQuestion.image}`}
-              src={`https://open-crops-smartpaper.s3.ap-south-1.amazonaws.com/${currentQuestion.image}`}
-              alt={`Question ${currentQuestion.id}`}
-              style={{
-                height: 500,
-                width: theme.breakpoints.only("md") ? "80%" : "100%",
-                border: "1.5px solid black",
-              }}
-            />
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              width: "100%",
-              flexWrap: theme.breakpoints.only("sm") ? "wrap" : "none",
-              alignItems: "center",
-              justifyContent: "center",
-              // mt: 2,
-              p: 1,
-            }}
-          >
-            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
-              <Button
-                key={value}
-                variant="contained"
-                size="small"
-                // color={ratingMethod === "star" ? "secondary" : "primary"}
-                onClick={() => handleRatingChange(value)}
+              <Box
                 sx={{
-                  marginTop: ".3rem",
-                  marginLeft: ".3rem",
-                  backgroundColor: "white",
-                  color: "black",
-                  fontSize: "20px",
-                  fontWeight: "700",
-                  border: "1px solid black",
-                  "&:hover": {
-                    backgroundColor: "lightblue",
-                    boxShadow: "none",
-                  },
+                  display: "flex",
+                  width: "100%",
+                  flexWrap: theme.breakpoints.only("sm") ? "wrap" : "none",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  // mt: 2,
+                  p: 1,
                 }}
               >
-                {value}
-              </Button>
-            ))}
-          </Box>
-          <Typography variant="h6">
-            Rate the alignment of the image to the text
-          </Typography>
-          <Typography variant="h6">
-            <b>
-              expressing the emotion {extractEmotionName(currentQuestion.image)}
-            </b>
-          </Typography>
-          <Typography variant="h6">
-            {" "}
-            where <b>0</b> is "no alignment" and <b>10</b> is "excellent
-            alignment."
-          </Typography>
+                {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
+                  <Button
+                    key={value}
+                    variant="contained"
+                    size="small"
+                    // color={ratingMethod === "star" ? "secondary" : "primary"}
+                    onClick={() => handleTrialRatingChange(value)}
+                    sx={{
+                      marginTop: ".3rem",
+                      marginLeft: ".3rem",
+                      backgroundColor: "white",
+                      color: "black",
+                      fontSize: "20px",
+                      fontWeight: "700",
+                      border: "1px solid black",
+                      "&:hover": {
+                        backgroundColor: "lightblue",
+                        boxShadow: "none",
+                      },
+                    }}
+                  >
+                    {value}
+                  </Button>
+                ))}
+              </Box>
+
+              <Typography variant="h6">
+                Rate the alignment of the image to the text
+              </Typography>
+              <Typography variant="h6">
+                <b>
+                  expressing the emotion{" "}
+                  {extractEmotionName(currentQuestion.image)}
+                </b>
+              </Typography>
+              <Typography variant="h6">
+                {" "}
+                where <b>0</b> is "no alignment" and <b>10</b> is "excellent
+                alignment."
+              </Typography>
+            </Box>
+          ) : stepNo === 2 ? (
+            <Box
+              sx={{
+                display: "flex",
+                height: "700px",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Typography variant="h4">
+                You will now begin the main experiment. Press ENTER to proceed.{" "}
+              </Typography>
+            </Box>
+          ) : (
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                mt: 1,
+              }}
+            >
+              <LinearProgress
+                variant="determinate"
+                value={calculateProgress()}
+                sx={{ mt: 2, width: "50%", height: ".5rem" }}
+              />
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  mt: 4,
+                }}
+              >
+                <img
+                  ref={imageRef}
+                  onLoad={handleImageLoad}
+                  // src={`/assets/DALLE3_emotion_images/${currentQuestion.image}`}
+                  src={`https://open-crops-smartpaper.s3.ap-south-1.amazonaws.com/${currentQuestion.image}`}
+                  alt={`Question ${currentQuestion.id}`}
+                  style={{
+                    height: 500,
+                    width: theme.breakpoints.only("md") ? "80%" : "100%",
+                    border: "1.5px solid black",
+                  }}
+                />
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  width: "100%",
+                  flexWrap: theme.breakpoints.only("sm") ? "wrap" : "none",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  // mt: 2,
+                  p: 1,
+                }}
+              >
+                {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
+                  <Button
+                    key={value}
+                    variant="contained"
+                    size="small"
+                    // color={ratingMethod === "star" ? "secondary" : "primary"}
+                    onClick={() => handleRatingChange(value)}
+                    sx={{
+                      marginTop: ".3rem",
+                      marginLeft: ".3rem",
+                      backgroundColor: "white",
+                      color: "black",
+                      fontSize: "20px",
+                      fontWeight: "700",
+                      border: "1px solid black",
+                      "&:hover": {
+                        backgroundColor: "lightblue",
+                        boxShadow: "none",
+                      },
+                    }}
+                  >
+                    {value}
+                  </Button>
+                ))}
+              </Box>
+              <Typography variant="h6">
+                Rate the alignment of the image to the text
+              </Typography>
+              <Typography variant="h6">
+                <b>
+                  expressing the emotion{" "}
+                  {extractEmotionName(currentQuestion.image)}
+                </b>
+              </Typography>
+              <Typography variant="h6">
+                {" "}
+                where <b>0</b> is "no alignment" and <b>10</b> is "excellent
+                alignment."
+              </Typography>
+            </Box>
+          )}
         </Box>
       )}
     </Box>

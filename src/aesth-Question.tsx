@@ -9,7 +9,6 @@ import { useTheme } from "@mui/material/styles";
 // import question5 from '../src/assets/AI Images/download(1).jpg';
 //...
 import { useLocation, useNavigate } from "react-router-dom";
-import { stat } from "fs";
 
 //ES6 shuffling or js shuffle
 // const questions = [
@@ -31,86 +30,87 @@ import { stat } from "fs";
 //   },
 // ];
 const imageNames: string[] = [
-  "dalle3-a+person+expressing+the+emotion+affection-1.webp",
-  "dalle3-a+person+expressing+the+emotion+affection-2.webp",
-  "dalle3-a+person+expressing+the+emotion+affection-3.webp",
-  "dalle3-a+person+expressing+the+emotion+affection-4.webp",
-  "dalle3-a+person+expressing+the+emotion+amusement-1.webp",
-  "dalle3-a+person+expressing+the+emotion+amusement-2.webp",
-  "dalle3-a+person+expressing+the+emotion+amusement-3.webp",
-  "dalle3-a+person+expressing+the+emotion+amusement-4.webp",
-  "dalle3-a+person+expressing+the+emotion+annoyance-1.webp",
-  "dalle3-a+person+expressing+the+emotion+annoyance-2.webp",
-  "dalle3-a+person+expressing+the+emotion+annoyance-3.webp",
-  "dalle3-a+person+expressing+the+emotion+annoyance-4.webp",
-  "dalle3-a+person+expressing+the+emotion+dissatisfaction-1.webp",
-  "dalle3-a+person+expressing+the+emotion+dissatisfaction-2.webp",
-  "dalle3-a+person+expressing+the+emotion+dissatisfaction-3.webp",
-  "dalle3-a+person+expressing+the+emotion+dissatisfaction-4.webp",
-  "dalle3-a+person+expressing+the+emotion+gratitude-1.webp",
-  "dalle3-a+person+expressing+the+emotion+gratitude-2.webp",
-  "dalle3-a+person+expressing+the+emotion+gratitude-3.webp",
-  "dalle3-a+person+expressing+the+emotion+gratitude-4.webp",
-  "dalle3-a+person+expressing+the+emotion+hate-1.webp",
-  "dalle3-a+person+expressing+the+emotion+hate-2.webp",
-  "dalle3-a+person+expressing+the+emotion+hate-3.webp",
-  "dalle3-a+person+expressing+the+emotion+hate-4.webp",
-  "dalle3-a+person+expressing+the+emotion+positive+surprise-1.webp",
-  "dalle3-a+person+expressing+the+emotion+positive+surprise-2.webp",
-  "dalle3-a+person+expressing+the+emotion+positive+surprise-3.webp",
-  "dalle3-a+person+expressing+the+emotion+positive+surprise-4.webp",
-  "dalle3-a+person+expressing+the+emotion+resentment-1.webp",
-  "dalle3-a+person+expressing+the+emotion+resentment-2.webp",
-  "dalle3-a+person+expressing+the+emotion+resentment-3.webp",
-  "dalle3-a+person+expressing+the+emotion+resentment-4.webp",
-  "dalle3-a+person+expressing+the+emotion+satisfaction-1.webp",
-  "dalle3-a+person+expressing+the+emotion+satisfaction-2.webp",
-  "dalle3-a+person+expressing+the+emotion+satisfaction-3.webp",
-  "dalle3-a+person+expressing+the+emotion+satisfaction-4.webp",
-  "dalle3-a+person+expressing+the+emotion+shock-1.webp",
-  "dalle3-a+person+expressing+the+emotion+shock-2.webp",
-  "dalle3-a+person+expressing+the+emotion+shock-3.webp",
-  "dalle3-a+person+expressing+the+emotion+shock-4.webp",
-  "dalle3-a+robot+expressing+the+emotion+affection-1.webp",
-  "dalle3-a+robot+expressing+the+emotion+affection-2.webp",
-  "dalle3-a+robot+expressing+the+emotion+affection-3.webp",
-  "dalle3-a+robot+expressing+the+emotion+affection-4.webp",
-  "dalle3-a+robot+expressing+the+emotion+amusement-1.webp",
-  "dalle3-a+robot+expressing+the+emotion+amusement-2.webp",
-  "dalle3-a+robot+expressing+the+emotion+amusement-3.webp",
-  "dalle3-a+robot+expressing+the+emotion+amusement-4.webp",
-  "dalle3-a+robot+expressing+the+emotion+annoyance-1.webp",
-  "dalle3-a+robot+expressing+the+emotion+annoyance-2.webp",
-  "dalle3-a+robot+expressing+the+emotion+annoyance-3.webp",
-  "dalle3-a+robot+expressing+the+emotion+annoyance-4.webp",
-  "dalle3-a+robot+expressing+the+emotion+dissatisfaction-1.webp",
-  "dalle3-a+robot+expressing+the+emotion+dissatisfaction-2.webp",
-  "dalle3-a+robot+expressing+the+emotion+dissatisfaction-3.webp",
-  "dalle3-a+robot+expressing+the+emotion+dissatisfaction-4.webp",
-  "dalle3-a+robot+expressing+the+emotion+gratitude-1.webp",
-  "dalle3-a+robot+expressing+the+emotion+gratitude-2.webp",
-  "dalle3-a+robot+expressing+the+emotion+gratitude-3.webp",
-  "dalle3-a+robot+expressing+the+emotion+gratitude-4.webp",
-  "dalle3-a+robot+expressing+the+emotion+hate-1.webp",
-  "dalle3-a+robot+expressing+the+emotion+hate-2.webp",
-  "dalle3-a+robot+expressing+the+emotion+hate-3.webp",
-  "dalle3-a+robot+expressing+the+emotion+hate-4.webp",
-  "dalle3-a+robot+expressing+the+emotion+positive+surprise-1.webp",
-  "dalle3-a+robot+expressing+the+emotion+positive+surprise-2.webp",
-  "dalle3-a+robot+expressing+the+emotion+positive+surprise-3.webp",
-  "dalle3-a+robot+expressing+the+emotion+positive+surprise-4.webp",
-  "dalle3-a+robot+expressing+the+emotion+resentment-1.webp",
-  "dalle3-a+robot+expressing+the+emotion+resentment-2.webp",
-  "dalle3-a+robot+expressing+the+emotion+resentment-3.webp",
-  "dalle3-a+robot+expressing+the+emotion+resentment-4.webp",
-  "dalle3-a+robot+expressing+the+emotion+satisfaction-1.webp",
-  "dalle3-a+robot+expressing+the+emotion+satisfaction-2.webp",
-  "dalle3-a+robot+expressing+the+emotion+satisfaction-3.webp",
-  "dalle3-a+robot+expressing+the+emotion+satisfaction-4.webp",
-  "dalle3-a+robot+expressing+the+emotion+shock-1.webp",
-  "dalle3-a+robot+expressing+the+emotion+shock-2.webp",
-  "dalle3-a+robot+expressing+the+emotion+shock-3.webp",
-  "dalle3-a+robot+expressing+the+emotion+shock-4.webp",
+  "dalle3-a person expressing the emotion affection-1.webp",
+  "dalle3-a person expressing the emotion affection-2.webp",
+  "dalle3-a person expressing the emotion affection-3.webp",
+  "dalle3-a person expressing the emotion affection-4.webp",
+  "dalle3-a person expressing the emotion amusement-1.webp",
+  "dalle3-a person expressing the emotion amusement-2.webp",
+  "dalle3-a person expressing the emotion amusement-3.webp",
+  "dalle3-a person expressing the emotion amusement-4.webp",
+  "dalle3-a person expressing the emotion annoyance-1.webp",
+  "dalle3-a person expressing the emotion annoyance-2.webp",
+  "dalle3-a person expressing the emotion annoyance-3.webp",
+  "dalle3-a person expressing the emotion annoyance-4.webp",
+  "dalle3-a person expressing the emotion dissatisfaction-1.webp",
+  "dalle3-a person expressing the emotion dissatisfaction-2.webp",
+  "dalle3-a person expressing the emotion dissatisfaction-3.webp",
+  "dalle3-a person expressing the emotion dissatisfaction-4.webp",
+  "dalle3-a person expressing the emotion gratitude-1.webp",
+  "dalle3-a person expressing the emotion gratitude-2.webp",
+  "dalle3-a person expressing the emotion gratitude-3.webp",
+  "dalle3-a person expressing the emotion gratitude-4.webp",
+  "dalle3-a person expressing the emotion hate-1.webp",
+  "dalle3-a person expressing the emotion hate-2.webp",
+  "dalle3-a person expressing the emotion hate-3.webp",
+  "dalle3-a person expressing the emotion hate-4.webp",
+  "dalle3-a person expressing the emotion positive surprise-1.webp",
+  "dalle3-a person expressing the emotion positive surprise-2.webp",
+  "dalle3-a person expressing the emotion positive surprise-3.webp",
+  "dalle3-a person expressing the emotion positive surprise-4.webp",
+  "dalle3-a person expressing the emotion resentment-1.webp",
+  "dalle3-a person expressing the emotion resentment-2.webp",
+  "dalle3-a person expressing the emotion resentment-3.webp",
+  "dalle3-a person expressing the emotion resentment-4.webp",
+  "dalle3-a person expressing the emotion satisfaction-1.webp",
+  "dalle3-a person expressing the emotion satisfaction-2.webp",
+  "dalle3-a person expressing the emotion satisfaction-3.webp",
+  "dalle3-a person expressing the emotion satisfaction-4.webp",
+  "dalle3-a person expressing the emotion shock-1.webp",
+  "dalle3-a person expressing the emotion shock-2.webp",
+  "dalle3-a person expressing the emotion shock-3.webp",
+  "dalle3-a person expressing the emotion shock-4.webp",
+  "dalle3-a robot expressing the emotion affection-1.webp",
+  "dalle3-a robot expressing the emotion affection-2.webp",
+  "dalle3-a robot expressing the emotion affection-3.webp",
+  "dalle3-a robot expressing the emotion affection-4.webp",
+  "dalle3-a robot expressing the emotion amusement-1.webp",
+  "dalle3-a robot expressing the emotion amusement-2.webp",
+  "dalle3-a robot expressing the emotion amusement-3.webp",
+  "dalle3-a robot expressing the emotion amusement-4.webp",
+  "dalle3-a robot expressing the emotion annoyance-1.webp",
+  "dalle3-a robot expressing the emotion annoyance-2.webp",
+  "dalle3-a robot expressing the emotion annoyance-3.webp",
+  "dalle3-a robot expressing the emotion annoyance-4.webp",
+  "dalle3-a robot expressing the emotion dissatisfaction-1.webp",
+  "dalle3-a robot expressing the emotion dissatisfaction-2.webp",
+  "dalle3-a robot expressing the emotion dissatisfaction-3.webp",
+  "dalle3-a robot expressing the emotion dissatisfaction-4.webp",
+  "dalle3-a robot expressing the emotion gratitude-1.webp",
+  "dalle3-a robot expressing the emotion gratitude-2.webp",
+  "dalle3-a robot expressing the emotion gratitude-3.webp",
+  "dalle3-a robot expressing the emotion gratitude-4.webp",
+  "dalle3-a robot expressing the emotion hate-1.webp",
+  "dalle3-a robot expressing the emotion hate-2.webp",
+  "dalle3-a robot expressing the emotion hate-3.webp",
+  "dalle3-a robot expressing the emotion hate-4.webp",
+  "dalle3-a robot expressing the emotion positive surprise-1.webp",
+  "dalle3-a robot expressing the emotion positive surprise-2.webp",
+  "dalle3-a robot expressing the emotion positive surprise-3.webp",
+  "dalle3-a robot expressing the emotion positive surprise-4.webp",
+  "dalle3-a robot expressing the emotion resentment-1.webp",
+  "dalle3-a robot expressing the emotion resentment-2.webp",
+  "dalle3-a robot expressing the emotion resentment-3.webp",
+  "dalle3-a robot expressing the emotion resentment-4.webp",
+  "dalle3-a robot expressing the emotion satisfaction-1.webp",
+  "dalle3-a robot expressing the emotion satisfaction-2.webp",
+  "dalle3-a robot expressing the emotion satisfaction-3.webp",
+  "dalle3-a robot expressing the emotion satisfaction-4.webp",
+  "dalle3-a robot expressing the emotion shock-1.webp",
+  "dalle3-a robot expressing the emotion shock-2.webp",
+  "dalle3-a robot expressing the emotion shock-3.webp",
+  "dalle3-a robot expressing the emotion shock-4.webp",
+
   "attentionCheck-Write a story about a person expressing the emotion shock-999.webp",
   "dalle-a person expressing the emotion affection-1669785498.webp",
   "dalle-a person expressing the emotion affection-1669786877.webp",
@@ -347,6 +347,8 @@ const Question2 = () => {
   const [stepNo, setStepNo]: any = useState(0);
   // const [imageLoadTime, setImageLoadTime] = useState<number | null>(null);
   const [imageLoadStartTime, setImageLoadStartTime] = useState(0);
+  const [preloadingComplete, setPreloadingComplete] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   const imageRef = useRef<HTMLImageElement | null>(null);
   // const timerRef = useRef<number>(1);
@@ -358,7 +360,7 @@ const Question2 = () => {
     questionArrayCreation();
     // setRatingCondition("ratings");
 
-    // console.log(state.condition,"question array created");
+    console.log(state);
   }, [state.condition]);
 
   useEffect(() => {
@@ -386,19 +388,6 @@ const Question2 = () => {
     };
   }, [stepNo]);
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setTimer((prevTimer) => prevTimer - 1);
-  //   }, 1000);
-  //   return () => clearInterval(interval);
-  // }, []);
-
-  // useEffect(() => {
-  //   if (timer === 0) {
-  //     navigate("/aesthetic/endForm", { state: { ...state, ...responses } });
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [timer]);
   useEffect(() => {
     if (imageRef.current && !imageLoadStartTime) {
       const startImageLoadTime = Date.now();
@@ -406,11 +395,35 @@ const Question2 = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentQuestion]);
+  const startTime = performance.now();
 
   const preloadImages = (imageUrls: any) => {
+    let loadedCount = 0;
+
+    const checkAllImagesLoaded = () => {
+      loadedCount++;
+
+      if (loadedCount === imageUrls.length) {
+        const endTime = performance.now();
+        const totalTime = endTime - startTime;
+        // console.log(`Preloading took ${totalTime} milliseconds`);
+
+        // Set preloadingComplete to true and progress to 100 when loading is complete
+        setPreloadingComplete(true);
+        // setProgress(100);
+        setProgress((loadedCount / imageUrls.length) * 100);
+      } else {
+        // Update progress based on the number of loaded images
+        const newProgress = (loadedCount / imageUrls.length) * 100;
+        setProgress(newProgress);
+      }
+    };
+
     imageUrls.forEach((imageUrl: any) => {
       const img = new Image();
       img.src = `https://open-crops-smartpaper.s3.ap-south-1.amazonaws.com/${imageUrl}`;
+      img.onload = checkAllImagesLoaded;
+      img.onerror = checkAllImagesLoaded;
     });
   };
   useEffect(() => {
@@ -464,185 +477,226 @@ const Question2 = () => {
     }
   };
   return (
-    <Box>
-      {stepNo === 0 ? (
-        <Box
-          sx={{
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100vh",
+        textAlign: "center",
+      }}
+    >
+      {" "}
+      {!preloadingComplete && (
+        <p>
+          Please wait while the experiment loads. This may take a few moments.
+        </p>
+      )}
+      {!preloadingComplete && (
+        <div
+          style={{
             display: "flex",
-            height: "700px",
-            alignItems: "center",
-            justifyContent: "center",
+            width: "50%",
+            margin: "10px",
+            border: "1px solid #ccc",
           }}
         >
-          <Typography variant="h4">
-            You will now be given a few training trials.Please press ENTER to proceed.
-          </Typography>
-        </Box>
-      ) : stepNo === 1 ? (
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            mt: 1,
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-              mt: 4,
-            }}
-          >
-            <img
-              src={`https://open-crops-smartpaper.s3.ap-south-1.amazonaws.com/${currentQuestion.image}`}
-              alt={`Question ${currentQuestion.id}`}
-              style={{
-                height: 500,
-                width: theme.breakpoints.only("md") ? "80%" : "100%",
-                border: "1.5px solid black",
-              }}
-            />
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              width: "100%",
-              flexWrap: theme.breakpoints.only("sm") ? "wrap" : "none",
+          <div
+            style={{
               alignItems: "center",
               justifyContent: "center",
-              // mt: 2,
-              p: 1,
+              width: `${progress}% `,
+              height: "20px",
+              backgroundColor: "#2196F3",
+              transition: "width 0.5s ease-in-out",
             }}
-          >
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
-              <Button
-                key={value}
-                variant="contained"
-                size="small"
-                // color={ratingMethod === "star" ? "secondary" : "primary"}
-                onClick={() => handleTrialRatingChange(value)}
-                sx={{
-                  marginTop: ".3rem",
-                  marginLeft: ".3rem",
-                  backgroundColor: "white",
-                  color: "black",
-                  fontSize: "20px",
-                  fontWeight: "700",
-                  border: "1px solid black",
-                  "&:hover": {
-                    backgroundColor: "lightblue",
-                    boxShadow: "none",
-                  },
-                }}
-              >
-                {value}
-              </Button>
-            ))}
-          </Box>
-          <Typography variant="h6">
-            How much do you like this image on scale from 1 to 10 ?
-          </Typography>
-          <Typography variant="h6">
-            (where 1 means "very bad" and 10 means "very good")
-          </Typography>
-        </Box>
-      ) : stepNo === 2 ? (
-        <Box
-          sx={{
-            display: "flex",
-            height: "700px",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Typography variant="h4">
-            You will now begin the main experiment. Press ENTER to proceed.{" "}
-          </Typography>
-        </Box>
-      ) : (
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            mt: 1,
-          }}
-        >
-          <LinearProgress
-            variant="determinate"
-            value={calculateProgress()}
-            sx={{ mt: 2, width: "50%", height: ".5rem" }}
-          />
-
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-              mt: 4,
-            }}
-          >
-            <img
-              ref={imageRef}
-              onLoad={handleImageLoad}
-              // src={`/assets/DALLE3_emotion_images/${currentQuestion.image}`}
-              // src={`https://open-crops-smartpaper.s3.ap-south-1.amazonaws.com/dalle3-a+robot+expressing+the+emotion+hate-2.webp`}
-              alt={`Question ${currentQuestion.id}`}
-              src={`https://open-crops-smartpaper.s3.ap-south-1.amazonaws.com/${currentQuestion.image}`}
-              style={{
-                height: 500,
-                width: theme.breakpoints.only("md") ? "80%" : "100%",
-                border: "1.5px solid black",
+          ></div>
+        </div>
+      )}
+      {preloadingComplete && (
+        <Box>
+          {stepNo === 0 ? (
+            <Box
+              sx={{
+                display: "flex",
+                height: "700px",
+                alignItems: "center",
+                justifyContent: "center",
               }}
-            />
-          </Box>
-
-          <Box
-            sx={{
-              display: "flex",
-              width: "100%",
-              flexWrap: theme.breakpoints.only("sm") ? "wrap" : "none",
-              alignItems: "center",
-              justifyContent: "center",
-              // mt: 2,
-              p: 1,
-            }}
-          >
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
-              <Button
-                key={value}
-                variant="contained"
-                size="small"
-                // color={ratingMethod === "star" ? "secondary" : "primary"}
-                onClick={() => handleRatingChange(value)}
+            >
+              <Typography variant="h4">
+                You will now be given a few training trials.Please press ENTER
+                to proceed.
+              </Typography>
+            </Box>
+          ) : stepNo === 1 ? (
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                mt: 1,
+              }}
+            >
+              <Box
                 sx={{
-                  marginTop: ".3rem",
-                  marginLeft: ".3rem",
-                  backgroundColor: "white",
-                  color: "black",
-                  fontSize: "20px",
-                  fontWeight: "700",
-                  border: "1px solid black",
-                  "&:hover": {
-                    backgroundColor: "lightblue",
-                    boxShadow: "none",
-                  },
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  mt: 4,
                 }}
               >
-                {value}
-              </Button>
-            ))}
-          </Box>
-          <Typography variant="h6">
-            {" "}
-            How much do you like this image on scale from 1 to 10 ?
-          </Typography>
-          {/* <Typography variant="h6"><b>expressing the emotion {extractEmotionName(currentQuestion.image)}</b></Typography> */}
-          <Typography variant="h6">
-            (where 1 means "very bad" and 10 means "very good")
-          </Typography>
+                <img
+                  src={`https://open-crops-smartpaper.s3.ap-south-1.amazonaws.com/${currentQuestion.image}`}
+                  alt={`Question ${currentQuestion.id}`}
+                  style={{
+                    height: 500,
+                    width: theme.breakpoints.only("md") ? "80%" : "100%",
+                    border: "1.5px solid black",
+                  }}
+                />
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  width: "100%",
+                  flexWrap: theme.breakpoints.only("sm") ? "wrap" : "none",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  // mt: 2,
+                  p: 1,
+                }}
+              >
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
+                  <Button
+                    key={value}
+                    variant="contained"
+                    size="small"
+                    // color={ratingMethod === "star" ? "secondary" : "primary"}
+                    onClick={() => handleTrialRatingChange(value)}
+                    sx={{
+                      marginTop: ".3rem",
+                      marginLeft: ".3rem",
+                      backgroundColor: "white",
+                      color: "black",
+                      fontSize: "20px",
+                      fontWeight: "700",
+                      border: "1px solid black",
+                      "&:hover": {
+                        backgroundColor: "lightblue",
+                        boxShadow: "none",
+                      },
+                    }}
+                  >
+                    {value}
+                  </Button>
+                ))}
+              </Box>
+              <Typography variant="h6">
+                How much do you like this image on scale from 1 to 10 ?
+              </Typography>
+              <Typography variant="h6">
+                (where 1 means "very bad" and 10 means "very good")
+              </Typography>
+            </Box>
+          ) : stepNo === 2 ? (
+            <Box
+              sx={{
+                display: "flex",
+                height: "700px",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Typography variant="h4">
+                You will now begin the main experiment. Press ENTER to proceed.{" "}
+              </Typography>
+            </Box>
+          ) : (
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                mt: 1,
+              }}
+            >
+              <LinearProgress
+                variant="determinate"
+                value={calculateProgress()}
+                sx={{ mt: 2, width: "50%", height: ".5rem" }}
+              />
+
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  mt: 4,
+                }}
+              >
+                <img
+                  ref={imageRef}
+                  onLoad={handleImageLoad}
+                  // src={`/assets/DALLE3_emotion_images/${currentQuestion.image}`}
+                  // src={`https://open-crops-smartpaper.s3.ap-south-1.amazonaws.com/dalle3-a+robot+expressing+the+emotion+hate-2.webp`}
+                  alt={`Question ${currentQuestion.id}`}
+                  src={`https://open-crops-smartpaper.s3.ap-south-1.amazonaws.com/${currentQuestion.image}`}
+                  style={{
+                    height: 500,
+                    width: theme.breakpoints.only("md") ? "80%" : "100%",
+                    border: "1.5px solid black",
+                  }}
+                />
+              </Box>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  width: "100%",
+                  flexWrap: theme.breakpoints.only("sm") ? "wrap" : "none",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  // mt: 2,
+                  p: 1,
+                }}
+              >
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
+                  <Button
+                    key={value}
+                    variant="contained"
+                    size="small"
+                    // color={ratingMethod === "star" ? "secondary" : "primary"}
+                    onClick={() => handleRatingChange(value)}
+                    sx={{
+                      marginTop: ".3rem",
+                      marginLeft: ".3rem",
+                      backgroundColor: "white",
+                      color: "black",
+                      fontSize: "20px",
+                      fontWeight: "700",
+                      border: "1px solid black",
+                      "&:hover": {
+                        backgroundColor: "lightblue",
+                        boxShadow: "none",
+                      },
+                    }}
+                  >
+                    {value}
+                  </Button>
+                ))}
+              </Box>
+              <Typography variant="h6">
+                {" "}
+                How much do you like this image on scale from 1 to 10 ?
+              </Typography>
+              {/* <Typography variant="h6"><b>expressing the emotion {extractEmotionName(currentQuestion.image)}</b></Typography> */}
+              <Typography variant="h6">
+                (where 1 means "very bad" and 10 means "very good")
+              </Typography>
+            </Box>
+          )}
         </Box>
       )}
     </Box>
