@@ -28,8 +28,8 @@ const End = () => {
         checkSessionOnReload.length > 0 &&
         checkSessionOnReload[0].type === "reload"
       ) {
-        console.log(checkSessionOnReload[0].type);
-        console.log(performance.getEntriesByType("navigation"));
+        // console.log(checkSessionOnReload[0].type);
+        // console.log(performance.getEntriesByType("navigation"));
         setRefreshSession(uuidv4());
         // console.log(newSession)
       }

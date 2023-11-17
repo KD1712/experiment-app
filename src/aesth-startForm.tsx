@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 import {
   Box,
@@ -48,9 +49,9 @@ const Forms2 = () => {
         checkSessionOnReload.length > 0 &&
         checkSessionOnReload[0].type === "reload"
       ) {
-        console.log(checkSessionOnReload[0].type);
-        console.log(performance.getEntriesByType("navigation"));
-        setRefreshSession(1);
+        // console.log(checkSessionOnReload[0].type);
+        // console.log(performance.getEntriesByType("navigation"));
+        setRefreshSession(uuidv4());
         // console.log(newSession)
       }
     };
@@ -97,7 +98,7 @@ const Forms2 = () => {
 
   useEffect(() => {
     fetchData();
-    console.log(state)
+    // console.log(state)
   }, []);
   const handleClick = () => {
     SendSessionDataToDB1(

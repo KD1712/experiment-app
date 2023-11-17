@@ -47,8 +47,8 @@ const Forms = () => {
         checkSessionOnReload.length > 0 &&
         checkSessionOnReload[0].type === "reload"
       ) {
-        console.log(checkSessionOnReload[0].type);
-        console.log(performance.getEntriesByType("navigation"));
+        // console.log(checkSessionOnReload[0].type);
+        // console.log(performance.getEntriesByType("navigation"));
         setRefreshSession(uuidv4());
         // console.log(newSession)
       }
@@ -57,7 +57,7 @@ const Forms = () => {
     checkPageRefresh();
   }, []); // Empty dependency array ensures the effect runs once on mount
   useEffect(() => {
-    console.log(refreshSession);
+    // console.log(refreshSession);
   }, [refreshSession]);
   useEffect(() => {
     // setRatingCondition(Math.random() < 0.5 ? "likeDislike" : "ratings");
@@ -109,7 +109,7 @@ const Forms = () => {
 
   useEffect(() => {
     fetchData();
-    console.log(state);
+    // console.log(state);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
