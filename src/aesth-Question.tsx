@@ -538,6 +538,8 @@ const Question2 = () => {
                 height: "700px",
                 alignItems: "center",
                 justifyContent: "center",
+                pl:'30px',
+                pr:'30px'
               }}
             >
               <Typography variant="h4">
@@ -624,6 +626,8 @@ const Question2 = () => {
                 height: "700px",
                 alignItems: "center",
                 justifyContent: "center",
+                pl:'30px',
+                pr:'30px'
               }}
             >
               <Typography variant="h4">

@@ -1,42 +1,48 @@
 import { Box, Typography, Link } from "@mui/material";
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
-
-const End = () => {
+const  End = () => {
   const { state } = useLocation();
+  const navigate = useNavigate();
 
-  const Data = 
-    {
-      ...state,
-      survey_end_timestamp: new Date().toISOString(),
-    }
-  ;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const convertResponsesToObject = (dataArray:any) => {
-    const newArray = dataArray.map((item:any) => {
-      const { responses, ...rest } = item;
-      const responsesObject = responses.reduce((acc:any, response:any) => {
-        acc[response.imageName] = {
-          responseTime: response.responseTime,
-          answer: response.answer,
-        };
-        return acc;
-      }, {});
-
-      return {
-        ...rest,
-        responses: responsesObject,
-      };
-    });
-
-    return newArray;
+  const Data = {
+    ...state,
+    survey_end_timestamp: new Date().toISOString(),
   };
-  // const newArray = convertResponsesToObject(Data);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const sendSessionDataToDB = async () => {
+    const formData = {
+      log_type: "session",
+      logData: {
+        ...state,
+        survey_end_timestamp: new Date().toISOString(),
+      },
+    };
 
+    try {
+      const apiUrl =
+        "https://3t64257wlvbsa7tjwimcusywtq0pfljx.lambda-url.ap-south-1.on.aws/";
+
+      const response = await axios.post(apiUrl, formData);
+
+      if (response.status === 200) {
+        console.log("Data sent");
+        // navigate("/alignment/question", { state: { formData } });
+      } else {
+        console.error("Error:", response.statusText);
+        // navigate("/alignment/question", { state: { formData } });
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      // navigate("/alignment/question", { state: formData.logData });
+    }
+  };
   useEffect(() => {
+    sendSessionDataToDB()
     console.log(Data);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

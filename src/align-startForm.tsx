@@ -13,7 +13,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { SendDataToDB } from "./api/api";
 
 interface Country {
   text: string;
@@ -31,6 +33,7 @@ const Forms = () => {
   // const [ratingcondition, setRatingCondition]: any = useState("");
   // const [timestamp, setTimestamp] = useState("");
   const { state } = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // setRatingCondition(Math.random() < 0.5 ? "likeDislike" : "ratings");
@@ -83,9 +86,39 @@ const Forms = () => {
   useEffect(() => {
     fetchData();
     // console.log(state);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const sendSessionDataToDB = async () => {
+    const formData = {
+      log_type: "session",
+      logData: {
+        ...state,
+        age: age,
+        gender: gender,
+        education: education,
+        nationality: nationality,
+        survey_start_timestamp: new Date().toISOString(),
+      },
+    };
 
+    try {
+      const apiUrl =
+        "https://3t64257wlvbsa7tjwimcusywtq0pfljx.lambda-url.ap-south-1.on.aws/";
+
+      const response = await axios.post(apiUrl, formData);
+
+      if (response.status === 200) {
+        console.log("Data sent");
+        navigate("/alignment/question", { state: { formData } });
+      } else {
+        console.error("Error:", response.statusText);
+        navigate("/alignment/question", { state: { formData } });
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      navigate("/alignment/question", { state: formData.logData });
+    }
+  };
   return (
     <Box
       sx={{
@@ -170,18 +203,20 @@ const Forms = () => {
           <Button
             sx={{ mt: 2 }}
             variant="contained"
-            component={Link}
-            to="/alignment/question"
-            state={{
-              ...state,
-              age: age,
-              gender: gender,
-              education: education,
-              nationality: nationality,
-              // condition: ratingcondition,
-              // timestamp: timestamp,
-              survey_start_timestamp: new Date().toISOString(),
-            }}
+            // component={Link}
+            onClick={sendSessionDataToDB}
+            // onClick={SendDataToDB)}
+            // to="/alignment/question"
+            // state={{
+            //   ...state,
+            //   age: age,
+            //   gender: gender,
+            //   education: education,
+            //   nationality: nationality,
+            //   // condition: ratingcondition,
+            //   // timestamp: timestamp,
+            //   survey_start_timestamp: new Date().toISOString(),
+            // }}
             color="primary"
             type="submit"
             fullWidth

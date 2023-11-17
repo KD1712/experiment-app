@@ -3,29 +3,9 @@ import { Box, Button, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 import { useLocation, useNavigate } from "react-router-dom";
-import LinearProgress, {
-  
-} from "@mui/material/LinearProgress";
+import LinearProgress from "@mui/material/LinearProgress";
+import axios from "axios";
 
-//ES6 shuffling or js shuffle
-// const questions = [
-//   {
-//     id: 1,
-//     image: '/assets/1.jpg',
-//   },
-//   {
-//     id: 2,
-//     image: '/assets/2.jpg',
-//   },
-//   {
-//     id: 3,
-//     image: '/assets/3.jpg',
-//   },
-//   {
-//     id: 4,
-//     image: '/assets/4.jpg',
-//   },
-// ];
 const imageNames: string[] = [
   "dalle3-a person expressing the emotion affection-1.webp",
   "dalle3-a person expressing the emotion affection-2.webp",
@@ -309,36 +289,6 @@ function shuffleArray<T>(array: T[]): T[] {
   }
   return array;
 }
-
-// Function to extract emotion name from the image file name
-// function extractEmotionName(imageName: string): string {
-//   if (imageName) {
-//     const match = imageName.match(/the+emotion+(.+?)-\d+\.png/i);
-//     if (match && match[1]) {
-//       return match[1].trim();
-//     }
-//   }
-//   return "Unknown";
-// }
-// function extractEmotionName(imageName: string): string {
-//   if (imageName) {
-//     const match = imageName.match(/the\+emotion\+(.+?)-\d+\.webp/i);
-//     if (match && match[1]) {
-//       // Replace "+" with a space
-//       const emotionName = match[1].replace(/\+/g, " ").trim();
-//       return emotionName;
-//     }
-//   }
-//   return "Unknown";
-// }
-// function extractEmotionName(imageNames: string | string[]): string[] {
-//   const namesArray = Array.isArray(imageNames) ? imageNames : [imageNames];
-
-//   return namesArray.map((imageName) => {
-//     const match = imageName.match(/the emotion(.+)-\d+\.webp/);
-//     return match && match[1] ? match[1].trim() : "Unknown";
-//   });
-// }
 const extractEmotionName = (imageName: string): string => {
   if (imageName) {
     const match = imageName.startsWith("gpt3-")
@@ -392,8 +342,6 @@ const Question = () => {
   // const [timer, setTimer] = useState(600); // 10 minutes in seconds
   const [responses, setResponses] = useState<
     Array<{
-      // answer: number | string;
-      // imageName: string;
       sessionid: string;
       itemtype: string;
       itemnumber: number;
@@ -421,7 +369,7 @@ const Question = () => {
     // setRatingCondition(state.condition);
 
     console.log(state);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // useEffect(() => {
@@ -489,7 +437,7 @@ const Question = () => {
       navigate("/alignment/end", {
         state: {
           ...state,
-          eventtype:"survey_end",
+          eventtype: "survey_end",
           // responses: responses,
           survey_image_preload_timestamp: imagePreloadTime,
         },
@@ -522,6 +470,7 @@ const Question = () => {
         image_filename: questions[currentQuestionIndex].image,
         rating_value: value,
       };
+      sendItemDataToDB(currentTime, value);
       console.log(response);
       setResponses((prevResponses) => [...prevResponses, response]);
     }
@@ -542,12 +491,60 @@ const Question = () => {
         image_filename: questions[currentQuestionIndex].image,
         rating_value: value,
       };
+      sendItemDataToDB(currentTime, value);
       console.log(response);
       setResponses((prevResponses) => [...prevResponses, response]);
       setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
     }
     if (currentQuestionIndex >= 3) {
       setStepNo(2);
+    }
+  };
+  const sendItemDataToDB = async (currentTime: any, value: number) => {
+    const formData = {
+      log_type: "item_response",
+      logData: {
+        sessionid: state.sessionid,
+        itemtype: "trial",
+        itemnumber: responses.length + 1,
+        reaction_time: currentTime - imageLoadStartTime,
+        image_filename: questions[currentQuestionIndex].image,
+        rating_value: value,
+      },
+    };
+
+    try {
+      const apiUrl =
+        "https://3t64257wlvbsa7tjwimcusywtq0pfljx.lambda-url.ap-south-1.on.aws/";
+
+      const response = await axios.post(apiUrl, formData);
+
+      if (response.status === 200) {
+        console.log("Data sent");
+        // navigate("/alignment/end", {
+        //   state: {
+        //     formData,
+        //     eventtype: "survey_end",
+        //     survey_image_preload_timestamp: imagePreloadTime,
+        //   },
+        // });
+      } else {
+        console.error("Error:", response.statusText);
+        // navigate("/alignment/end", {
+        //   state: {
+        //     formData,
+        //     eventtype: "survey_end",
+        //     survey_image_preload_timestamp: imagePreloadTime,
+        //   },
+        // });
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      // navigate("/alignment/end", {
+      //   state: formData.logData,
+      //   eventtype: "survey_end",
+      //   survey_image_preload_timestamp: imagePreloadTime,
+      // });
     }
   };
 
@@ -597,6 +594,8 @@ const Question = () => {
                 height: "700px",
                 alignItems: "center",
                 justifyContent: "center",
+                pl: "30px",
+                pr: "30px",
               }}
             >
               <Typography variant="h4">
@@ -700,10 +699,13 @@ const Question = () => {
                 height: "700px",
                 alignItems: "center",
                 justifyContent: "center",
+                pl: "30px",
+                pr: "30px",
               }}
             >
               <Typography variant="h4">
-                You will now begin the main experiment. Please press ENTER to proceed.{" "}
+                You will now begin the main experiment. Please press ENTER to
+                proceed.{" "}
               </Typography>
             </Box>
           ) : (
