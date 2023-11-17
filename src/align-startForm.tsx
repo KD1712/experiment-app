@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 import {
   Box,
@@ -22,17 +23,42 @@ interface Country {
 }
 
 const Forms = () => {
+  const { state } = useLocation();
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
   const [education, setEducation] = useState("");
   const [nationality, setNationality] = useState("");
   // const [myData, setMyData] = React.useState([{}]);
   const [countries, setCountries] = useState<Country[]>([]);
+  const [refreshSession, setRefreshSession] = useState(state.sessionid);
   // const [selectedCountry, setSelectedCountry] = useState("");
   // const [ratingcondition, setRatingCondition]: any = useState("");
   // const [timestamp, setTimestamp] = useState("");
-  const { state } = useLocation();
+  const checkSessionOnReload = window.performance.getEntriesByType(
+    "navigation"
+  ) as PerformanceNavigationTiming[];
+  useEffect(() => {
+    const checkPageRefresh = () => {
+      // const navigationEntries = performance.getEntriesByType(
+      //   "navigation"
+      // ) as PerformanceNavigationTiming[];
 
+      if (
+        checkSessionOnReload.length > 0 &&
+        checkSessionOnReload[0].type === "reload"
+      ) {
+        console.log(checkSessionOnReload[0].type);
+        console.log(performance.getEntriesByType("navigation"));
+        setRefreshSession(uuidv4());
+        // console.log(newSession)
+      }
+    };
+
+    checkPageRefresh();
+  }, []); // Empty dependency array ensures the effect runs once on mount
+  useEffect(() => {
+    console.log(refreshSession);
+  }, [refreshSession]);
   useEffect(() => {
     // setRatingCondition(Math.random() < 0.5 ? "likeDislike" : "ratings");
     // setRatingCondition("ratings");
@@ -83,11 +109,19 @@ const Forms = () => {
 
   useEffect(() => {
     fetchData();
-    // console.log(state);
+    console.log(state);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleClick = () => {
-    SendSessionDataToDB1(state, age, gender, education, nationality);
+    SendSessionDataToDB1(
+      state,
+      refreshSession,
+      age,
+      gender,
+      education,
+      nationality
+    );
   };
 
   return (
@@ -180,6 +214,7 @@ const Forms = () => {
             to="/alignment/question"
             state={{
               ...state,
+              sessionid: refreshSession,
               age: age,
               gender: gender,
               education: education,

@@ -10,6 +10,8 @@ import { useTheme } from "@mui/material/styles";
 //...
 import { useLocation, useNavigate } from "react-router-dom";
 import { SendItemDataToDB } from "./api/api";
+import { v4 as uuidv4 } from "uuid";
+
 
 //ES6 shuffling or js shuffle
 // const questions = [
@@ -331,6 +333,7 @@ const questions = questionArrayCreation();
 
 const Question2 = () => {
   const theme = useTheme();
+  const { state } = useLocation();
 
   // const [timer, setTimer] = useState(600); // 10 minutes in seconds
   // const [responses, setResponses] = useState<
@@ -359,8 +362,32 @@ const Question2 = () => {
   const imageRef = useRef<HTMLImageElement | null>(null);
   // const timerRef = useRef<number>(1);
 
-  const { state } = useLocation();
   const navigate = useNavigate();
+  const [refreshSession, setRefreshSession] = useState(state.sessionid);
+
+  const checkSessionOnReload = window.performance.getEntriesByType(
+    "navigation"
+  ) as PerformanceNavigationTiming[];
+  useEffect(() => {
+    const checkPageRefresh = () => {
+      // const navigationEntries = performance.getEntriesByType(
+      //   "navigation"
+      // ) as PerformanceNavigationTiming[];
+
+      if (
+        checkSessionOnReload.length > 0 &&
+        checkSessionOnReload[0].type === "reload"
+      ) {
+        console.log(checkSessionOnReload[0].type);
+        console.log(performance.getEntriesByType("navigation"));
+        setRefreshSession(uuidv4());
+        // console.log(newSession)
+      }
+    };
+
+    checkPageRefresh();
+  }, []);
+
   useEffect(() => {
     questionArrayCreation();
     // setRatingCondition("ratins");
@@ -374,6 +401,7 @@ const Question2 = () => {
       navigate("/aesthetic/end", {
         state: {
           ...state,
+          sessionid:refreshSession,
           eventtype: "survey_end",
           // responses: responses,
           survey_image_preload_timestamp: imagePreloadTime,
@@ -456,7 +484,7 @@ const Question2 = () => {
     if (currentQuestionIndex < questions.length) {
       const currentTime = Date.now();
       const response = {
-        sessionid: state.sessionid,
+        sessionid: refreshSession,
         itemtype: "experimental",
         itemnumber: responses.length + 1,
         reaction_time: currentTime - imageLoadStartTime,
@@ -466,6 +494,7 @@ const Question2 = () => {
       };
       SendItemDataToDB(
         state,
+        refreshSession,
         response,
         responses,
         currentTime,
@@ -484,7 +513,7 @@ const Question2 = () => {
     if (currentQuestionIndex <= 3) {
       const currentTime = Date.now();
       const response = {
-        sessionid: state.sessionid,
+        sessionid: refreshSession,
         itemtype: "trial",
         itemnumber: responses.length + 1,
         reaction_time: currentTime - imageLoadStartTime,
@@ -494,6 +523,7 @@ const Question2 = () => {
       };
       SendItemDataToDB(
         state,
+        refreshSession,
         response,
         responses,
         currentTime,
@@ -557,8 +587,8 @@ const Question2 = () => {
                 height: "700px",
                 alignItems: "center",
                 justifyContent: "center",
-                pl:'30px',
-                pr:'30px'
+                pl: "30px",
+                pr: "30px",
               }}
             >
               <Typography variant="h4">
@@ -645,12 +675,13 @@ const Question2 = () => {
                 height: "700px",
                 alignItems: "center",
                 justifyContent: "center",
-                pl:'30px',
-                pr:'30px'
+                pl: "30px",
+                pr: "30px",
               }}
             >
               <Typography variant="h4">
-                You will now begin the main experiment. Please press ENTER to proceed.{" "}
+                You will now begin the main experiment. Please press ENTER to
+                proceed.{" "}
               </Typography>
             </Box>
           ) : (

@@ -4,7 +4,8 @@ import { useTheme } from "@mui/material/styles";
 
 import { useLocation, useNavigate } from "react-router-dom";
 import LinearProgress from "@mui/material/LinearProgress";
-import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
+
 import { SendItemDataToDB } from "./api/api";
 
 const imageNames: string[] = [
@@ -339,6 +340,7 @@ const questions = questionArrayCreation();
 
 const Question = () => {
   const theme = useTheme();
+  const { state } = useLocation();
 
   // const [timer, setTimer] = useState(600); // 10 minutes in seconds
   const [responses, setResponses] = useState<
@@ -362,8 +364,31 @@ const Question = () => {
   const imageRef = useRef<HTMLImageElement | null>(null);
   // const [ratingcondition, setRatingCondition]: any = useState("");
 
-  const { state } = useLocation();
   const navigate = useNavigate();
+  const [refreshSession, setRefreshSession] = useState(state.sessionid);
+
+  const checkSessionOnReload = window.performance.getEntriesByType(
+    "navigation"
+  ) as PerformanceNavigationTiming[];
+  useEffect(() => {
+    const checkPageRefresh = () => {
+      // const navigationEntries = performance.getEntriesByType(
+      //   "navigation"
+      // ) as PerformanceNavigationTiming[];
+
+      if (
+        checkSessionOnReload.length > 0 &&
+        checkSessionOnReload[0].type === "reload"
+      ) {
+        console.log(checkSessionOnReload[0].type);
+        console.log(performance.getEntriesByType("navigation"));
+        setRefreshSession(uuidv4());
+        // console.log(newSession)
+      }
+    };
+
+    checkPageRefresh();
+  }, []);
 
   useEffect(() => {
     questionArrayCreation();
@@ -438,6 +463,7 @@ const Question = () => {
       navigate("/alignment/end", {
         state: {
           ...state,
+          sessionid:refreshSession,
           eventtype: "survey_end",
           // responses: responses,
           survey_image_preload_timestamp: imagePreloadTime,
@@ -462,7 +488,7 @@ const Question = () => {
     if (currentQuestionIndex < questions.length) {
       const currentTime = Date.now();
       const response = {
-        sessionid: state.sessionid,
+        sessionid: refreshSession,
         itemtype: "experimental",
         itemnumber: responses.length + 1,
         reaction_time: currentTime - imageLoadStartTime,
@@ -473,6 +499,7 @@ const Question = () => {
       // sendItemDataToDB(currentTime, value);
       SendItemDataToDB(
         state,
+        refreshSession,
         response,
         responses,
         currentTime,
@@ -494,7 +521,7 @@ const Question = () => {
       const response = {
         // startTime: imageLoadStartTime,
         // stopTime: currentTime,
-        sessionid: state.sessionid,
+        sessionid: refreshSession,
         itemtype: "trial",
         itemnumber: responses.length + 1,
         reaction_time: currentTime - imageLoadStartTime,
@@ -505,6 +532,7 @@ const Question = () => {
       // sendItemDataToDB(currentTime, value);
       SendItemDataToDB(
         state,
+        refreshSession,
         response,
         responses,
         currentTime,
@@ -521,7 +549,7 @@ const Question = () => {
       setStepNo(2);
     }
   };
- 
+
   return (
     <Box
       sx={{

@@ -2,6 +2,7 @@ import axios from "axios";
 
 export const SendSessionDataToDB1 = async (
   state: any,
+  sessionid:any,
   age: any,
   gender: any,
   education: any,
@@ -11,6 +12,7 @@ export const SendSessionDataToDB1 = async (
     logType: "session",
     logData: {
       ...state,
+      sessionid:sessionid,
       age: age,
       gender: gender,
       education: education,
@@ -38,11 +40,11 @@ export const SendSessionDataToDB1 = async (
     // navigate("/alignment/question", { state: formData.logData });
   }
 };
-export const SendSessionDataToDB2 = async (state: any) => {
+export const SendSessionDataToDB2 = async (finalData: any) => {
   const formData = {
     logType: "session",
     logData: {
-      ...state,
+      ...finalData,
       survey_end_timestamp: new Date().toLocaleTimeString(),
     },
   };
@@ -69,6 +71,7 @@ export const SendSessionDataToDB2 = async (state: any) => {
 
 export const SendItemDataToDB = async (
   state: any,
+  refreshSession:any,
   response: any,
   responses: any,
   currentTime: any,
@@ -80,7 +83,7 @@ export const SendItemDataToDB = async (
   const formData = {
     logType: "item_response",
     logData: {
-      sessionid: state.sessionid,
+      sessionid: refreshSession,
       itemtype: response.itemtype,
       itemnumber: responses.length + 1,
       reaction_time: currentTime - imageLoadStartTime,

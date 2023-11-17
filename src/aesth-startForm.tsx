@@ -23,6 +23,7 @@ interface Country {
 }
 
 const Forms2 = () => {
+  const { state } = useLocation();
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
   const [education, setEducation] = useState("");
@@ -32,8 +33,30 @@ const Forms2 = () => {
   // const [selectedCountry, setSelectedCountry] = useState("");
   // const [ratingcondition, setRatingCondition]: any = useState("");
   const [timestamp, setTimestamp] = useState("");
+  const [refreshSession, setRefreshSession] = useState(state.sessionid);
 
-  const { state } = useLocation();
+  const checkSessionOnReload = window.performance.getEntriesByType(
+    "navigation"
+  ) as PerformanceNavigationTiming[];
+  useEffect(() => {
+    const checkPageRefresh = () => {
+      // const navigationEntries = performance.getEntriesByType(
+      //   "navigation"
+      // ) as PerformanceNavigationTiming[];
+
+      if (
+        checkSessionOnReload.length > 0 &&
+        checkSessionOnReload[0].type === "reload"
+      ) {
+        console.log(checkSessionOnReload[0].type);
+        console.log(performance.getEntriesByType("navigation"));
+        setRefreshSession(1);
+        // console.log(newSession)
+      }
+    };
+
+    checkPageRefresh();
+  }, []);
 
   useEffect(() => {
     // setRatingCondition(Math.random() < 0.5 ? "likeDislike" : "ratings");
@@ -74,9 +97,17 @@ const Forms2 = () => {
 
   useEffect(() => {
     fetchData();
+    console.log(state)
   }, []);
   const handleClick = () => {
-    SendSessionDataToDB1(state, age, gender, education, nationality);
+    SendSessionDataToDB1(
+      state,
+      refreshSession,
+      age,
+      gender,
+      education,
+      nationality
+    );
   };
 
   return (
@@ -86,7 +117,7 @@ const Forms2 = () => {
         flexDirection: "column",
         alignItems: "center",
         mt: 15,
-        maxWidth:'auto'
+        maxWidth: "auto",
       }}
     >
       <Typography
