@@ -82,7 +82,7 @@ const Welcome = () => {
           prolific_pid: prolific_pid,
           prolific_study_id: study_id,
           prolific_session_id: session_id,
-          app_load_timestamp: new Date().toISOString(),
+          app_load_timestamp: new Date().toLocaleTimeString(),
           ui_type: "rating_0_10",
           experiment_condition: "alignment",
         }}

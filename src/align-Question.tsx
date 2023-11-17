@@ -5,6 +5,7 @@ import { useTheme } from "@mui/material/styles";
 import { useLocation, useNavigate } from "react-router-dom";
 import LinearProgress from "@mui/material/LinearProgress";
 import axios from "axios";
+import { SendItemDataToDB } from "./api/api";
 
 const imageNames: string[] = [
   "dalle3-a person expressing the emotion affection-1.webp",
@@ -398,7 +399,7 @@ const Question = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentQuestion]);
   const preloadImages = (imageUrls: any) => {
-    const startTime = new Date().toISOString();
+    const startTime = new Date().toLocaleTimeString();
     setImagePreloadTime(startTime);
     let loadedCount = 0;
 
@@ -461,16 +462,25 @@ const Question = () => {
     if (currentQuestionIndex < questions.length) {
       const currentTime = Date.now();
       const response = {
-        // startTime: imageLoadStartTime,
-        // stopTime: currentTime,
         sessionid: state.sessionid,
         itemtype: "experimental",
         itemnumber: responses.length + 1,
         reaction_time: currentTime - imageLoadStartTime,
         image_filename: questions[currentQuestionIndex].image,
         rating_value: value,
+        rating_timestamp: new Date().toLocaleTimeString(),
       };
-      sendItemDataToDB(currentTime, value);
+      // sendItemDataToDB(currentTime, value);
+      SendItemDataToDB(
+        state,
+        response,
+        responses,
+        currentTime,
+        imageLoadStartTime,
+        value,
+        questions,
+        currentQuestionIndex
+      );
       console.log(response);
       setResponses((prevResponses) => [...prevResponses, response]);
     }
@@ -490,8 +500,19 @@ const Question = () => {
         reaction_time: currentTime - imageLoadStartTime,
         image_filename: questions[currentQuestionIndex].image,
         rating_value: value,
+        rating_timestamp: new Date().toLocaleTimeString(),
       };
-      sendItemDataToDB(currentTime, value);
+      // sendItemDataToDB(currentTime, value);
+      SendItemDataToDB(
+        state,
+        response,
+        responses,
+        currentTime,
+        imageLoadStartTime,
+        value,
+        questions,
+        currentQuestionIndex
+      );
       console.log(response);
       setResponses((prevResponses) => [...prevResponses, response]);
       setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
@@ -500,55 +521,7 @@ const Question = () => {
       setStepNo(2);
     }
   };
-  const sendItemDataToDB = async (currentTime: any, value: number) => {
-    const formData = {
-      log_type: "item_response",
-      logData: {
-        sessionid: state.sessionid,
-        itemtype: "trial",
-        itemnumber: responses.length + 1,
-        reaction_time: currentTime - imageLoadStartTime,
-        image_filename: questions[currentQuestionIndex].image,
-        rating_value: value,
-      },
-    };
-
-    try {
-      const apiUrl =
-        // "https://3t64257wlvbsa7tjwimcusywtq0pfljx.lambda-url.ap-south-1.on.aws/";
-        "https://vh65jiyys2.execute-api.ap-south-1.amazonaws.com/default/ui-experiment-app-logger"
-
-      const response = await axios.post(apiUrl, formData);
-
-      if (response.status === 200) {
-        console.log("Data sent");
-        // navigate("/alignment/end", {
-        //   state: {
-        //     formData,
-        //     eventtype: "survey_end",
-        //     survey_image_preload_timestamp: imagePreloadTime,
-        //   },
-        // });
-      } else {
-        console.error("Error:", response.statusText);
-        // navigate("/alignment/end", {
-        //   state: {
-        //     formData,
-        //     eventtype: "survey_end",
-        //     survey_image_preload_timestamp: imagePreloadTime,
-        //   },
-        // });
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      // navigate("/alignment/end", {
-      //   state: formData.logData,
-      //   eventtype: "survey_end",
-      //   survey_image_preload_timestamp: imagePreloadTime,
-      // });
-    }
-  };
-
+ 
   return (
     <Box
       sx={{

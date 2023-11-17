@@ -14,7 +14,8 @@ import {
   Typography,
 } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
+import { SendSessionDataToDB1 } from "./api/api";
 
 interface Country {
   text: string;
@@ -51,22 +52,10 @@ const Forms2 = () => {
     const formattedTime = new Date().toLocaleString([], options);
     setTimestamp(formattedTime);
     // console.log(state);
-
   }, []);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-
-    // const formData = {
-    //   age,
-    //   gender,
-    //   education,
-    //   nationality,
-    //   ratingcondition,
-    //   timestamp: new Date().toUTCString(),
-    //   sessionId: uuidv4(),
-    // };
-    // console.log(formData);
   };
   const fetchData = async () => {
     try {
@@ -86,6 +75,9 @@ const Forms2 = () => {
   useEffect(() => {
     fetchData();
   }, []);
+  const handleClick = () => {
+    SendSessionDataToDB1(state, age, gender, education, nationality);
+  };
 
   return (
     <Box
@@ -94,6 +86,7 @@ const Forms2 = () => {
         flexDirection: "column",
         alignItems: "center",
         mt: 15,
+        maxWidth:'auto'
       }}
     >
       <Typography
@@ -113,9 +106,9 @@ const Forms2 = () => {
           onChange={(event) => setAge(event.target.value)}
           required
           fullWidth
-          margin="normal"
+          margin="dense"
         />
-        <FormControl component="fieldset" margin="normal" required>
+        <FormControl component="fieldset" margin="dense" required>
           <FormLabel component="legend">Gender</FormLabel>
           <RadioGroup
             aria-label="gender"
@@ -132,7 +125,7 @@ const Forms2 = () => {
             <FormControlLabel value="other" control={<Radio />} label="Other" />
           </RadioGroup>
         </FormControl>
-        <FormControl variant="outlined" margin="normal" fullWidth required>
+        <FormControl variant="outlined" margin="dense" fullWidth required>
           <FormLabel component="legend">
             Highest Education Qualification
           </FormLabel>
@@ -156,7 +149,7 @@ const Forms2 = () => {
           fullWidth
           margin="normal"
         /> */}
-        <FormControl variant="outlined" margin="normal" fullWidth required>
+        <FormControl variant="outlined" margin="dense" fullWidth required>
           <FormLabel component="legend">Nationality</FormLabel>
 
           <Select value={nationality} onChange={handleSelectChange}>
@@ -169,19 +162,18 @@ const Forms2 = () => {
         </FormControl>
         {age && gender && nationality && education ? (
           <Button
-            sx={{ mt: 2 }}
+            sx={{ mt: 1, mb: 1, fontWeight: 700 }}
             variant="contained"
             component={Link}
             to="/aesthetic/question"
+            onClick={handleClick}
             state={{
               ...state,
               age: age,
               gender: gender,
               education: education,
               nationality: nationality,
-              // condition: ratingcondition,
-              // timestamp: timestamp,
-              survey_start_timestamp: new Date().toISOString(),
+              survey_start_timestamp: new Date().toLocaleTimeString(),
             }}
             color="primary"
             type="submit"

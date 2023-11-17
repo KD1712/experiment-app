@@ -9,6 +9,7 @@ import { useTheme } from "@mui/material/styles";
 // import question5 from '../src/assets/AI Images/download(1).jpg';
 //...
 import { useLocation, useNavigate } from "react-router-dom";
+import { SendItemDataToDB } from "./api/api";
 
 //ES6 shuffling or js shuffle
 // const questions = [
@@ -407,7 +408,7 @@ const Question2 = () => {
   }, [currentQuestion]);
 
   const preloadImages = (imageUrls: any) => {
-    const startTime = new Date().toISOString();
+    const startTime = new Date().toLocaleTimeString();
     setImagePreloadTime(startTime);
     let loadedCount = 0;
 
@@ -455,15 +456,24 @@ const Question2 = () => {
     if (currentQuestionIndex < questions.length) {
       const currentTime = Date.now();
       const response = {
-        // startTime: imageLoadStartTime,
-        // stopTime: currentTime,
         sessionid: state.sessionid,
         itemtype: "experimental",
         itemnumber: responses.length + 1,
         reaction_time: currentTime - imageLoadStartTime,
         image_filename: questions[currentQuestionIndex].image,
         rating_value: value,
+        rating_timestamp: new Date().toLocaleTimeString(),
       };
+      SendItemDataToDB(
+        state,
+        response,
+        responses,
+        currentTime,
+        imageLoadStartTime,
+        value,
+        questions,
+        currentQuestionIndex
+      );
       console.log(response);
       setResponses((prevResponses) => [...prevResponses, response]);
     }
@@ -474,15 +484,24 @@ const Question2 = () => {
     if (currentQuestionIndex <= 3) {
       const currentTime = Date.now();
       const response = {
-        // startTime: imageLoadStartTime,
-        // stopTime: currentTime,
         sessionid: state.sessionid,
         itemtype: "trial",
         itemnumber: responses.length + 1,
         reaction_time: currentTime - imageLoadStartTime,
         image_filename: questions[currentQuestionIndex].image,
         rating_value: value,
+        rating_timestamp: new Date().toLocaleTimeString(),
       };
+      SendItemDataToDB(
+        state,
+        response,
+        responses,
+        currentTime,
+        imageLoadStartTime,
+        value,
+        questions,
+        currentQuestionIndex
+      );
       console.log(response);
       setResponses((prevResponses) => [...prevResponses, response]);
       setCurrentQuestionIndex((prevIndex) => prevIndex + 1);

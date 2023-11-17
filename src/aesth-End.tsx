@@ -1,15 +1,17 @@
 import { Box, Typography, Link } from "@mui/material";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { SendSessionDataToDB2 } from "./api/api";
 
 const End2 = () => {
   const { state } = useLocation();
   const Data = {
     ...state,
-    survey_end_time: new Date().toISOString(),
+    survey_end_time: new Date().toLocaleTimeString(),
   };
 
   useEffect(() => {
+    SendSessionDataToDB2(state);
     console.log(Data);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
