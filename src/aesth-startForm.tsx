@@ -33,6 +33,7 @@ const Forms2 = () => {
   const [countries, setCountries] = useState<Country[]>([]);
   // const [selectedCountry, setSelectedCountry] = useState("");
   // const [ratingcondition, setRatingCondition]: any = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [timestamp, setTimestamp] = useState("");
   const [refreshSession, setRefreshSession] = useState(state.sessionid);
 

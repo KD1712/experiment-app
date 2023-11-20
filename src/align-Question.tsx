@@ -456,7 +456,7 @@ const Question = () => {
   }, []);
 
   useEffect(() => {
-    if (currentQuestionIndex === 10) {
+    if (currentQuestionIndex === questions.length) {
       navigate("/alignment/end", {
         state: {
           ...state,
@@ -554,6 +554,7 @@ const Question = () => {
         alignItems: "center",
         justifyContent: "center",
         height: "100vh",
+        width: "100%",
         textAlign: "center",
       }}
     >
@@ -604,15 +605,11 @@ const Question = () => {
           ) : stepNo === 1 ? (
             <Box
               sx={{
-                // display: "flex",
-                // flexDirection: "column",
-                // alignItems: "center",
-                // mt: 1,
-
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
                 // mt: 2,
+                height: "100%",
                 width: "100%",
               }}
             >
@@ -624,16 +621,11 @@ const Question = () => {
 
               <Box
                 sx={{
-                  // display: "flex",
-                  // flexDirection: "row",
-                  // justifyContent: "center",
-                  // mt: 4,
-
                   display: "flex",
                   justifyContent: "center",
                   mt: 4,
-                  height: { xs: "auto", md: "70vh" },
-                  width: { xs: "auto", sm: "100%" },
+                  height: { xs: "auto", sm: "50vh", md: "70vh" },
+                  width: "100%",
                 }}
               >
                 <img
@@ -643,16 +635,10 @@ const Question = () => {
                   src={`https://open-crops-smartpaper.s3.ap-south-1.amazonaws.com/${currentQuestion.image}`}
                   alt={`Question ${currentQuestion.id}`}
                   style={{
-                    // height: 500,
-                    // width: theme.breakpoints.only("md") ? "80%" : "100%",
-                    // border: "1.5px solid black",
-
                     border: "1.5px solid black",
                     objectFit: "contain",
-                    maxWidth: "100%",
-                    maxHeight: "100%",
                     width: "auto",
-                    height: "auto",
+                    height: "100%",
                   }}
                 />
               </Box>
@@ -731,7 +717,8 @@ const Question = () => {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                mt: 1,
+                height: "100%",
+                width: "100%",
               }}
             >
               <LinearProgress
@@ -742,9 +729,10 @@ const Question = () => {
               <Box
                 sx={{
                   display: "flex",
-                  flexDirection: "row",
                   justifyContent: "center",
                   mt: 4,
+                  height: { xs: "auto", sm: "50vh", md: "70vh" },
+                  width: "100%",
                 }}
               >
                 <img
@@ -754,9 +742,10 @@ const Question = () => {
                   src={`https://open-crops-smartpaper.s3.ap-south-1.amazonaws.com/${currentQuestion.image}`}
                   alt={`Question ${currentQuestion.id}`}
                   style={{
-                    height: 500,
-                    width: theme.breakpoints.only("md") ? "80%" : "100%",
                     border: "1.5px solid black",
+                    objectFit: "contain",
+                    width: "auto",
+                    height: "100%",
                   }}
                 />
               </Box>
