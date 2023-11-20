@@ -6,12 +6,12 @@ import { v4 as uuidv4 } from "uuid";
 
 const Welcome2 = () => {
   const theme = useTheme();
+  const location = useLocation();
 
   const [prolific_pid, setProlific_Pid]: any = useState("");
   const [study_id, setStudy_Id]: any = useState("");
   const [session_id, setSession_Id]: any = useState("");
 
-  const location = useLocation();
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const id1 = queryParams.get("prolific_pid");
@@ -30,7 +30,7 @@ const Welcome2 = () => {
         textAlign: "center",
         mt: { xs: 1, sm: 1, md: 5, lg: 5 },
         mb: { xs: 1, sm: 1, md: 5, lg: 5 },
-        pr: { xs: 2, sm: 2, md: 5, lg: 10 }, 
+        pr: { xs: 2, sm: 2, md: 5, lg: 10 },
         pl: { xs: 2, sm: 2, md: 5, lg: 10 },
       }}
     >
@@ -47,13 +47,13 @@ const Welcome2 = () => {
       >
         Instructions - Please read carefully
       </Typography>
-      <Typography
+      {/* <Typography
         variant="body1"
         // sx={{ fontSize: { xs: "15px", sm: "22px", md: "28px", lg: "20px" } }}
         sx={{ fontSize: { xs: "15px", sm: "22px", md: "28px", lg: "32px" } }}
       >
         Ethics statement and task description - Aesthetic survey
-      </Typography>
+      </Typography> */}
       <Typography
         variant="body1"
         sx={{

@@ -10,8 +10,6 @@ import { useTheme } from "@mui/material/styles";
 //...
 import { useLocation, useNavigate } from "react-router-dom";
 import { SendItemDataToDB } from "./api/api";
-import { v4 as uuidv4 } from "uuid";
-
 
 //ES6 shuffling or js shuffle
 // const questions = [
@@ -341,7 +339,7 @@ const Question2 = () => {
   // >([]);
   const [responses, setResponses] = useState<
     Array<{
-      sessionid: string;
+      // sessionid: string;
       itemtype: string;
       itemnumber: number;
       reaction_time: number;
@@ -363,7 +361,6 @@ const Question2 = () => {
   // const timerRef = useRef<number>(1);
 
   const navigate = useNavigate();
-  const [refreshSession, setRefreshSession] = useState(state.sessionid);
 
   const checkSessionOnReload = window.performance.getEntriesByType(
     "navigation"
@@ -380,12 +377,14 @@ const Question2 = () => {
       ) {
         // console.log(checkSessionOnReload[0].type);
         // console.log(performance.getEntriesByType("navigation"));
-        setRefreshSession(uuidv4());
+        // setRefreshSession(uuidv4());
+        window.location.href = "/aesthetic";
         // console.log(newSession)
       }
     };
 
     checkPageRefresh();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -401,7 +400,7 @@ const Question2 = () => {
       navigate("/aesthetic/end", {
         state: {
           ...state,
-          sessionid:refreshSession,
+          // sessionid: refreshSession,
           eventtype: "survey_end",
           // responses: responses,
           survey_image_preload_timestamp: imagePreloadTime,
@@ -484,7 +483,7 @@ const Question2 = () => {
     if (currentQuestionIndex < questions.length) {
       const currentTime = Date.now();
       const response = {
-        sessionid: refreshSession,
+        sessionid: state.sessionid,
         itemtype: "experimental",
         itemnumber: responses.length + 1,
         reaction_time: currentTime - imageLoadStartTime,
@@ -493,8 +492,8 @@ const Question2 = () => {
         rating_timestamp: new Date().toLocaleTimeString(),
       };
       SendItemDataToDB(
-        state,
-        refreshSession,
+        // state,
+        // refreshSession,
         response,
         responses,
         currentTime,
@@ -513,7 +512,7 @@ const Question2 = () => {
     if (currentQuestionIndex <= 3) {
       const currentTime = Date.now();
       const response = {
-        sessionid: refreshSession,
+        sessionid: state.sessionid,
         itemtype: "trial",
         itemnumber: responses.length + 1,
         reaction_time: currentTime - imageLoadStartTime,
@@ -522,8 +521,8 @@ const Question2 = () => {
         rating_timestamp: new Date().toLocaleTimeString(),
       };
       SendItemDataToDB(
-        state,
-        refreshSession,
+        // state,
+        // refreshSession,
         response,
         responses,
         currentTime,
@@ -599,18 +598,30 @@ const Question2 = () => {
           ) : stepNo === 1 ? (
             <Box
               sx={{
+                // display: "flex",
+                // flexDirection: "column",
+                // alignItems: "center",
+                // mt: 1,
+
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                mt: 1,
+                // mt: 2,
+                width: "100%",
               }}
             >
               <Box
                 sx={{
+                  // display: "flex",
+                  // flexDirection: "row",
+                  // justifyContent: "center",
+                  // mt: 4,
+
                   display: "flex",
-                  flexDirection: "row",
                   justifyContent: "center",
                   mt: 4,
+                  height: { xs: "auto", md: "70vh" },
+                  width: { xs: "auto", sm: "100%" },
                 }}
               >
                 <img
@@ -619,9 +630,16 @@ const Question2 = () => {
                   src={`https://open-crops-smartpaper.s3.ap-south-1.amazonaws.com/${currentQuestion.image}`}
                   alt={`Question ${currentQuestion.id}`}
                   style={{
-                    height: 500,
-                    width: theme.breakpoints.only("md") ? "80%" : "100%",
+                    // height: 500,
+                    // width: theme.breakpoints.only("md") ? "80%" : "100%",
+                    // border: "1.5px solid black",
+                    // aspectRatio:'16:9',
                     border: "1.5px solid black",
+                    objectFit: "contain",
+                    maxWidth: "100%",
+                    maxHeight: "100%",
+                    width: "auto",
+                    height: "auto",
                   }}
                 />
               </Box>
@@ -691,6 +709,8 @@ const Question2 = () => {
                 flexDirection: "column",
                 alignItems: "center",
                 mt: 1,
+                width: "100%",
+
               }}
             >
               <LinearProgress
@@ -701,10 +721,16 @@ const Question2 = () => {
 
               <Box
                 sx={{
+                  // display: "flex",
+                  // flexDirection: "row",
+                  // justifyContent: "center",
+                  // mt: 4,
+
                   display: "flex",
-                  flexDirection: "row",
                   justifyContent: "center",
                   mt: 4,
+                  height: { xs: "auto", md: "70vh" },
+                  width: { xs: "auto", sm: "100%" },
                 }}
               >
                 <img
@@ -715,9 +741,16 @@ const Question2 = () => {
                   alt={`Question ${currentQuestion.id}`}
                   src={`https://open-crops-smartpaper.s3.ap-south-1.amazonaws.com/${currentQuestion.image}`}
                   style={{
-                    height: 500,
-                    width: theme.breakpoints.only("md") ? "80%" : "100%",
+                    // height: 500,
+                    // width: theme.breakpoints.only("md") ? "80%" : "100%",
+                    // border: "1.5px solid black",
+
                     border: "1.5px solid black",
+                    objectFit: "contain",
+                    maxWidth: "100%",
+                    maxHeight: "100%",
+                    width: "auto",
+                    height: "auto",
                   }}
                 />
               </Box>

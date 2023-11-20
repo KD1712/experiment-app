@@ -52,13 +52,13 @@ const Forms2 = () => {
         // console.log(checkSessionOnReload[0].type);
         // console.log(performance.getEntriesByType("navigation"));
         setRefreshSession(uuidv4());
+        window.location.href = "/aesthetic";
         // console.log(newSession)
       }
     };
-
     checkPageRefresh();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   useEffect(() => {
     // setRatingCondition(Math.random() < 0.5 ? "likeDislike" : "ratings");
     // setRatingCondition("ratings");
@@ -201,6 +201,7 @@ const Forms2 = () => {
             onClick={handleClick}
             state={{
               ...state,
+              sessionid: refreshSession,
               age: age,
               gender: gender,
               education: education,

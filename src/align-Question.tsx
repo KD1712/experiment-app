@@ -4,7 +4,6 @@ import { useTheme } from "@mui/material/styles";
 
 import { useLocation, useNavigate } from "react-router-dom";
 import LinearProgress from "@mui/material/LinearProgress";
-import { v4 as uuidv4 } from "uuid";
 
 import { SendItemDataToDB } from "./api/api";
 
@@ -345,7 +344,7 @@ const Question = () => {
   // const [timer, setTimer] = useState(600); // 10 minutes in seconds
   const [responses, setResponses] = useState<
     Array<{
-      sessionid: string;
+      // sessionid: string;
       itemtype: string;
       itemnumber: number;
       reaction_time: number;
@@ -365,7 +364,6 @@ const Question = () => {
   // const [ratingcondition, setRatingCondition]: any = useState("");
 
   const navigate = useNavigate();
-  const [refreshSession, setRefreshSession] = useState(state.sessionid);
 
   const checkSessionOnReload = window.performance.getEntriesByType(
     "navigation"
@@ -382,18 +380,17 @@ const Question = () => {
       ) {
         // console.log(checkSessionOnReload[0].type);
         // console.log(performance.getEntriesByType("navigation"));
-        setRefreshSession(uuidv4());
+        // setRefreshSession(uuidv4());
+        window.location.href = "/alignment";
         // console.log(newSession)
       }
     };
-
     checkPageRefresh();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     questionArrayCreation();
-    // setRatingCondition(state.condition);
-
     console.log(state);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -463,7 +460,6 @@ const Question = () => {
       navigate("/alignment/end", {
         state: {
           ...state,
-          sessionid:refreshSession,
           eventtype: "survey_end",
           // responses: responses,
           survey_image_preload_timestamp: imagePreloadTime,
@@ -488,7 +484,7 @@ const Question = () => {
     if (currentQuestionIndex < questions.length) {
       const currentTime = Date.now();
       const response = {
-        sessionid: refreshSession,
+        sessionid: state.sessionid,
         itemtype: "experimental",
         itemnumber: responses.length + 1,
         reaction_time: currentTime - imageLoadStartTime,
@@ -498,8 +494,8 @@ const Question = () => {
       };
       // sendItemDataToDB(currentTime, value);
       SendItemDataToDB(
-        state,
-        refreshSession,
+        // state,
+        // refreshSession,
         response,
         responses,
         currentTime,
@@ -521,7 +517,7 @@ const Question = () => {
       const response = {
         // startTime: imageLoadStartTime,
         // stopTime: currentTime,
-        sessionid: refreshSession,
+        sessionid: state.sessionid,
         itemtype: "trial",
         itemnumber: responses.length + 1,
         reaction_time: currentTime - imageLoadStartTime,
@@ -531,8 +527,8 @@ const Question = () => {
       };
       // sendItemDataToDB(currentTime, value);
       SendItemDataToDB(
-        state,
-        refreshSession,
+        // state,
+        // refreshSession,
         response,
         responses,
         currentTime,
@@ -608,10 +604,16 @@ const Question = () => {
           ) : stepNo === 1 ? (
             <Box
               sx={{
+                // display: "flex",
+                // flexDirection: "column",
+                // alignItems: "center",
+                // mt: 1,
+
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                mt: 1,
+                // mt: 2,
+                width: "100%",
               }}
             >
               {/* <LinearProgress
@@ -622,10 +624,16 @@ const Question = () => {
 
               <Box
                 sx={{
+                  // display: "flex",
+                  // flexDirection: "row",
+                  // justifyContent: "center",
+                  // mt: 4,
+
                   display: "flex",
-                  flexDirection: "row",
                   justifyContent: "center",
                   mt: 4,
+                  height: { xs: "auto", md: "70vh" },
+                  width: { xs: "auto", sm: "100%" },
                 }}
               >
                 <img
@@ -635,9 +643,16 @@ const Question = () => {
                   src={`https://open-crops-smartpaper.s3.ap-south-1.amazonaws.com/${currentQuestion.image}`}
                   alt={`Question ${currentQuestion.id}`}
                   style={{
-                    height: 500,
-                    width: theme.breakpoints.only("md") ? "80%" : "100%",
+                    // height: 500,
+                    // width: theme.breakpoints.only("md") ? "80%" : "100%",
+                    // border: "1.5px solid black",
+
                     border: "1.5px solid black",
+                    objectFit: "contain",
+                    maxWidth: "100%",
+                    maxHeight: "100%",
+                    width: "auto",
+                    height: "auto",
                   }}
                 />
               </Box>
