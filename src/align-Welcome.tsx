@@ -82,11 +82,13 @@ const Welcome = () => {
           prolific_pid: prolific_pid,
           prolific_study_id: study_id,
           prolific_session_id: session_id,
-          app_load_timestamp: new Date().toLocaleTimeString(),
+          // app_load_timestamp: new Date().toLocaleTimeString(),
+          app_load_timestamp: new Date().toISOString(),
           ui_type: "rating_0_10",
           experiment_condition: "alignment",
         }}
       >
+        {/* 75abd5ba-3718-4c89-8b0b-983e0d53e7bd */}
         Agree and Begin
       </Button>
     </Box>

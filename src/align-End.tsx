@@ -13,7 +13,7 @@ const End = () => {
   ) as PerformanceNavigationTiming[];
   const finalData = {
     ...state,
-    survey_end_timestamp: new Date().toLocaleTimeString(),
+    survey_end_timestamp: new Date().toISOString(),
   };
   useEffect(() => {
     const checkPageRefresh = () => {

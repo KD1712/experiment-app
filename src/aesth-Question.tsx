@@ -435,7 +435,7 @@ const Question2 = () => {
   }, [currentQuestion]);
 
   const preloadImages = (imageUrls: any) => {
-    const startTime = new Date().toLocaleTimeString();
+    const startTime = new Date().toISOString();
     setImagePreloadTime(startTime);
     let loadedCount = 0;
 
@@ -489,7 +489,7 @@ const Question2 = () => {
         reaction_time: currentTime - imageLoadStartTime,
         image_filename: questions[currentQuestionIndex].image,
         rating_value: value,
-        rating_timestamp: new Date().toLocaleTimeString(),
+        rating_timestamp: new Date().toISOString(),
       };
       SendItemDataToDB(
         // state,
@@ -518,7 +518,7 @@ const Question2 = () => {
         reaction_time: currentTime - imageLoadStartTime,
         image_filename: questions[currentQuestionIndex].image,
         rating_value: value,
-        rating_timestamp: new Date().toLocaleTimeString(),
+        rating_timestamp: new Date().toISOString(),
       };
       SendItemDataToDB(
         // state,
