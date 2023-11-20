@@ -17,7 +17,7 @@ export const SendSessionDataToDB1 = async (
       gender: gender,
       education: education,
       nationality: nationality,
-      survey_start_timestamp: new Date().toLocaleTimeString(),
+      survey_start_timestamp: new Date().toISOString(),
     },
   };
 
@@ -45,7 +45,7 @@ export const SendSessionDataToDB2 = async (finalData: any) => {
     logType: "session",
     logData: {
       ...finalData,
-      survey_end_timestamp: new Date().toLocaleTimeString(),
+      survey_end_timestamp: new Date().toISOString(),
     },
   };
 
@@ -87,7 +87,7 @@ export const SendItemDataToDB = async (
       reaction_time: currentTime - imageLoadStartTime,
       image_filename: questions[currentQuestionIndex].image,
       rating_value: value,
-      rating_timestamp: new Date().toLocaleTimeString(),
+      rating_timestamp: new Date().toISOString(),
     },
   };
 
