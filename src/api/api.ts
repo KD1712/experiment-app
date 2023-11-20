@@ -70,8 +70,7 @@ export const SendSessionDataToDB2 = async (finalData: any) => {
 };
 
 export const SendItemDataToDB = async (
-  state: any,
-  refreshSession:any,
+  // state: any,
   response: any,
   responses: any,
   currentTime: any,
@@ -83,7 +82,6 @@ export const SendItemDataToDB = async (
   const formData = {
     logType: "item_response",
     logData: {
-      sessionid: refreshSession,
       itemtype: response.itemtype,
       itemnumber: responses.length + 1,
       reaction_time: currentTime - imageLoadStartTime,
@@ -128,3 +126,25 @@ export const SendItemDataToDB = async (
     // });
   }
 };
+// useEffect(() => {
+//   const checkPageRefresh = () => {
+//     // const navigationEntries = performance.getEntriesByType(
+//     //   "navigation"
+//     // ) as PerformanceNavigationTiming[];
+
+//     if (
+//       checkSessionOnReload.length > 0 &&
+//       checkSessionOnReload[0].type === "reload"
+//     ) {
+//       // console.log(checkSessionOnReload[0].type);
+//       // console.log(performance.getEntriesByType("navigation"));
+//       // setRefreshSession(uuidv4());
+//       window.location.href = "/alignment";
+
+//       // console.log(newSession)
+//     }
+//   };
+
+//   checkPageRefresh();
+//   // eslint-disable-next-line react-hooks/exhaustive-deps
+// }, []);

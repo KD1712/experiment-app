@@ -6,10 +6,10 @@ import { v4 as uuidv4 } from "uuid";
 // import { useLocation, useNavigate } from 'react-router-dom';
 
 const Welcome = () => {
+  const location = useLocation();
   const [prolific_pid, setProlific_Pid]: any = useState("");
   const [study_id, setStudy_Id]: any = useState("");
   const [session_id, setSession_Id]: any = useState("");
-  const location = useLocation();
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const id1 = queryParams.get("prolific_pid");
@@ -31,9 +31,9 @@ const Welcome = () => {
       >
         Instructions - Please read carefully
       </Typography>
-      <Typography variant="body1">
+      {/* <Typography variant="body1">
         Ethics statement and task description - Alignment survey.
-      </Typography>
+      </Typography> */}
       <Typography variant="body1" gutterBottom>
         You are being invited to participate in a research study titled
         "Emotional Alignment of AI Systems".

@@ -1,44 +1,34 @@
 import { Box, Typography, Link } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { SendSessionDataToDB2 } from "./api/api";
-import { v4 as uuidv4 } from "uuid";
 
 const End = () => {
   const { state } = useLocation();
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [refreshSession, setRefreshSession] = useState(state.sessionid);
 
   const checkSessionOnReload = window.performance.getEntriesByType(
     "navigation"
   ) as PerformanceNavigationTiming[];
   const finalData = {
     ...state,
-    sessionid: refreshSession,
     survey_end_timestamp: new Date().toLocaleTimeString(),
   };
   useEffect(() => {
     const checkPageRefresh = () => {
-      // const navigationEntries = performance.getEntriesByType(
-      //   "navigation"
-      // ) as PerformanceNavigationTiming[];
-
       if (
         checkSessionOnReload.length > 0 &&
         checkSessionOnReload[0].type === "reload"
       ) {
-        // console.log(checkSessionOnReload[0].type);
-        // console.log(performance.getEntriesByType("navigation"));
-        setRefreshSession(uuidv4());
-        // console.log(newSession)
+        window.location.href = "/alignment";
       }
     };
 
     checkPageRefresh();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  
+
   useEffect(() => {
     SendSessionDataToDB2(finalData);
     console.log(finalData);

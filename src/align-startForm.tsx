@@ -50,15 +50,15 @@ const Forms = () => {
         // console.log(checkSessionOnReload[0].type);
         // console.log(performance.getEntriesByType("navigation"));
         setRefreshSession(uuidv4());
+        window.location.href = "/alignment";
         // console.log(newSession)
       }
     };
 
     checkPageRefresh();
-  }, []); // Empty dependency array ensures the effect runs once on mount
-  useEffect(() => {
-    // console.log(refreshSession);
-  }, [refreshSession]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     // setRatingCondition(Math.random() < 0.5 ? "likeDislike" : "ratings");
     // setRatingCondition("ratings");
