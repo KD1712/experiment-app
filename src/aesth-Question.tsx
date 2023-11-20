@@ -492,8 +492,10 @@ const Question2 = () => {
         rating_timestamp: new Date().toISOString(),
       };
       SendItemDataToDB(
-        // state,
+        state,
+        // state.sessionid,
         // refreshSession,
+        // sessionid,
         response,
         responses,
         currentTime,
@@ -521,8 +523,10 @@ const Question2 = () => {
         rating_timestamp: new Date().toISOString(),
       };
       SendItemDataToDB(
-        // state,
+        state,
+        // state.sessionid,
         // refreshSession,
+        // sessionid,
         response,
         responses,
         currentTime,

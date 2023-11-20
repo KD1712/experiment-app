@@ -494,8 +494,9 @@ const Question = () => {
       };
       // sendItemDataToDB(currentTime, value);
       SendItemDataToDB(
-        // state,
+        state,
         // refreshSession,
+        // state.sessionid,
         response,
         responses,
         currentTime,
@@ -527,8 +528,9 @@ const Question = () => {
       };
       // sendItemDataToDB(currentTime, value);
       SendItemDataToDB(
-        // state,
+        state,
         // refreshSession,
+        // state.sessionid,
         response,
         responses,
         currentTime,

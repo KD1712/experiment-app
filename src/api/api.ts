@@ -70,7 +70,8 @@ export const SendSessionDataToDB2 = async (finalData: any) => {
 };
 
 export const SendItemDataToDB = async (
-  // state: any,
+  state: any,
+  // sessionid:any,
   response: any,
   responses: any,
   currentTime: any,
@@ -82,6 +83,7 @@ export const SendItemDataToDB = async (
   const formData = {
     logType: "item_response",
     logData: {
+      sessionid:state.sessionid,
       itemtype: response.itemtype,
       itemnumber: responses.length + 1,
       reaction_time: currentTime - imageLoadStartTime,
