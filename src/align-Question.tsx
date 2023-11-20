@@ -421,7 +421,7 @@ const Question = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentQuestion]);
   const preloadImages = (imageUrls: any) => {
-    const startTime = new Date().toLocaleTimeString();
+    const startTime = new Date().toISOString();
     setImagePreloadTime(startTime);
     let loadedCount = 0;
 
@@ -490,7 +490,7 @@ const Question = () => {
         reaction_time: currentTime - imageLoadStartTime,
         image_filename: questions[currentQuestionIndex].image,
         rating_value: value,
-        rating_timestamp: new Date().toLocaleTimeString(),
+        rating_timestamp: new Date().toISOString(),
       };
       // sendItemDataToDB(currentTime, value);
       SendItemDataToDB(
@@ -523,7 +523,7 @@ const Question = () => {
         reaction_time: currentTime - imageLoadStartTime,
         image_filename: questions[currentQuestionIndex].image,
         rating_value: value,
-        rating_timestamp: new Date().toLocaleTimeString(),
+        rating_timestamp: new Date().toISOString(),
       };
       // sendItemDataToDB(currentTime, value);
       SendItemDataToDB(

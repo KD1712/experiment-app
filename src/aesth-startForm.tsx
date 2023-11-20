@@ -207,7 +207,7 @@ const Forms2 = () => {
               gender: gender,
               education: education,
               nationality: nationality,
-              survey_start_timestamp: new Date().toLocaleTimeString(),
+              survey_start_timestamp: new Date().toISOString(),
             }}
             color="primary"
             type="submit"
