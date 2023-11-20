@@ -89,6 +89,7 @@ const Welcome = () => {
         }}
       >
         {/* 75abd5ba-3718-4c89-8b0b-983e0d53e7bd */}
+        {/* alignment */}
         Agree and Begin
       </Button>
     </Box>

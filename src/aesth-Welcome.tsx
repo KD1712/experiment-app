@@ -142,6 +142,8 @@ const Welcome2 = () => {
           experiment_condition: "aesthetic",
         }}
       >
+        {/* 0cae5b54-c3a5-48a6-b646-160ca8c78da1 */}
+        {/* aesthetic */}
         Agree and Begin
       </Button>
     </Box>
