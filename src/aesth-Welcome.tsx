@@ -14,9 +14,9 @@ const Welcome2 = () => {
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
-    const id1 = queryParams.get("prolific_pid");
-    const id2 = queryParams.get("prolific_session_id");
-    const id3 = queryParams.get("prolific_study_id");
+    const id1 = queryParams.get("PROLIFIC_PID");
+    const id2 = queryParams.get("STUDY_ID");
+    const id3 = queryParams.get("SESSION_ID");
 
     setProlific_Pid(id1);
     setStudy_Id(id2);
@@ -137,7 +137,7 @@ const Welcome2 = () => {
           prolific_study_id: study_id,
           prolific_session_id: session_id,
           // app_load_timestamp: new Date().toLocaleTimeString(),
-          app_load_timestamp: new Date().toISOString(), 
+          app_load_timestamp: new Date().toISOString(),
           ui_type: "rating_1_10",
           experiment_condition: "aesthetic",
         }}
