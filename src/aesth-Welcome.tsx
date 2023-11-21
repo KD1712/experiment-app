@@ -23,7 +23,7 @@ const Welcome2 = () => {
     setSession_Id(id3);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+//make one state and add all in that state
   return (
     <Box
       sx={{
