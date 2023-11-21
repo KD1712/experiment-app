@@ -49,7 +49,7 @@ const Forms = () => {
       ) {
         // console.log(checkSessionOnReload[0].type);
         // console.log(performance.getEntriesByType("navigation"));
-        setRefreshSession(uuidv4());
+        // setRefreshSession(uuidv4());
         window.location.href = "/alignment";
         // console.log(newSession)
       }
@@ -214,7 +214,7 @@ const Forms = () => {
             to="/alignment/question"
             state={{
               ...state,
-              sessionid: refreshSession,
+              sessionid: state.sessionid,
               age: age,
               gender: gender,
               education: education,
