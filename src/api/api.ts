@@ -1,5 +1,5 @@
 import axios from "axios";
-const url = process.env.REACT_APP_AUTH_API_SESSION_DATA
+// const url = process.env.REACT_APP_AUTH_API_SESSION_DATA
 
 export const SendSessionDataToDB1 = async (
   state: any,
@@ -24,7 +24,7 @@ export const SendSessionDataToDB1 = async (
 
   try {
     const apiUrl = 
-      `${url}`;
+      `https://3t64257wlvbsa7tjwimcusywtq0pfljx.lambda-url.ap-south-1.on.aws/`;
     // "https://vh65jiyys2.execute-api.ap-south-1.amazonaws.com/default/ui-experiment-app-logger"
 
     const response = await axios.post(apiUrl, formData);
@@ -52,7 +52,7 @@ export const SendSessionDataToDB2 = async (finalData: any) => {
 
   try {
     const apiUrl =
-    `${url}`;
+    `https://3t64257wlvbsa7tjwimcusywtq0pfljx.lambda-url.ap-south-1.on.aws/`;
     // "https://vh65jiyys2.execute-api.ap-south-1.amazonaws.com/default/ui-experiment-app-logger"
 
     const response = await axios.post(apiUrl, formData);
@@ -96,7 +96,7 @@ export const SendItemDataToDB = async (
 
   try {
     const apiUrl =
-    `${url}`;  
+    `https://3t64257wlvbsa7tjwimcusywtq0pfljx.lambda-url.ap-south-1.on.aws/`;  
     // "https://vh65jiyys2.execute-api.ap-south-1.amazonaws.com/default/ui-experiment-app-logger"
 
     const response = await axios.post(apiUrl, formData);

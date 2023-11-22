@@ -263,3 +263,22 @@ export const imageNames: string[] = [
     "sd-a robot expressing the emotion shock-892.webp",
   ];
   
+export function questionArrayCreation(): { id: number; image: string }[] {
+  const shuffledImageNames = shuffleArray([...imageNames]);
+
+  const questions = shuffledImageNames.map((image, index) => ({
+    id: index + 1,
+    image,
+  }));
+
+  return questions;
+}
+
+
+function shuffleArray<T>(array: T[]): T[] {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
